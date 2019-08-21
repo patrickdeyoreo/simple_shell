@@ -1,1 +1,1 @@
-# Shell Exercises
+# Shell Exercies

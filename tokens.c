@@ -1,6 +1,5 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
+#include "shell.h"
+
 
 /**
  * _isspace - check if a character is whitespace
@@ -13,6 +12,7 @@ int _isspace(int c)
 {
 	return (c == ' ' || (c >= 0x09 && c <= 0x0d));
 }
+
 
 /**
  * _memcpy - copy a memory area
@@ -35,21 +35,22 @@ char *_memcpy(char *dest, const char *src, size_t n)
 	return (dest);
 }
 
+
 /**
- * count_words - count the words in a string
+ * count_tokens - count the words in a string
  * @str: the string to evaluate
  *
  * Return: If str is NULL, return -1.
  * Otherwise, return the number of words in str.
  */
-ssize_t count_words(const char *str)
+size_t count_tokens(const char *str)
 {
-	ssize_t word_count;
+	size_t tok_count;
 
 	if (!str)
-		return (-1);
+		return (0);
 
-	for (word_count = 0; *str; ++word_count)
+	for (tok_count = 0; *str; ++tok_count)
 	{
 		while (_isspace(*str))
 			++str;
@@ -60,23 +61,44 @@ ssize_t count_words(const char *str)
 		} while (*str && !_isspace(*str));
 	}
 
-	return (word_count);
+	return (tok_count);
 }
+
+
+/**
+ * free_tokens - free an array of strings
+ * @tokens: the array to free
+ */
+void free_tokens(char **tokens)
+{
+	char **current;
+
+	if (!tokens)
+		return;
+
+	current = tokens;
+	while (*current)
+		free(*current++);
+	free(tokens);
+}
+
 
 /**
  * strtow - split a string into words (tokens)
  * @str: the string to tokenize
  *
- * Return: If memory allocation fails or str is NULL, return NULL.
- * Otherwise, return an array containing the words in str, terminated by NULL.
+ * Return: If malloc fails or if str is NULL or contains no tokens, return NULL.
+ * Otherwise, return an array containing the tokens in str, terminated by NULL.
  */
-char **strtow(const char *str)
+char **tokenize(const char *str)
 {
 	char **tokens;
-	ssize_t tok_count;
-	size_t tok_len;
+	size_t tok_count, tok_len;
 
-	tok_count = count_words(str);
+	tok_count = count_tokens(str);
+	if (!tok_count)
+		return (NULL);
+
 	tokens = malloc(sizeof(char *) * (tok_count + 1));
 	if (!tokens)
 		return (NULL);
@@ -93,49 +115,19 @@ char **strtow(const char *str)
 			++tok_len;
 
 		tokens[tok_count] = malloc(sizeof(char) * (tok_len + 1));
+
 		if (!tokens[tok_count])
 		{
-			while (tok_count)
-				free(tokens[--tok_count]);
-			free(tokens);
+			free_tokens(tokens);
 			return (NULL);
 		}
-		_memcpy(tokens[tok_count], str, tok_len);
+
 		tokens[tok_count][tok_len] = '\0';
+		_memcpy(tokens[tok_count], str, tok_len);
 
 		str += tok_len;
 	}
 	tokens[tok_count] = NULL;
 
 	return (tokens);
-}
-
-/**
- * main - entry point
- * @argc: the argument count
- * @argv: the argument vector
- *
- * Return: Always 0
- */
-int main(int argc __attribute__((unused)), char **argv)
-{
-	char **tokens;
-	unsigned int i;
-
-	while (*(++argv))
-	{
-		tokens = strtow(*argv);
-		if (tokens)
-		{
-			for (i = 0; tokens[i]; ++i)
-			{
-				printf("%s\n", tokens[i]);
-				free(tokens[i]);
-			}
-			free(tokens);
-		}
-		putchar('\n');
-	}
-
-	return (0);
 }
