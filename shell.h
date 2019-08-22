@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
 
 extern char **environ;
 
@@ -63,9 +64,12 @@ void free_list(list_t **headptr);
 ssize_t _strchr(const char *str, char c);
 char *_strdup(const char *str);
 ssize_t _strlen(const char *str);
+char *_strcpy(char *dest, char *src);
 int _strcmp(const char *s1, const char *s2);
 int _strncmp(const char *s1, const char *s2, size_t n);
 char **tokenize(const char *str);
+char *strjoin(char *s1, char *s2, char c);
+char *search_path(char *cmd, list_t *path);
 
 size_t count_tokens(const char *str);
 void free_tokens(char **tokens);

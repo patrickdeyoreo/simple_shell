@@ -10,9 +10,7 @@ int _run(info_t *info)
 		if (!_strcmp(info->tokens[0], ops[i].name))
 			return (ops[i].f(info));
 	}
-	/*
 	executable = search_path(info->tokens[0], info->path);
-	*/
 	if (executable)
 	{
 		free(info->tokens[0]);
