@@ -16,13 +16,18 @@ int main(int argc __attribute__((unused)), char **argv __attribute__((unused)))
 		NULL,
 		EXIT_SUCCESS,
 		0,
+		NULL,
+		NULL,
 		NULL
 	};
 	ssize_t n_read;
 	int interactive = isatty(STDIN_FILENO);
 
 	info.pid = getpid();
+	info.cwd = getcwd(NULL, 0);
 	info.path = strtolist(_getenv("PATH"), ':');
+	signal(2, _sigint);
+
 	while (1)
 	{
 		if (interactive)

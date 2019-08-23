@@ -9,12 +9,13 @@ ssize_t _strchr(const char *str, char c)
 
 	if (!str)
 		return (-1);
-
-	pos = 0;
-	while (str[pos] && str[pos] != c)
-		++pos;
-
-	return (pos);
+	
+	for (pos = 0; str[pos]; ++pos)
+	{
+		if (str[pos] == c)
+			return (pos);
+	}
+	return (-1);
 }
 
 /**

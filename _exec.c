@@ -8,13 +8,18 @@ int _exec(info_t *info)
 	{
 		free(info->line);
 		free_list(&info->path);
-		execve(info->tokens[0], info->tokens, NULL);
+		free(info->cwd);
+		execve(info->full_cmd, info->tokens, NULL);
+		free(info->full_cmd);
 		free_tokens(info->tokens);
 		exit(EXIT_FAILURE);
 	}
 
 	if (child > 0)
 		wait(&info->status);
+
+	free(info->full_cmd);
+	info->full_cmd = NULL;
 
 	info->status = WEXITSTATUS(info->status);
 	return (info->status);

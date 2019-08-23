@@ -7,7 +7,11 @@ int _read(info_t *info)
 	{
 		free(info->line);
 		free_list(&info->path);
+		free(info->cwd);
+		free(info->full_cmd);
+		/*
 		write(STDOUT_FILENO, "\n", 1);
+		*/
 
 		if (n_read < 0)
 			exit(EXIT_FAILURE);

@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
-
+#include <signal.h>
 extern char **environ;
 
 /**
@@ -31,6 +31,8 @@ typedef struct info
 	int status;
 	pid_t pid;
 	list_t *path;
+	char *full_cmd;
+	char *cwd;
 } info_t;
 
 /**
@@ -51,7 +53,7 @@ static built_in_t ops[] = {
 	{"exit", exit_, "Usage: exit"},
 	{NULL, NULL, NULL}
 };
-
+void _sigint(int signal);
 int _read(info_t *info);
 int _run(info_t *info);
 int _exec(info_t *info);
@@ -61,6 +63,9 @@ list_t *add_node(list_t **headptr, const char *str);
 list_t *add_node_end(list_t **headptr, const char *str);
 void free_list(list_t **headptr);
 
+int _atoi(char *s);
+int _isnumber(char *s);
+int _isdigit(char c);
 ssize_t _strchr(const char *str, char c);
 char *_strdup(const char *str);
 ssize_t _strlen(const char *str);

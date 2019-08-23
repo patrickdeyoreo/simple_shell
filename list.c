@@ -83,7 +83,7 @@ list_t *strtolist(const char *str, char delim)
 {
 	list_t *head = NULL;
 	list_t *tail = NULL;
-	size_t len;
+	ssize_t len;
 
 	if (!str)
 		return (NULL);
@@ -91,6 +91,8 @@ list_t *strtolist(const char *str, char delim)
 	while (*str)
 	{
 		len = _strchr(str, delim);
+		if (len == -1)
+			len = _strlen(str);
 		tail = add_node_end(&head, NULL);
 		if (!tail)
 		{
