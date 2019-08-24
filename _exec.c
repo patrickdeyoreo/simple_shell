@@ -9,7 +9,8 @@ int _exec(info_t *info)
 		free(info->line);
 		free_list(&info->path);
 		free(info->cwd);
-		execve(info->full_cmd, info->tokens, NULL);
+		execve(info->full_cmd, info->tokens, environ);
+		perror(info->argv[0]);
 		free(info->full_cmd);
 		free_tokens(info->tokens);
 		exit(EXIT_FAILURE);

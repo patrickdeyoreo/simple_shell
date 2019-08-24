@@ -1,12 +1,14 @@
 #ifndef SHELL_H
 #define SHELL_H
 
+#include <stdarg.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
 #include <signal.h>
+#include <errno.h>
 extern char **environ;
 
 /**
@@ -25,6 +27,9 @@ typedef struct list
   */
 typedef struct info
 {
+	char **argv;
+	int argc;
+	size_t cmd_num;
 	char *line;
 	size_t len;
 	char **tokens;
@@ -53,11 +58,13 @@ static built_in_t ops[] = {
 	{"exit", exit_, "Usage: exit"},
 	{NULL, NULL, NULL}
 };
+char *num_to_str(size_t n);
+void _num_to_str(char **buf, size_t n);
 void _sigint(int signal);
 int _read(info_t *info);
 int _run(info_t *info);
 int _exec(info_t *info);
-
+void _perror(size_t argc, ...);
 list_t *strtolist(const char *str, char delim);
 list_t *add_node(list_t **headptr, const char *str);
 list_t *add_node_end(list_t **headptr, const char *str);
@@ -74,7 +81,7 @@ int _strcmp(const char *s1, const char *s2);
 int _strncmp(const char *s1, const char *s2, size_t n);
 char **tokenize(const char *str);
 char *strjoin(char *s1, char *s2, char c);
-char *search_path(char *cmd, list_t *path);
+char *search_path(info_t *info, list_t *path);
 
 size_t count_tokens(const char *str);
 void free_tokens(char **tokens);

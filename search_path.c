@@ -1,12 +1,16 @@
 #include "shell.h"
 
-char *search_path(char *cmd, list_t *path)
+char *search_path(info_t *info, list_t *path)
 {
 	char *s;
 	struct stat st;
+
 	while (path)
 	{
-		s = strjoin(path->str, cmd, '/');
+		if (*path->str == '\0')
+			s = strjoin(info->cwd, info->tokens[0], '/');
+		else
+			s = strjoin(path->str, info->tokens[0], '/');
 		if (stat(s, &st) == 0)
 		{
 			if ((st.st_mode & S_IFMT) != S_IFDIR)

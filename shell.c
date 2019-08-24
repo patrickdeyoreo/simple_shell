@@ -8,9 +8,12 @@
  *
  * Return: Always 0
  */
-int main(int argc __attribute__((unused)), char **argv __attribute__((unused)))
+int main(int argc, char **argv)
 {
 	static info_t info = {
+		NULL,
+		0,
+		1,
 		NULL,
 		0,
 		NULL,
@@ -27,6 +30,8 @@ int main(int argc __attribute__((unused)), char **argv __attribute__((unused)))
 	info.cwd = getcwd(NULL, 0);
 	info.path = strtolist(_getenv("PATH"), ':');
 	signal(2, _sigint);
+	info.argv = argv;
+	info.argc = argc;
 
 	while (1)
 	{
@@ -40,6 +45,7 @@ int main(int argc __attribute__((unused)), char **argv __attribute__((unused)))
 		if (info.tokens)
 			_run(&info);
 		free_tokens(info.tokens);
+		info.cmd_num += 1;
 	}
 
 }
