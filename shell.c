@@ -17,6 +17,7 @@ int main(int argc, char **argv)
 		NULL,
 		0,
 		NULL,
+		NULL,
 		EXIT_SUCCESS,
 		0,
 		NULL,
@@ -29,6 +30,7 @@ int main(int argc, char **argv)
 	info.pid = getpid();
 	info.cwd = getcwd(NULL, 0);
 	info.path = strtolist(_getenv("PATH"), ':');
+	info.env = envtolist(environ);
 	signal(2, _sigint);
 	info.argv = argv;
 	info.argc = argc;
@@ -39,7 +41,6 @@ int main(int argc, char **argv)
 			write(STDERR_FILENO, "$ ", 2);
 
 		_read(&info);
-
 
 		info.tokens = tokenize(info.line);
 		if (info.tokens)

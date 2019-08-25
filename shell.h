@@ -21,7 +21,16 @@ typedef struct list
 	char *str;
 	struct list *next;
 } list_t;
-
+/**
+  *
+  *
+  */
+typedef struct my_env
+{
+	char *key;
+	char *value;
+	struct my_env *next;
+} my_env_t;
 /**
   * struct info - shell state
   */
@@ -33,6 +42,7 @@ typedef struct info
 	char *line;
 	size_t len;
 	char **tokens;
+	my_env_t *env;;
 	int status;
 	pid_t pid;
 	list_t *path;
@@ -52,10 +62,14 @@ typedef struct built_in
 
 int _env(info_t *info);
 int exit_(info_t *info);
+int _setenv(info_t *info);
+int _unsetenv(info_t *info);
 
 static built_in_t ops[] = {
 	{"env", _env, "Usage: env"},
 	{"exit", exit_, "Usage: exit"},
+	{"setenv", _setenv, "Usage: setenv VARIABLE VALUE"},
+	{"unsetenv", _unsetenv, "Usage: unsetenv VARIABLE"},
 	{NULL, NULL, NULL}
 };
 char *num_to_str(size_t n);
@@ -69,6 +83,12 @@ list_t *strtolist(const char *str, char delim);
 list_t *add_node(list_t **headptr, const char *str);
 list_t *add_node_end(list_t **headptr, const char *str);
 void free_list(list_t **headptr);
+my_env_t *envtolist(char **env);
+char **listtoenv(my_env_t *head);
+my_env_t *add_env_node_end(my_env_t **headptr, const char *key, const char *value);
+my_env_t *find_env_node(my_env_t *head, const char *key);
+void free_env(my_env_t **headptr);
+my_env_t *del_env_node(my_env_t **headptr, const char *key);
 
 int _atoi(char *s);
 int _isnumber(char *s);
