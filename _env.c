@@ -1,4 +1,9 @@
 #include "shell.h"
+/**
+  * _env - displays environment
+  * @info: arguments passed
+  * Return: int
+  */
 
 int _env(info_t *info)
 {

@@ -1,4 +1,9 @@
 #include "shell.h"
+/**
+  * _isnumber - checks if the string consists of digits
+  * @s: pointer to string
+  * Return: int
+  */
 
 int _isnumber(char *s)
 {

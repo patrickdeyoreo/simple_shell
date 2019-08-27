@@ -1,4 +1,9 @@
 #include "shell.h"
+/**
+  * _run - runs the command
+  * @info: arguments passed
+  * Return: int
+  */
 
 int _run(info_t *info)
 {
@@ -11,7 +16,11 @@ int _run(info_t *info)
 			return (ops[i].f(info));
 	}
 	if (_strchr(info->tokens[0], '/') == -1)
+	{
+		free_list(&info->path);
+		info->path = strtolist(_getenv(info->env, "PATH"), ':');
 		info->full_cmd = search_path(info, info->path);
+	}
 	else
 		info->full_cmd = _strdup(info->tokens[0]);
 	if (info->full_cmd)

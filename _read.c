@@ -1,5 +1,9 @@
 #include "shell.h"
-
+/**
+  * _read - reads the command line passed
+  * @info: arguments passed
+  * Return: int
+  */
 int _read(info_t *info)
 {
 	ssize_t n_read = getline(&info->line, &info->len, stdin);
@@ -17,6 +21,5 @@ int _read(info_t *info)
 
 		exit(info->status);
 	}
-	info->status = EXIT_SUCCESS;
-	return (info->status);
+	return (EXIT_SUCCESS);
 }

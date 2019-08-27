@@ -1,4 +1,8 @@
 #include "shell.h"
+/**
+  * _sigint - reprompts
+  * @signal: signal passed
+  */
 
 void _sigint(int signal)
 {

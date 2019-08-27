@@ -1,4 +1,10 @@
 #include "shell.h"
+/**
+  * search_path - searches for the directory with executable program
+  * @info: argument passed
+  * @path: argument passed
+  * Return: pointer to directory string
+  */
 
 char *search_path(info_t *info, list_t *path)
 {

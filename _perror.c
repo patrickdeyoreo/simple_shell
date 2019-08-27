@@ -1,4 +1,8 @@
 #include "shell.h"
+/**
+  * _perror - displays error messages
+  * @argc: number of strings passed
+  */
 
 void _perror(size_t argc, ...)
 {

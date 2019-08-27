@@ -1,6 +1,6 @@
 #ifndef SHELL_H
 #define SHELL_H
-
+#include <limits.h>
 #include <stdarg.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -42,7 +42,7 @@ typedef struct info
 	char *line;
 	size_t len;
 	char **tokens;
-	my_env_t *env;;
+	my_env_t *env;
 	int status;
 	pid_t pid;
 	list_t *path;
@@ -60,16 +60,20 @@ typedef struct built_in
 	char *help;
 } built_in_t;
 
+int _cd(info_t *info);
 int _env(info_t *info);
 int exit_(info_t *info);
 int _setenv(info_t *info);
 int _unsetenv(info_t *info);
+int _help(info_t *info);
 
 static built_in_t ops[] = {
+	{"cd", _cd, "Usage: cd [DIRECTORY]"},
 	{"env", _env, "Usage: env"},
 	{"exit", exit_, "Usage: exit"},
 	{"setenv", _setenv, "Usage: setenv VARIABLE VALUE"},
 	{"unsetenv", _unsetenv, "Usage: unsetenv VARIABLE"},
+	{"help", _help, "Usage: help [BUILTIN]"},
 	{NULL, NULL, NULL}
 };
 char *num_to_str(size_t n);
@@ -85,12 +89,12 @@ list_t *add_node_end(list_t **headptr, const char *str);
 void free_list(list_t **headptr);
 my_env_t *envtolist(char **env);
 char **listtoenv(my_env_t *head);
-my_env_t *add_env_node_end(my_env_t **headptr, const char *key, const char *value);
+my_env_t *add_env_node_end(my_env_t **ptr, const char *key, const char *value);
 my_env_t *find_env_node(my_env_t *head, const char *key);
 void free_env(my_env_t **headptr);
 my_env_t *del_env_node(my_env_t **headptr, const char *key);
 
-int _atoi(char *s);
+unsigned int _atou(char *s);
 int _isnumber(char *s);
 int _isdigit(char c);
 ssize_t _strchr(const char *str, char c);
@@ -109,6 +113,6 @@ void free_tokens(char **tokens);
 int _isspace(int c);
 char *_memcpy(char *dest, const char *src, size_t n);
 
-char *_getenv(const char *name);
+char *_getenv(my_env_t *env, const char *key);
 
 #endif /* SHELL_H */

@@ -1,11 +1,8 @@
 #include "shell.h"
-
-
 /**
  * add_node - insert a string at the beginning of the list
- * @head: a pointer to the address of the first list node
+ * @headptr: a pointer to the address of the first list node
  * @str: the string to add to the list
- *
  * Return: If memory allocation fails, return NULL. Otherwise, return the
  * address of the new no
  */
@@ -27,13 +24,10 @@ list_t *add_node(list_t **headptr, const char *str)
 
 	return (new);
 }
-
-
 /**
  * add_node_end - add a string at the end of the list
- * @head: a pointer to the address of the first list node
+ * @headptr: a pointer to the address of the first list node
  * @str: the string to add to the list
- *
  * Return: If memory allocation fails, return NULL. Otherwise, return the
  * address of the new no
  */
@@ -58,11 +52,9 @@ list_t *add_node_end(list_t **headptr, const char *str)
 
 	return (new);
 }
-
-
 /**
  * free_list - free a linked list and and set head to NULL
- * @head: the first list node
+ * @headptr: the first list node
  */
 void free_list(list_t **headptr)
 {
@@ -74,10 +66,11 @@ void free_list(list_t **headptr)
 	free(*headptr);
 	*headptr = NULL;
 }
-
-
 /**
  * strtolist - turn a string into a linked list
+ * @str: string passed
+ * @delim: delimiter passed
+ * Return: pointer to list
  */
 list_t *strtolist(const char *str, char delim)
 {
@@ -114,6 +107,5 @@ list_t *strtolist(const char *str, char delim)
 		else
 			str += len;
 	}
-
 	return (head);
 }

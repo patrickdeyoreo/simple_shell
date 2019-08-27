@@ -1,5 +1,9 @@
 #include "shell.h"
-
+/**
+  * _exec - executes the command
+  * @info: arguments passed
+  * Return: int
+  */
 int _exec(info_t *info)
 {
 	char **env;

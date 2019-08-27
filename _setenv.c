@@ -1,4 +1,9 @@
 #include "shell.h"
+/**
+  * _setenv - sets the environment variables
+  * @info: arguments passed
+  * Return: int
+  */
 
 int _setenv(info_t *info)
 {
@@ -7,7 +12,7 @@ int _setenv(info_t *info)
 	char *cmd_num;
 
 	if (!info->tokens[1])
-		return(_env(info));
+		return (_env(info));
 
 	if (info->tokens[2])
 	{

@@ -1,4 +1,9 @@
 #include "shell.h"
+/**
+  * listtoenv - creates linked list from environment
+  * @head: argument passed
+  * Return: pointer to list
+  */
 
 char **listtoenv(my_env_t *head)
 {

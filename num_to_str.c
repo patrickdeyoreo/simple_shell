@@ -1,4 +1,9 @@
 #include "shell.h"
+/**
+  * num_to_str - converts number to string
+  * @n: number passed
+  * Return: pointer to string
+  */
 
 char *num_to_str(size_t n)
 {

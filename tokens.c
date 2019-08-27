@@ -1,10 +1,7 @@
 #include "shell.h"
-
-
 /**
  * _isspace - check if a character is whitespace
  * @c: the character to check
- *
  * Return: If c is a whitespace character, return 1.
  * If not, return 0.
  */
@@ -12,17 +9,13 @@ int _isspace(int c)
 {
 	return (c == ' ' || (c >= 0x09 && c <= 0x0d));
 }
-
-
 /**
  * _memcpy - copy a memory area
  * @dest: a pointer to the start of the target area
  * @src: a pointer to the start of the source area
  * @n: the number of bytes to copy
- *
  * Description: This function copies n bytes from the memory area at src
  * to the memory area at dest. These memory areas must not overlap.
- *
  * Return: a pointer to dest
  */
 char *_memcpy(char *dest, const char *src, size_t n)
@@ -34,12 +27,9 @@ char *_memcpy(char *dest, const char *src, size_t n)
 
 	return (dest);
 }
-
-
 /**
  * count_tokens - count the words in a string
  * @str: the string to evaluate
- *
  * Return: If str is NULL, return -1.
  * Otherwise, return the number of words in str.
  */
@@ -63,8 +53,6 @@ size_t count_tokens(const char *str)
 
 	return (tok_count);
 }
-
-
 /**
  * free_tokens - free an array of strings
  * @tokens: the array to free
@@ -81,13 +69,10 @@ void free_tokens(char **tokens)
 		free(*current++);
 	free(tokens);
 }
-
-
 /**
- * strtow - split a string into words (tokens)
+ * tokenize - split a string into words (tokens)
  * @str: the string to tokenize
- *
- * Return: If malloc fails or if str is NULL or contains no tokens, return NULL.
+ * Return: If malloc fails or if str is 0 or contains no tokens, return NULL.
  * Otherwise, return an array containing the tokens in str, terminated by NULL.
  */
 char **tokenize(const char *str)

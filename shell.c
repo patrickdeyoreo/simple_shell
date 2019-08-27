@@ -10,7 +10,7 @@
  */
 int main(int argc, char **argv)
 {
-	static info_t info = {
+	info_t info = {
 		NULL,
 		0,
 		1,
@@ -29,7 +29,6 @@ int main(int argc, char **argv)
 
 	info.pid = getpid();
 	info.cwd = getcwd(NULL, 0);
-	info.path = strtolist(_getenv("PATH"), ':');
 	info.env = envtolist(environ);
 	signal(2, _sigint);
 	info.argv = argv;
@@ -48,5 +47,4 @@ int main(int argc, char **argv)
 		free_tokens(info.tokens);
 		info.cmd_num += 1;
 	}
-
 }

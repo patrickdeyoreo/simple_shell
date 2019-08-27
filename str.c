@@ -1,8 +1,10 @@
 #include "shell.h"
-
 /**
- * strchr - get the index of the first matching character
- */
+  * strchr - get the index of the first matching character
+  * @str: string passed
+  * @c: character passed
+  * Return: index
+  */
 ssize_t _strchr(const char *str, char c)
 {
 	size_t pos;
@@ -20,7 +22,6 @@ ssize_t _strchr(const char *str, char c)
 /**
  * _strdup - create a new array containing a copy of the given string
  * @str: a pointer to the string to copy
- *
  * Return: If str is NULL or if memory allocation fails, return NULL.
  * Otherwise a return a pointer to the new copy
  */
@@ -48,7 +49,6 @@ char *_strdup(const char *str)
 /**
  * _strlen - calculate the length of a string
  * @str: the string to calculate the length of
- *
  * Return: the length of the string
  */
 ssize_t _strlen(const char *str)
@@ -71,11 +71,9 @@ ssize_t _strlen(const char *str)
  * _strcmp - compare two strings
  * @s1: a string to compare
  * @s2: the other string to compare
- *
  * Return: 0 if s1 matches s2,
  * otherwise an integer less than 0 if s1 is less than s2,
  * otherwise an integer greater than 0 if s1 is greater than s2.
- *
  */
 int _strcmp(const char *s1, const char *s2)
 {
@@ -98,11 +96,9 @@ int _strcmp(const char *s1, const char *s2)
  * @s1: a string to compare
  * @s2: the other string to compare
  * @n: the max number of bytes to compare
- *
  * Return: 0 if s1 matches s2,
  * otherwise an integer less than 0 if s1 is less than s2,
  * otherwise an integer greater than 0 if s1 is greater than s2.
- *
  */
 int _strncmp(const char *s1, const char *s2, size_t n)
 {
