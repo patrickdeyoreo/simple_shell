@@ -2,7 +2,6 @@
 /**
  * 
  *
- */
 int _alias(info_t *info)
 {
 	size_t i, j;
@@ -47,3 +46,4 @@ int _alias(info_t *info)
 	}
 	return(info->status);
 }
+*/

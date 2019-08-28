@@ -82,7 +82,7 @@ typedef struct built_in
 	int (*f)(info_t *);
 	char *help;
 } built_in_t;
-int _alias(info_t *info);
+/* int _alias(info_t *info); */
 int _cd(info_t *info);
 int _env(info_t *info);
 int exit_(info_t *info);
@@ -91,7 +91,7 @@ int _unsetenv(info_t *info);
 int _help(info_t *info);
 
 static built_in_t ops[] = {
-	{"alias", _alias, "Usage: alias [name[='value'] ...]"},
+/*	{"alias", _alias, "Usage: alias [name[='value'] ...]"}, */
 	{"cd", _cd, "Usage: cd [DIRECTORY]"},
 	{"env", _env, "Usage: env"},
 	{"exit", exit_, "Usage: exit"},
