@@ -125,6 +125,7 @@ char *strjoin(char *s1, char *s2, char c);
 char *search_path(info_t *info, list_t *path);
 
 int _isspace(int c);
+int _isquote(int c);
 char *_memcpy(char *dest, const char *src, size_t n);
 
 char *_getenv(my_env_t *env, const char *key);
