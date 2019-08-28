@@ -9,6 +9,9 @@
 #include <sys/stat.h>
 #include <signal.h>
 #include <errno.h>
+#include "str.h"
+#include "quote.h"
+#include "parse.h"
 extern char **environ;
 
 /**
@@ -88,6 +91,7 @@ int _unsetenv(info_t *info);
 int _help(info_t *info);
 
 static built_in_t ops[] = {
+	{"alias", _alias, "Usage: alias [name[='value'] ...]"},
 	{"cd", _cd, "Usage: cd [DIRECTORY]"},
 	{"env", _env, "Usage: env"},
 	{"exit", exit_, "Usage: exit"},
@@ -117,18 +121,8 @@ my_env_t *del_env_node(my_env_t **headptr, const char *key);
 unsigned int _atou(char *s);
 int _isnumber(char *s);
 int _isdigit(char c);
-ssize_t _strchr(const char *str, char c);
-char *_strdup(const char *str);
-ssize_t _strlen(const char *str);
-char *_strcpy(char *dest, char *src);
-int _strcmp(const char *s1, const char *s2);
-int _strncmp(const char *s1, const char *s2, size_t n);
-char **tokenize(const char *str);
 char *strjoin(char *s1, char *s2, char c);
 char *search_path(info_t *info, list_t *path);
-
-size_t count_tokens(const char *str);
-void free_tokens(char **tokens);
 
 int _isspace(int c);
 char *_memcpy(char *dest, const char *src, size_t n);
