@@ -16,7 +16,7 @@ int _read(info_t *info)
 		free_env(&info->env);
 		free(info->full_cmd);
 
-		if (isatty(STDIN_FILENO))
+		if (info->interactive)
 			write(STDOUT_FILENO, "\n", 1);
 
 		exit(info->status);

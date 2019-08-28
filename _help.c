@@ -15,12 +15,12 @@ int _help(info_t *info)
 		flag = 0;
 		for (i = 1; info->tokens[i]; i++)
 		{
-			for (j = 0; ops[j].name; j++)
+			for (j = 0; info->ops[j].name; j++)
 			{
-				if (!(_strcmp(info->tokens[i], ops[j].name)))
+				if (!(_strcmp(info->tokens[i], info->ops[j].name)))
 				{
 					flag = 1;
-					write(STDOUT_FILENO, ops[j].help, _strlen(ops[j].help));
+					write(STDOUT_FILENO, info->ops[j].help, _strlen(info->ops[j].help));
 					write(STDOUT_FILENO, "\n", 1);
 					break;
 				}
@@ -38,9 +38,9 @@ int _help(info_t *info)
 	}
 	else
 	{
-		for (i = 0; ops[i].name; i++)
+		for (i = 0; info->ops[i].name; i++)
 		{
-			write(STDOUT_FILENO, ops[i].name, _strlen(ops[i].name));
+			write(STDOUT_FILENO, info->ops[i].name, _strlen(info->ops[i].name));
 			write(STDOUT_FILENO, "\n", 1);
 		}
 	}

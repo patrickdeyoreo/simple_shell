@@ -38,6 +38,7 @@ typedef struct my_env
 } my_env_t;
 
 typedef my_env_t alias_t;
+typedef struct built_in built_in_t;
 /**
   * struct info - shell state
   * @argv: arguments passed
@@ -63,11 +64,13 @@ typedef struct info
 	char **tokens;
 	my_env_t *env;
 	int status;
+	int interactive;
 	pid_t pid;
 	list_t *path;
 	char *full_cmd;
 	char *cwd;
 	alias_t *aliases;
+	built_in_t *ops;
 } info_t;
 
 /**
@@ -82,6 +85,7 @@ typedef struct built_in
 	int (*f)(info_t *);
 	char *help;
 } built_in_t;
+
 /* int _alias(info_t *info); */
 int _cd(info_t *info);
 int _env(info_t *info);
@@ -90,16 +94,6 @@ int _setenv(info_t *info);
 int _unsetenv(info_t *info);
 int _help(info_t *info);
 
-static built_in_t ops[] = {
-/*	{"alias", _alias, "Usage: alias [name[='value'] ...]"}, */
-	{"cd", _cd, "Usage: cd [DIRECTORY]"},
-	{"env", _env, "Usage: env"},
-	{"exit", exit_, "Usage: exit"},
-	{"setenv", _setenv, "Usage: setenv VARIABLE VALUE"},
-	{"unsetenv", _unsetenv, "Usage: unsetenv VARIABLE"},
-	{"help", _help, "Usage: help [BUILTIN]"},
-	{NULL, NULL, NULL}
-};
 char *num_to_str(size_t n);
 void _num_to_str(char **buf, size_t n);
 void _sigint(int signal);

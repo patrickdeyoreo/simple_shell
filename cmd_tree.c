@@ -7,9 +7,9 @@
  * Return: If memory allocation fails, return NULL. Otherwise, return the
  * address of the root of the new tree
  */
-cmd_tree_t *cmd_to_tree(const char *cmd)
+cmd_tree_t *cmd_to_tree(const char *cmd __attribute__((unused)))
 {
-
+	return (NULL);
 }
 
 /**

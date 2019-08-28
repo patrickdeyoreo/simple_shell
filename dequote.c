@@ -12,6 +12,12 @@ char *dequote(const char *str)
 	char *new;
 	size_t len, state_len;
 	enum quote_state state;
+	static size_t (*quote_state_fn[])(const char *, enum quote_state *) = {
+		quote_state_none,
+		quote_state_word,
+		quote_state_double,
+		quote_state_single
+	};
 
 	if (!str)
 		return (NULL);
@@ -55,6 +61,12 @@ size_t dequote_len(const char *str)
 {
 	size_t len, state_len;
 	enum quote_state state;
+	static size_t (*quote_state_fn[])(const char *, enum quote_state *) = {
+		quote_state_none,
+		quote_state_word,
+		quote_state_double,
+		quote_state_single
+	};
 
 	if (!str)
 		return (0);

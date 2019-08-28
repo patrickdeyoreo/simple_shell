@@ -12,6 +12,12 @@ char **tokenize(char *str)
 	char **tokens, *next;
 	size_t count;
 	enum quote_state state;
+	static size_t (*quote_state_fn[])(const char *, enum quote_state *) = {
+		quote_state_none,
+		quote_state_word,
+		quote_state_double,
+		quote_state_single
+	};
 
 	count = count_tokens(str);
 	if (!count)
@@ -28,7 +34,8 @@ char **tokenize(char *str)
 		{
 			if (state == DOUBLE || state == SINGLE)
 			{
-				str += quote_state_fn[state](++str, &state);
+				++str;
+				str += quote_state_fn[state](str, &state);
 				if (*str)
 					++str;
 			}
@@ -54,6 +61,12 @@ size_t count_tokens(const char *str)
 {
 	size_t tok_count = 0;
 	enum quote_state state = NONE;
+	static size_t (*quote_state_fn[])(const char *, enum quote_state *) = {
+		quote_state_none,
+		quote_state_word,
+		quote_state_double,
+		quote_state_single
+	};
 
 	if (!str)
 		return (0);

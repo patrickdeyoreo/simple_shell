@@ -6,9 +6,11 @@ size_t _getline(char **lineptr, size_t *nptr, int fd)
 	ssize_t n_read;
 	char *tmp;
 
+	(void) n_read;
+
 	if (fd < 0 || !lineptr || !nptr)
 		return (-1);
-	while (n_read = read(fd, buffer, BUFSIZ))
+	while ((n_read = read(fd, buffer, BUFSIZ)))
 	{
 		if (n_read == -1)
 		{
