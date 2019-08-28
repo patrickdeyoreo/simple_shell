@@ -1,6 +1,7 @@
-#include "shell.h"
+#include "str.h"
+
 /**
-  * _strchr - get the index of the first matching character
+  * strchr - get the index of the first matching character
   * @str: string passed
   * @c: character passed
   * Return: index
@@ -92,29 +93,19 @@ int _strcmp(const char *s1, const char *s2)
 }
 
 /**
- * _strncmp - compare two strings
- * @s1: a string to compare
- * @s2: the other string to compare
- * @n: the max number of bytes to compare
- * Return: 0 if s1 matches s2,
- * otherwise an integer less than 0 if s1 is less than s2,
- * otherwise an integer greater than 0 if s1 is greater than s2.
+ * _strcpy - copy a string
+ * @dest: destination
+ * @src: source
+ * @n: the max number of bytes to copy
+ * Return: a pointer to dest
  */
-int _strncmp(const char *s1, const char *s2, size_t n)
+char *_strcpy(char *dest, const char *src)
 {
-	for (; n > 0 && *s1 && *s2; --n, ++s1, ++s2)
-	{
-		if (*s1 != *s2)
-			return (*s1 - *s2);
-	}
+	char *pos = dest;
 
-	if (n)
-	{
-		if (*s1)
-			return (1);
-		if (*s2)
-			return (-1);
-	}
+	while (*src)
+		*pos++ = *src++;
+	*pos = '\0';
 
-	return (0);
+	return (dest);
 }

@@ -3,5 +3,6 @@
 *
 !.gitignore
 !README.md
+!man_1_simple_shell
 !*.c
 !*.h

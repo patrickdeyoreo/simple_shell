@@ -1,14 +1,14 @@
-#include "header.h"
+#include "shell.h"
 size_t _getline(char **lineptr, size_t *nptr, int fd)
 {
-	static char buffer[BUFSIZE];
+	static char buffer[BUFSIZ];
 	size_t len = 0;
 	ssize_t n_read;
 	char *tmp;
 
 	if (fd < 0 || !lineptr || !nptr)
 		return (-1);
-	while (n_read = read(fd, buffer, BUFSIZE))
+	while (n_read = read(fd, buffer, BUFSIZ))
 	{
 		if (n_read == -1)
 		{
@@ -27,7 +27,7 @@ size_t _getline(char **lineptr, size_t *nptr, int fd)
 			}
 			*lineptr = tmp;
 			*nptr = len + n_read + 1;
-			strncpy(*lineptr + len, buffer, n_read);
+			_strncpy(*lineptr + len, buffer, n_read);
 			len += n_read;
 		}
 	}

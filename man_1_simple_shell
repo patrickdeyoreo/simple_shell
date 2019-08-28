@@ -1,0 +1,76 @@
+.TH HSH 1 "27 July 2019" "Simple Shell Man Page"
+.SH NAME
+.B hsh
+- simple command interpreter (shell)
+.SH SYNOPSIS
+.B hsh
+.RI [ FILENAME ]
+.SH DESCRIPTION
+Executes commands read from standard input.
+.SH RETURN VALUE
+On success, returns the number of characters printed to stdout (excluding the
+null byte term). On failure, returns -1.
+.SH SPECIFIERS
+List of characters that specify data to be printed
+.TP
+.B %c
+writes a single character
+.TP
+.B %s
+writes a character string
+.TP
+.B %%
+writes the literal %
+.TP
+.B %d
+writes the decimal form a signed integer
+.TP
+.B %i
+writes the decimal form of a signed integer
+.TP
+.B %u
+writes the decimal form of an unsigned integer
+.TP
+.B %b
+writes the binary form of an unsigned integer
+.TP
+.B %o
+writes the octal form of an unsigned integer
+.TP
+.B %x
+writes the hexadecimal form of an unsigned integer (using conversion letters: abcdef)
+.TP
+.B %X
+writes the hexadecimal form of an unsigned integer (using conversion letters: ABCDEF)
+.TP
+.B %r
+writes a character string in reverse order
+.TP
+.B %R
+encodes a character string in rot13 format
+.TP
+.B %p
+writes the character sequence defining a pointer
+.TP
+.B %S
+writes non-printable characters in the format: \x(ASCII Code Value in UPPERCASE Hexadecimal)
+.SH EXAMPLE
+To print some text alongside a
+.I name
+string variable and an
+.I age
+integer variable:
+.PP
+.nf
+.RS
+_printf("Hello my name is %s and I am %i years old", name, age);
+.RE
+.fi
+.PP
+.SH SEE ALSO
+.I printf(3)
+.SH BUGS
+No known bugs.
+Report bugs to ...
+.SH AUTHOR
+Patrick DeYoreo, Sudeep Raj
