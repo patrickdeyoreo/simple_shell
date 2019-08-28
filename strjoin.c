@@ -1,4 +1,11 @@
 #include "shell.h"
+/**
+  * strjoin - joins the strings and a character into a string
+  * @s1: string passed
+  * @s2: string passed
+  * @c: character passed
+  * Return: new string
+  */
 
 char *strjoin(char *s1, char *s2, char c)
 {

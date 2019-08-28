@@ -1,6 +1,6 @@
 #include "shell.h"
 /**
-  * strchr - get the index of the first matching character
+  * _strchr - get the index of the first matching character
   * @str: string passed
   * @c: character passed
   * Return: index

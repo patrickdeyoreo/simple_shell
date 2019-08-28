@@ -14,7 +14,7 @@ char *search_path(info_t *info, list_t *path)
 	while (path)
 	{
 		if (*path->str == '\0')
-			s = strjoin(info->cwd, info->tokens[0], '/');
+			s = strjoin(".", info->tokens[0], '/');
 		else
 			s = strjoin(path->str, info->tokens[0], '/');
 		if (stat(s, &st) == 0)

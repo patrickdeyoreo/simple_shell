@@ -16,7 +16,7 @@ char **listtoenv(my_env_t *head)
 		tmp = tmp->next;
 		len++;
 	}
-	env = malloc(sizeof(char*) * (len + 1));
+	env = malloc(sizeof(char *) * (len + 1));
 	if (!env)
 		return (NULL);
 	for (len = 0; head; len++)

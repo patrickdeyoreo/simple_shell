@@ -1,4 +1,9 @@
 #include "shell.h"
+/**
+  * _unsetenv - unsets the environment variable
+  * @info: arguments passed
+  * Return: status
+  */
 
 int _unsetenv(info_t *info)
 {

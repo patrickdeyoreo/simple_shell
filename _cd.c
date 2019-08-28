@@ -2,7 +2,7 @@
 /**
  * _cd - changes the directory
  * @info: arguments passed
- * @Return: int
+ * Return: int
  */
 int _cd(info_t *info)
 {

@@ -22,8 +22,10 @@ typedef struct list
 	struct list *next;
 } list_t;
 /**
-  *
-  *
+  * struct my_env - singly linked list
+  * @key: variable name
+  * @value: value of variable
+  * @next: pointer to the next node
   */
 typedef struct my_env
 {
@@ -31,8 +33,22 @@ typedef struct my_env
 	char *value;
 	struct my_env *next;
 } my_env_t;
+
+typedef my_env_t alias_t;
 /**
   * struct info - shell state
+  * @argv: arguments passed
+  * @argc: arguments passed
+  * @cmd_num: arguments passed
+  * @line: arguments passed
+  * @len: arguments passed
+  * @tokens: arguments passed
+  * @env: arguments passed
+  * @status: arguments passed
+  * @pid: arguments passed
+  * @path: arguments passed
+  * @full_cmd: arguments passed
+  * @cwd: arguments passed
   */
 typedef struct info
 {
@@ -48,10 +64,14 @@ typedef struct info
 	list_t *path;
 	char *full_cmd;
 	char *cwd;
+	alias_t *aliases;
 } info_t;
 
 /**
   * struct built_in - built-in command
+  * @name: arguments passed
+  * @f: function
+  * @help: arguments passed
   */
 typedef struct built_in
 {
@@ -59,7 +79,7 @@ typedef struct built_in
 	int (*f)(info_t *);
 	char *help;
 } built_in_t;
-
+int _alias(info_t *info);
 int _cd(info_t *info);
 int _env(info_t *info);
 int exit_(info_t *info);
