@@ -1,8 +1,8 @@
-#An implementation of sh in C programming language
+# An implementation of sh in C programming language
 
-##Overview
+## Overview
 Simple Shell is a Holberton School pair project. The general goal of the project is to Write a simple UNIX command interpreter. 
-###Content
+### Content
 * General Requirements
 * Expected output
 * List of allowed functions
@@ -12,7 +12,7 @@ Simple Shell is a Holberton School pair project. The general goal of the project
 Mandatory
 Advanced
 
-###General Requirements
+### General Requirements
 * Allowed editors: vi, vim, emacs
 * All your files will be compiled on Ubuntu 14.04 LTS
 * Your C programs and functions will be compiled with gcc 4.8.4 using the flags -Wall -Werror -Wextra and -pedantic
@@ -22,10 +22,11 @@ Advanced
 * No more than 5 functions per file
 * All your header files should be include guarded
 * Use system calls only when you need to
-###Expected output
+### Expected output
 * Unless specified otherwise, your program must have the exact same output as sh (/bin/sh) as well as the exact same error output.
 * The only difference is when you print an error, the name of the program must be equivalent to your argv[0]
-Example of error with sh:
+
+- Example of error with sh:
 ```
 $ echo "qwerty" | /bin/sh
 /bin/sh: 1: qwerty: not found
@@ -33,7 +34,7 @@ $ echo "qwerty" | /bin/../bin/sh
 /bin/../bin/sh: 1: qwerty: not found
 $
 ```
-Same error with your program hsh:
+- Same error with your program hsh:
 
 ```
 $ echo "qwerty" | ./hsh
@@ -42,7 +43,7 @@ $ echo "qwerty" | ./././hsh
 ./././hsh: 1: qwerty: not found
 $
 ```
-###List of allowed functions
+### List of allowed functions
 * access (man 2 access)
 * chdir (man 2 chdir)
 * close (man 2 close)
@@ -73,12 +74,13 @@ $
 * wait3 (man 2 wait3)
 * wait4 (man 2 wait4)
 * write (man 2 write)
-###Compilation
+
+### Compilation
 ```
 gcc -Wall -Werror -Wextra -pedantic *.c -o hsh 
 ```
-###Testing
-Interactive mode:
+### Testing
+- Interactive mode:
 ```
 $ ./hsh
 ($) /bin/ls
@@ -87,7 +89,9 @@ hsh main.c shell.c
 ($) exit
 $
 ```
-Non-interactive mode:
+
+- Non-interactive mode:
+```
 $ echo "/bin/ls" | ./hsh
 hsh main.c shell.c test_ls_2
 $
