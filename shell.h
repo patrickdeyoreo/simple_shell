@@ -38,7 +38,8 @@ typedef struct my_env
 } my_env_t;
 
 typedef my_env_t alias_t;
-typedef struct built_in built_in_t;
+
+struct built_in;
 /**
   * struct info - shell state
   * @argv: arguments passed
@@ -70,7 +71,7 @@ typedef struct info
 	char *full_cmd;
 	char *cwd;
 	alias_t *aliases;
-	built_in_t *ops;
+	struct built_in *ops;
 } info_t;
 
 /**

@@ -7,10 +7,11 @@
 int _cd(info_t *info)
 {
 	char **tokens = info->tokens;
-	char *setenv_tokens[] = { "setenv", "OLDPWD", info->cwd, NULL };
+	char *setenv_tokens[] = { "setenv", "OLDPWD", NULL, NULL };
 	char *dir;
 
 	info->tokens = setenv_tokens;
+	setenv_tokens[2] = info->cwd;
 
 	if (tokens[1])
 	{
