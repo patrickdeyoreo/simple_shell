@@ -16,6 +16,7 @@ int _exec(info_t *info)
 		free_list(&info->path);
 		free(info->cwd);
 		free_env(&info->env);
+		free_cmd_list(&info->commands);
 		execve(info->full_cmd, info->tokens, env);
 		perror(info->argv[0]);
 		free(info->full_cmd);

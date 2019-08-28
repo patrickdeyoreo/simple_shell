@@ -67,11 +67,12 @@ typedef struct info
 	int status;
 	int interactive;
 	pid_t pid;
+	char *cwd;
 	list_t *path;
 	char *full_cmd;
-	char *cwd;
-	alias_t *aliases;
 	struct built_in *ops;
+	struct cmd_list *commands;
+	alias_t *aliases;
 } info_t;
 
 /**
@@ -95,8 +96,10 @@ int _setenv(info_t *info);
 int _unsetenv(info_t *info);
 int _help(info_t *info);
 
+
 char *num_to_str(size_t n);
 void _num_to_str(char **buf, size_t n);
+void init_info(info_t *info, int argc, char **argv, built_in_t *ops);
 void _sigint(int signal);
 int _read(info_t *info);
 int _run(info_t *info);

@@ -14,6 +14,7 @@ int _read(info_t *info)
 		free_list(&info->path);
 		free(info->cwd);
 		free_env(&info->env);
+		free_cmd_list(&info->commands);
 		free(info->full_cmd);
 
 		if (info->interactive)
