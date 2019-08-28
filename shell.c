@@ -10,6 +10,7 @@
  */
 int main(int argc, char **argv)
 {
+	cmd_list_t *command_list;
 	built_in_t ops[] = {
 		{"cd", _cd, "Usage: cd [DIRECTORY]"},
 		{"env", _env, "Usage: env"},
@@ -50,13 +51,16 @@ int main(int argc, char **argv)
 	{
 		if (info.interactive)
 			write(STDERR_FILENO, "$ ", 2);
-
 		_read(&info);
-
-		info.tokens = tokenize(info.line);
-		if (info.tokens)
-			_run(&info);
-		free_tokens(info.tokens);
+		command_list = cmd_to_list(info.line);
+		while (command_list)
+		{
+			info.tokens = tokenize(command_list->cmd);
+			if (info.tokens)
+				_run(&info);
+			free_tokens(info.tokens);
+			remove_cmd(&command_list, 0);
+		}
 		info.cmd_num += 1;
 	}
 }
