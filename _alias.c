@@ -35,7 +35,6 @@ int _alias(info_t *info)
 	alias_t *alias;
 	char *value, **tokens = info->tokens;
 	ssize_t name_len;
-	size_t i;
 
 	info->status = EXIT_SUCCESS;
 	if (!tokens[1])
@@ -43,33 +42,33 @@ int _alias(info_t *info)
 		_print_aliases(info->aliases);
 		return (info->status);
 	}
-	for (i = 1; tokens[i]; i++)
+	while (*(++tokens))
 	{
-		name_len = _strchr(tokens[i], '=');
+		name_len = _strchr((*tokens), '=');
 		if (name_len == -1)
 		{
-			alias = find_env_node(info->aliases, tokens[i]);
+			alias = find_env_node(info->aliases, (*tokens));
 			if (alias)
 				_print_alias(alias);
 			else
 			{
-				_perror(3, "alias", tokens[i], "not found");
+				_perror(3, "alias", (*tokens), "not found");
 				info->status = EXIT_FAILURE;
 			}
 		}
 		else
 		{
-			tokens[i][name_len] = '\0';
-			value = tokens[i] + name_len + 1;
-			alias = find_env_node(info->aliases, tokens[i]);
+			(*tokens)[name_len] = '\0';
+			value = (*tokens) + name_len + 1;
+			alias = find_env_node(info->aliases, (*tokens));
 			if (alias)
 			{
 				free(alias->value);
 				alias->value = _strdup(value);
 			}
 			else
-				add_env_node_end(&info->aliases, tokens[i], value);
-			tokens[i][name_len] = '=';
+				add_env_node_end(&info->aliases, (*tokens), value);
+			(*tokens)[name_len] = '=';
 		}
 	}
 	return (info->status);

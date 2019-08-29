@@ -2,11 +2,11 @@
 /**
  * get_quote_state - sets the state
  * @c: argument passed
- * enum quote_state - a quote state mnemonic
- * Return: enum quote_state
+ * quote_state_t - a quote state mnemonic
+ * Return: quote_state_t
  */
 
-enum quote_state get_quote_state(int c)
+quote_state_t get_quote_state(int c)
 {
 	if (_isspace(c))
 		return (NONE);
@@ -23,7 +23,7 @@ enum quote_state get_quote_state(int c)
  * Return: number of characters
  */
 
-size_t quote_state_none(const char *str, enum quote_state *state)
+size_t quote_state_none(const char *str, quote_state_t *state)
 {
 	size_t len = 0;
 
@@ -39,7 +39,7 @@ size_t quote_state_none(const char *str, enum quote_state *state)
  * Return: number of characters
  */
 
-size_t quote_state_word(const char *str, enum quote_state *state)
+size_t quote_state_word(const char *str, quote_state_t *state)
 {
 	size_t len = 0;
 
@@ -55,7 +55,7 @@ size_t quote_state_word(const char *str, enum quote_state *state)
  * @state: state
  * Return: number of characters
  */
-size_t quote_state_double(const char *str, enum quote_state *state)
+size_t quote_state_double(const char *str, quote_state_t *state)
 {
 	size_t len = 0;
 
@@ -74,7 +74,7 @@ size_t quote_state_double(const char *str, enum quote_state *state)
  * Return: number of characters
  */
 
-size_t quote_state_single(const char *str, enum quote_state *state)
+size_t quote_state_single(const char *str, quote_state_t *state)
 {
 	size_t len = 0;
 
