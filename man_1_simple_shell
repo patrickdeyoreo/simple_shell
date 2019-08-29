@@ -1,16 +1,18 @@
-.TH HSH 1 "27 July 2019" "Simple Shell Man Page"
+.TH HSH 1 "28 August 2019" "Holberton Shell Man Page"
 .SH NAME
 .B hsh
-- simple command interpreter (shell)
+- a simple UNIX command shell
 .SH SYNOPSIS
 .B hsh
 .RI [ FILENAME ]
 .SH DESCRIPTION
-Executes commands read from standard input.
-.SH RETURN VALUE
+HSh executes commands read from standard input or from a file. HSh attempts to
+mimic the behavior of other POSIX-compliant shells (e.g. dash, bash --posix)
+.SH EXIT STATUS
 On success, returns the number of characters printed to stdout (excluding the
 null byte term). On failure, returns -1.
-.SH SPECIFIERS
+.SH ENVIRONMENT
+.SH SEE ALSO
 List of characters that specify data to be printed
 .TP
 .B %c
@@ -54,7 +56,7 @@ writes the character sequence defining a pointer
 .TP
 .B %S
 writes non-printable characters in the format: \x(ASCII Code Value in UPPERCASE Hexadecimal)
-.SH EXAMPLE
+.SH EXAMPLES
 To print some text alongside a
 .I name
 string variable and an
