@@ -11,7 +11,7 @@ void _cd_error(info_t *info, char *dir)
 
 	cmd_num = num_to_str(info->cmd_num);
 	error = strjoin("can't cd to", dir, ' ');
-	_perror(3, info->argv[0], cmd_num, error);
+	_perror(4, info->argv[0], info->tokens[1], cmd_num, error);
 	free(cmd_num);
 	free(error);
 	info->status = 2;

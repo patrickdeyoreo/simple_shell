@@ -2,7 +2,8 @@
 
 *
 !.gitignore
+!AUTHORS
 !README.md
-!man_1_simple_shell
 !*.c
 !*.h
+!man_1_simple_shell
