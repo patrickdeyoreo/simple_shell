@@ -4,6 +4,7 @@
 Simple Shell is a Holberton School pair project. The general goal of the project is to write a simple UNIX command interpreter. 
 ## Content
 * [Installation](#Installation)
+* [Builtins](#Builtins)
 * [General Requirements](#General-Requirements)
 * [Target output](#Target-output)
 * [List of allowed functions](#List-of-allowed-functions)
@@ -19,15 +20,15 @@ gcc *.c -o hsh
 ```
 
 ## Builtins
-| Command | Synopsis |
-| ------- | -------- |
-| `alias` | `alias [NAME[='VALUE'] ...]` |
-| `cd` | `alias [NAME[='VALUE'] ...]` |
-| `env` | `env` |
-| `exit` | `exit [STATUS]` |
-| `setenv` | `setenv VARIABLE VALUE` |
-| `unsetenv` | `unsetenv VARIABLE` |
-| `help` | `help [BUILTIN]` |
+| Command | Synopsis | Description |
+| ------- | -------- | ----------- |
+| `alias` | `alias [NAME[='VALUE'] ...]` | Print and define command aliases |
+| `cd` | `cd [DIRECTORY]` | Change the current working directory |
+| `env` | `env` | Print the environment |
+| `exit` | `exit [STATUS]` | Exit the shell |
+| `help` | `help [BUILTIN]` | Print a help messages for built-ins | 
+| `setenv` | `setenv VARIABLE VALUE` | Set an environment variable |
+| `unsetenv` | `unsetenv VARIABLE` | Unset an environment variable |
 
 ## General Requirements
 * Allowed editors: vi, vim, emacs
