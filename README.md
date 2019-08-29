@@ -4,13 +4,13 @@
 Simple Shell is a Holberton School pair project. The general goal of the project is to Write a simple UNIX command interpreter. 
 ### Content
 * [General Requirements](#General-Requirements)
-* [Expected output]
-* [List of allowed functions]
-* [Compilation]
-* [Testing]
-* [Tasks]
-- [Mandatory]
-- Advanced
+* [Expected output](#Expected output)
+* [List of allowed functions](#List of allowed functions)
+* [Compilation](#Compilation)
+* [Testing](#Testing)
+* [Tasks](#Tasks)
+- [Mandatory](#Mandatory)
+- [Advanced](#Advanced)
 
 ### General Requirements
 * Allowed editors: vi, vim, emacs
@@ -112,7 +112,8 @@ $
 - You should have an AUTHORS file at the root of your repository, listing all individuals having contributed content to the repository.
 1. Betty would be proud
 - Write a beautiful code that passes the Betty checks
-3. Simple shell 0.1
+
+2. Simple shell 0.1
 - Write a UNIX command line interpreter.
 - Your Shell should:
 1. Display a prompt and wait for the user to type a command. A command line always ends with a new line.
@@ -128,51 +129,70 @@ $
 3. handle special characters : ", ', `, \, *, &, #
 be able to move the cursor
 handle commands with arguments
-5. Simple shell 0.2
+
+3. Simple shell 0.2
 - Handle command lines with arguments
-7. Simple shell 0.3
+
+4. Simple shell 0.3
 - Handle the PATH
-8. Simple shell 0.4
+
+5. Simple shell 0.4
 - Implement the exit built-in, that exits the shell
 - Usage: exit
 - You don’t have to handle any argument to the built-in exit
-11. Simple shell 1.0
+
+6. Simple shell 1.0
 - Implement the env built-in, that prints the current environment
-22. What happens when you type ls -l in the shell
+
+7. Write a blogpost "What happens when you type ls -l in the shell"
 
 -Advanced
-2. Test suite 
+0. Test suite 
 - Contribute to a test suite for your shell
-4. Simple shell 0.1.1
+
+1. Simple shell 0.1.1
 - Write your own getline function
-6. Simple shell 0.2.1
+
+2. Simple shell 0.2.1
 - Write your own strtok function
-9. Simple shell 0.4.1
+
+3. Simple shell 0.4.1
 - handle arguments for the built-in exit
-10. Simple shell 0.4.2
+
+4. Simple shell 0.4.2
 - Handle Ctrl+C: your shell should not quit when the user inputs ^C
-12. setenv, unsetenv
+
+5. setenv, unsetenv
 - Implement the setenv and unsetenv builtin commands
-13. cd
+
+6. cd
 - Implement the builtin command cd
-14. ;
+
+7. ;
 - Handle the commands separator ;
-15. && and ||
+
+8. && and ||
 - Handle the && and || shell logical operators
-16. alias 
+
+9. alias 
 - Implement the alias builtin command
-17. Variables
+
+10. Variables
 - Handle variables replacement
 - Handle the $? variable
 - Handle the $$ variable
-18. Comments
+
+11. Comments
 - Handle comments (#)
-19. help 
+
+12. help 
 - Implement the help built-in
-20. history
+
+13. history
 - Implement the history built-in, without any argument
-21. File as input 
-- Your shell can take a file as a command line argument
+
+14. File as an input 
+- Your shell should take a file as a command line argument
 
 ## Authors
 * [Patrick Deyoreo](https://github.com/patrickdeyoreo)
