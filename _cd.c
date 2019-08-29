@@ -56,16 +56,12 @@ int _cd(info_t *info)
 			dir = tokens[1];
 			info->status = chdir(dir);
 		}
-		else if (dir)
-		{
+		else
+		{	if (!dir)
+				dir = info->cwd;
 			info->status = chdir(dir);
 			write(STDOUT_FILENO, dir, _strlen(dir));
 			write(STDOUT_FILENO, "\n", 1);
-		}
-		else
-		{
-			dir = ".";
-			info->status = chdir(dir);
 		}
 	}
 	else
