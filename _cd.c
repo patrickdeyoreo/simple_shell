@@ -19,7 +19,11 @@ int _cd(info_t *info)
 		if (_strcmp(tokens[1], "-") != 0)
 			info->status = chdir(tokens[1]);
 		else if (dir)
+		{
 			info->status = chdir(dir);
+			write(STDOUT_FILENO, dir, _strlen(dir));
+			write(STDOUT_FILENO, "\n", 1);
+		}
 		else
 			info->status = chdir(".");
 	}
