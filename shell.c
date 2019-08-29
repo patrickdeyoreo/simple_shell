@@ -1,11 +1,29 @@
 #include "shell.h"
 
 /**
+ * open_script - execute commands from a script
+ * @argv: the arguments to the shell
+ */
+void open_script(char **argv)
+{
+	char *error;
+
+	close(STDIN_FILENO);
+	if (open(argv[1], O_RDONLY) < 0)
+	{
+		error = strjoin("Can't open", argv[1], ' ');
+		_perror(3, argv[0], "0", error);
+		free(error);
+		exit(127);
+	}
+}
+
+/**
  * init_info - initialize an info_t struct
  * @info: a pointer to the struct to initialize
- * @argc: arguments passed
- * @argv: arguments passed
- * @ops: arguments passed
+ * @argc: the arg count
+ * @argv: the arg values
+ * @ops: array of built-ins
  */
 void init_info(info_t *info, int argc, char **argv, built_in_t *ops)
 {
@@ -49,17 +67,10 @@ int main(int argc, char **argv)
 	info_t info;
 
 	if (argc > 1)
-	{
-		close(STDIN_FILENO);
-		if (open(argv[1], O_RDONLY) < 0)
-		{
-			perror(argv[0]);
-			exit(EXIT_FAILURE);
-		}
-	}
+		open_script(argv);
+
 	init_info(&info, argc, argv, ops);
 	signal(2, _sigint);
-
 	while (1)
 	{
 		if (info.interactive)

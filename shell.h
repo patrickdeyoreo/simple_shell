@@ -103,6 +103,7 @@ int _help(info_t *info);
 char *num_to_str(size_t n);
 void _num_to_str(char **buf, size_t n);
 void init_info(info_t *info, int argc, char **argv, built_in_t *ops);
+void open_script(char **argv);
 void _sigint(int signal);
 int _read(info_t *info);
 int _run(info_t *info);
