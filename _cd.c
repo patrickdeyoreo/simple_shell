@@ -8,7 +8,7 @@ int _cd(info_t *info)
 {
 	char **tokens = info->tokens;
 	char *setenv_tokens[] = { "setenv", "OLDPWD", NULL, NULL };
-	char *dir;
+	char *dir, *cmd_num, *error;
 
 	info->tokens = setenv_tokens;
 	setenv_tokens[2] = info->cwd;
@@ -16,16 +16,16 @@ int _cd(info_t *info)
 	if (tokens[1])
 	{
 		dir = _getenv(info->env, "OLDPWD");
-		if (_strcmp(tokens[1], "-") != 0)
-			info->status = chdir(tokens[1]);
-		else if (dir)
+		if (_strcmp(tokens[1], "-") == 0)
 		{
-			info->status = chdir(dir);
 			write(STDOUT_FILENO, dir, _strlen(dir));
 			write(STDOUT_FILENO, "\n", 1);
 		}
+		else if (dir)
+			dir = tokens[1];
 		else
-			info->status = chdir(".");
+			dir = ".";
+		info->status = chdir(dir);
 	}
 	else
 	{
@@ -35,7 +35,11 @@ int _cd(info_t *info)
 	}
 	if (info->status < 0)
 	{
-		perror(info->argv[0]);
+		cmd_num = num_to_str(info->cmd_num);
+		error = strjoin("can't cd to", dir, ' ');
+		_perror(3, info->argv[0], cmd_num, error);
+		free(cmd_num);
+		free(error);
 		info->status = EXIT_FAILURE;
 	}
 	else
