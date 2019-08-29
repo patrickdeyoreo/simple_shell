@@ -2,7 +2,7 @@
 
 ## Overview
 Simple Shell is a Holberton School pair project. The general goal of the project is to Write a simple UNIX command interpreter. 
-### Content
+## Content
 * [General Requirements](#General-Requirements)
 * [Expected output](#Expected-output)
 * [List of allowed functions](#List-of-allowed-functions)
@@ -10,7 +10,7 @@ Simple Shell is a Holberton School pair project. The general goal of the project
 * [Testing](#Testing)
 * [Tasks](#Tasks)
 
-### General Requirements
+## General Requirements
 * Allowed editors: vi, vim, emacs
 * All your files will be compiled on Ubuntu 14.04 LTS
 * Your C programs and functions will be compiled with gcc 4.8.4 using the flags -Wall -Werror -Wextra and -pedantic
@@ -20,7 +20,7 @@ Simple Shell is a Holberton School pair project. The general goal of the project
 * No more than 5 functions per file
 * All your header files should be include guarded
 * Use system calls only when you need to
-### Expected output
+## Expected output
 * Unless specified otherwise, your program must have the exact same output as sh (/bin/sh) as well as the exact same error output.
 * The only difference is when you print an error, the name of the program must be equivalent to your argv[0]
 
@@ -41,7 +41,7 @@ $ echo "qwerty" | ./././hsh
 ./././hsh: 1: qwerty: not found
 $
 ```
-### List of allowed functions
+## List of allowed functions
 * access (man 2 access)
 * chdir (man 2 chdir)
 * close (man 2 close)
@@ -73,11 +73,11 @@ $
 * wait4 (man 2 wait4)
 * write (man 2 write)
 
-### Compilation
+## Compilation
 ```
 gcc -Wall -Werror -Wextra -pedantic *.c -o hsh 
 ```
-### Testing
+## Testing
 - Interactive mode:
 ```
 $ ./hsh
@@ -102,8 +102,8 @@ hsh main.c shell.c test_ls_2
 hsh main.c shell.c test_ls_2
 $
 ```
-### Tasks
-## Mandatory:
+## Tasks
+### Mandatory:
 0. README, man, AUTHORS
 - Write a README
 - Write a man for your shell.
@@ -144,7 +144,7 @@ handle commands with arguments
 
 7. Write a blogpost "What happens when you type ls -l in the shell"
 
-## Advanced
+### Advanced
 0. Test suite 
 - Contribute to a test suite for your shell
 
