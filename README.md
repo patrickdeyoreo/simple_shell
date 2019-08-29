@@ -9,8 +9,8 @@ Simple Shell is a Holberton School pair project. The general goal of the project
 * Compilation
 * Testing
 * Tasks
-Mandatory
-Advanced
+- Mandatory
+- Advanced
 
 ### General Requirements
 * Allowed editors: vi, vim, emacs
@@ -104,6 +104,76 @@ hsh main.c shell.c test_ls_2
 hsh main.c shell.c test_ls_2
 $
 ```
+### Tasks
+- Mandatory:
+0. README, man, AUTHORS
+- Write a README
+- Write a man for your shell.
+- You should have an AUTHORS file at the root of your repository, listing all individuals having contributed content to the repository.
+1. Betty would be proud
+- Write a beautiful code that passes the Betty checks
+3. Simple shell 0.1
+- Write a UNIX command line interpreter.
+- Your Shell should:
+1. Display a prompt and wait for the user to type a command. A command line always ends with a new line.
+2. The prompt is displayed again each time a command has been executed.
+3. The command lines are simple, no semicolons, no pipes, no redirections or any other advanced features.
+4. The command lines are made only of one word. No arguments will be passed to programs.
+5. If an executable cannot be found, print an error message and display the prompt again.
+6. Handle errors.
+7. You have to handle the “end of file” condition (Ctrl+D)
+- You don’t have to:
+1. use the PATH
+2. implement built-ins
+3. handle special characters : ", ', `, \, *, &, #
+be able to move the cursor
+handle commands with arguments
+5. Simple shell 0.2
+- Handle command lines with arguments
+7. Simple shell 0.3
+- Handle the PATH
+8. Simple shell 0.4
+- Implement the exit built-in, that exits the shell
+- Usage: exit
+- You don’t have to handle any argument to the built-in exit
+11. Simple shell 1.0
+- Implement the env built-in, that prints the current environment
+22. What happens when you type ls -l in the shell
+
+-Advanced
+2. Test suite 
+- Contribute to a test suite for your shell
+4. Simple shell 0.1.1
+- Write your own getline function
+6. Simple shell 0.2.1
+- Write your own strtok function
+9. Simple shell 0.4.1
+- handle arguments for the built-in exit
+10. Simple shell 0.4.2
+- Handle Ctrl+C: your shell should not quit when the user inputs ^C
+12. setenv, unsetenv
+- Implement the setenv and unsetenv builtin commands
+13. cd
+- Implement the builtin command cd
+14. ;
+- Handle the commands separator ;
+15. && and ||
+- Handle the && and || shell logical operators
+16. alias 
+- Implement the alias builtin command
+17. Variables
+- Handle variables replacement
+- Handle the $? variable
+- Handle the $$ variable
+18. Comments
+- Handle comments (#)
+19. help 
+- Implement the help built-in
+20. history
+- Implement the history built-in, without any argument
+21. File as input 
+- Your shell can take a file as a command line argument
+
 ## Authors
 * [Patrick Deyoreo](https://github.com/patrickdeyoreo)
 * [Banu Sapakova](https://github.com/banuaksom)
