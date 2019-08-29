@@ -115,12 +115,10 @@ $
 ```
 ## Tasks
 ### Mandatory:
-0. README, man, AUTHORS
+1. README, man, AUTHORS
 - Write a README
 - Write a man for your shell.
 - You should have an AUTHORS file at the root of your repository, listing all individuals having contributed content to the repository.
-1. Betty would be proud
-- Write a beautiful code that passes the Betty checks
 
 2. Simple shell 0.1
 - Write a UNIX command line interpreter.
@@ -159,16 +157,13 @@ handle commands with arguments
 0. Test suite 
 - Contribute to a test suite for your shell
 
-1. Simple shell 0.1.1
-- Write your own getline function
-
-2. Simple shell 0.2.1
+1. Simple shell 0.2.1
 - Write your own strtok function
 
-3. Simple shell 0.4.1
+2. Simple shell 0.4.1
 - handle arguments for the built-in exit
 
-4. Simple shell 0.4.2
+3. Simple shell 0.4.2
 - Handle Ctrl+C: your shell should not quit when the user inputs ^C
 
 5. setenv, unsetenv
@@ -180,27 +175,16 @@ handle commands with arguments
 7. ;
 - Handle the commands separator ;
 
-8. && and ||
-- Handle the && and || shell logical operators
-
 9. alias 
 - Implement the alias builtin command
 
-10. Variables
-- Handle variables replacement
-- Handle the $? variable
-- Handle the $$ variable
-
-11. Comments
+10. Comments
 - Handle comments (#)
 
-12. help 
+11. help 
 - Implement the help built-in
 
-13. history
-- Implement the history built-in, without any argument
-
-14. File as an input 
+12. File as an input 
 - Your shell should take a file as a command line argument
 
 ## Authors
