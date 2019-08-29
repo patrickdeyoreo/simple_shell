@@ -129,7 +129,7 @@ char *strjoin(char *s1, char *s2, char c);
 char **arrjoin(char **arr1, char **arr2);
 
 char *search_path(info_t *info, list_t *path);
-void expand_alias(info_t *info);
+int expand_alias(info_t *info);
 
 int _isspace(int c);
 int _isquote(int c);

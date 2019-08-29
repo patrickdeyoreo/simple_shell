@@ -3,8 +3,10 @@
 /**
   * expand_alias - perform alias expansion on the current command
   * @info: arguments passed
+  *
+  * Return: 1 if expansion succeeds, otherwise 0
   */
-void expand_alias(info_t *info)
+int expand_alias(info_t *info)
 {
 	alias_t *alias;
 	char **tokens, **alias_tokens, *alias_value;
@@ -27,8 +29,8 @@ void expand_alias(info_t *info)
 				free(alias_tokens[i]);
 			free(alias_tokens);
 			free(alias_value);
-
-			return;
+			return (1);
 		}
 	}
+	return (0);
 }

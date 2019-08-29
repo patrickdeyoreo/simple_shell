@@ -11,7 +11,8 @@ int _run(info_t *info)
 	char *cmd_num, *error;
 	size_t i;
 
-	expand_alias(info);
+	while (expand_alias(info))
+		;
 	for (i = 0; info->ops[i].name; i++)
 	{
 		if (!_strcmp(info->tokens[0], info->ops[i].name))
