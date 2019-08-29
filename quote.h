@@ -4,7 +4,11 @@
 #include "shell.h"
 
 /**
- * quote_state_t - a quote state mnemonic
+ * enum quote_state - a quote state mnemonic
+ * @NONE: In a sequence of unquoted blanks
+ * @WORD: In a sequence of non-blanks
+ * @DOUBLE: In double quotes
+ * @SINGLE: In single quotes
  */
 typedef enum quote_state
 {

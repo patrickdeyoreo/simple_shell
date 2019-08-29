@@ -6,7 +6,7 @@
 /**
  * struct cmd_list - a linked list of command trees
  * @cmd: a command
- * @left: the next command
+ * @next: the next command
  */
 typedef struct cmd_list
 {
@@ -15,7 +15,7 @@ typedef struct cmd_list
 } cmd_list_t;
 
 /**
- * struct cmd_list - a binary tree of commands
+ * struct cmd_tree - a binary tree of commands
  * @cmd: a simple command with no separators
  * @left: the command to execute upon failure
  * @right: the command to execute upon success
