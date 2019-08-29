@@ -45,8 +45,16 @@ int main(int argc, char **argv)
 	};
 	info_t info;
 
+	if (argc > 1)
+	{
+		close(STDIN_FILENO);
+		if (open(argv[1], O_RDONLY) < 0)
+		{
+			perror(argv[0]);
+			exit(EXIT_FAILURE);
+		}
+	}
 	init_info(&info, argc, argv, ops);
-
 	signal(2, _sigint);
 
 	while (1)

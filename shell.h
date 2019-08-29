@@ -9,6 +9,7 @@
 #include <sys/stat.h>
 #include <signal.h>
 #include <errno.h>
+#include <fcntl.h>
 #include "str.h"
 #include "quote.h"
 #include "parse.h"
@@ -51,9 +52,12 @@ struct built_in;
   * @env: arguments passed
   * @status: arguments passed
   * @pid: arguments passed
+  * @cwd: arguments passed
   * @path: arguments passed
   * @full_cmd: arguments passed
-  * @cwd: arguments passed
+  * @ops: arguments passed
+  * @commands: arguments passed
+  * @aliases: arguments passed
   */
 typedef struct info
 {
@@ -119,7 +123,10 @@ unsigned int _atou(char *s);
 int _isnumber(char *s);
 int _isdigit(char c);
 char *strjoin(char *s1, char *s2, char c);
+char **arrjoin(char **arr1, char **arr2);
+
 char *search_path(info_t *info, list_t *path);
+void expand_alias(info_t *info);
 
 int _isspace(int c);
 int _isquote(int c);
