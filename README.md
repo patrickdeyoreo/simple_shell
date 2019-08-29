@@ -1,14 +1,22 @@
 # Implementation of sh in C programming language
 
 ## Overview
-Simple Shell is a Holberton School pair project. The general goal of the project is to Write a simple UNIX command interpreter. 
+Simple Shell is a Holberton School pair project. The general goal of the project is to write a simple UNIX command interpreter. 
 ## Content
+* [Installation](#Installation)
 * [General Requirements](#General-Requirements)
-* [Expected output](#Expected-output)
+* [Target output](#Target-output)
 * [List of allowed functions](#List-of-allowed-functions)
 * [Compilation](#Compilation)
 * [Testing](#Testing)
 * [Tasks](#Tasks)
+
+## Installation
+```
+git clone https://github.com/patrickdeyoreo/simple_shell.git
+cd simple_shell
+gcc *.c -o hsh
+```
 
 ## General Requirements
 * Allowed editors: vi, vim, emacs
@@ -20,7 +28,8 @@ Simple Shell is a Holberton School pair project. The general goal of the project
 * No more than 5 functions per file
 * All your header files should be include guarded
 * Use system calls only when you need to
-## Expected output
+
+## Target output
 * Unless specified otherwise, your program must have the exact same output as sh (/bin/sh) as well as the exact same error output.
 * The only difference is when you print an error, the name of the program must be equivalent to your argv[0]
 
@@ -33,7 +42,6 @@ $ echo "qwerty" | /bin/../bin/sh
 $
 ```
 - Same error with your program hsh:
-
 ```
 $ echo "qwerty" | ./hsh
 ./hsh: 1: qwerty: not found
@@ -41,6 +49,7 @@ $ echo "qwerty" | ./././hsh
 ./././hsh: 1: qwerty: not found
 $
 ```
+
 ## List of allowed functions
 * access (man 2 access)
 * chdir (man 2 chdir)
