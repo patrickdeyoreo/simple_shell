@@ -94,7 +94,7 @@ cmd_list_t *add_cmd_end(cmd_list_t **headptr, const char *cmd)
 /**
  * remove_cmd - remove a command from a command list
  * @headptr: the first node
- *
+ * @index: argument passed
  * Return: NULL
  */
 cmd_list_t *remove_cmd(cmd_list_t **headptr, size_t index)

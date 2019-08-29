@@ -14,7 +14,7 @@ void _print_alias(alias_t *alias)
 
 /**
  * _print_aliases - print all aliases
- * @aliases: a list of aliases to print
+ * @alias: a list of aliases to print
  */
 void _print_aliases(alias_t *alias)
 {
@@ -72,5 +72,5 @@ int _alias(info_t *info)
 			tokens[i][name_len] = '=';
 		}
 	}
-	return(info->status);
+	return (info->status);
 }
