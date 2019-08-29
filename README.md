@@ -9,8 +9,6 @@ Simple Shell is a Holberton School pair project. The general goal of the project
 * [Compilation](#Compilation)
 * [Testing](#Testing)
 * [Tasks](#Tasks)
-- [Mandatory](#Mandatory)
-- [Advanced](#Advanced)
 
 ### General Requirements
 * Allowed editors: vi, vim, emacs
