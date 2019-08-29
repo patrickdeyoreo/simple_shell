@@ -18,6 +18,16 @@ cd simple_shell
 gcc *.c -o hsh
 ```
 
+## Builtins
+| Command | Synopsis |
+| `alias` | `alias [NAME[='VALUE'] ...]` |
+| `cd` | `alias [NAME[='VALUE'] ...]` |
+| `env` | `env` |
+| `exit` | `exit [STATUS]` |
+| `setenv` | `setenv VARIABLE VALUE` |
+| `unsetenv` | `unsetenv VARIABLE` |
+| `help` | `help [BUILTIN]` |
+
 ## General Requirements
 * Allowed editors: vi, vim, emacs
 * All your files will be compiled on Ubuntu 14.04 LTS
