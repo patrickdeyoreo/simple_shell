@@ -3,6 +3,9 @@
 /**
  * init_info - initialize an info_t struct
  * @info: a pointer to the struct to initialize
+ * @argc: arguments passed
+ * @argv: arguments passed
+ * @ops: arguments passed
  */
 void init_info(info_t *info, int argc, char **argv, built_in_t *ops)
 {

@@ -1,7 +1,7 @@
 #include "str.h"
 
 /**
-  * strchr - get the index of the first matching character
+  * _strchr - get the index of the first matching character
   * @str: string passed
   * @c: character passed
   * Return: index
@@ -96,7 +96,6 @@ int _strcmp(const char *s1, const char *s2)
  * _strcpy - copy a string
  * @dest: destination
  * @src: source
- * @n: the max number of bytes to copy
  * Return: a pointer to dest
  */
 char *_strcpy(char *dest, const char *src)

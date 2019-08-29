@@ -1,4 +1,11 @@
 #include "shell.h"
+/**
+  * _getline - splits passed arguments into a string
+  * @lineptr: pointer
+  * @nptr: argument passed
+  * @fd: argument passed
+  * Return: size_t
+  */
 size_t _getline(char **lineptr, size_t *nptr, int fd)
 {
 	static char buffer[BUFSIZ];

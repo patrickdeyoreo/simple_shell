@@ -1,7 +1,7 @@
 #include "str.h"
 
 /**
-  * strchr - get the index of the first matching character
+  * _strnchr - get the index of the first matching character
   * @str: string passed
   * @c: character passed
   * @n: max number of characters to check

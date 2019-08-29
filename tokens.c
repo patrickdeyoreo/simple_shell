@@ -172,6 +172,7 @@ size_t count_tokens_old(const char *str)
 /**
  * free_tokens - free an array of strings
  * @tokens: the array to free
+ * Return: pointer
  */
 char **free_tokens(char **tokens)
 {

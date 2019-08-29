@@ -1,5 +1,10 @@
 #include "quote.h"
-
+/**
+ * get_quote_state - sets the state
+ * @c: argument passed
+ * enum quote_state - a quote state mnemonic
+ * Return: enum quote_state
+ */
 
 enum quote_state get_quote_state(int c)
 {
@@ -11,7 +16,12 @@ enum quote_state get_quote_state(int c)
 		return (SINGLE);
 	return (WORD);
 }
-
+/**
+ * quote_state_none - returns the number of characters
+ * @str: string passed
+ * @state: state
+ * Return: number of characters
+ */
 
 size_t quote_state_none(const char *str, enum quote_state *state)
 {
@@ -22,7 +32,12 @@ size_t quote_state_none(const char *str, enum quote_state *state)
 	*state = get_quote_state(*str);
 	return (len);
 }
-
+/**
+ * quote_state_word - returns the number of characters
+ * @str: string passed
+ * @state: state
+ * Return: number of characters
+ */
 
 size_t quote_state_word(const char *str, enum quote_state *state)
 {
@@ -34,7 +49,12 @@ size_t quote_state_word(const char *str, enum quote_state *state)
 	return (len);
 }
 
-
+/**
+ * quote_state_double - returns the number of characters
+ * @str: string passed
+ * @state: state
+ * Return: number of characters
+ */
 size_t quote_state_double(const char *str, enum quote_state *state)
 {
 	size_t len = 0;
@@ -47,7 +67,12 @@ size_t quote_state_double(const char *str, enum quote_state *state)
 		*state = NONE;
 	return (len);
 }
-
+/**
+ * quote_state_single - returns the number of characters
+ * @str: string passed
+ * @state: state
+ * Return: number of characters
+ */
 
 size_t quote_state_single(const char *str, enum quote_state *state)
 {
