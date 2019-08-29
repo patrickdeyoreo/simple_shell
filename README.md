@@ -103,7 +103,7 @@ hsh main.c shell.c test_ls_2
 $
 ```
 ### Tasks
-- Mandatory:
+## Mandatory:
 0. README, man, AUTHORS
 - Write a README
 - Write a man for your shell.
@@ -114,17 +114,17 @@ $
 2. Simple shell 0.1
 - Write a UNIX command line interpreter.
 - Your Shell should:
-1. Display a prompt and wait for the user to type a command. A command line always ends with a new line.
-2. The prompt is displayed again each time a command has been executed.
-3. The command lines are simple, no semicolons, no pipes, no redirections or any other advanced features.
-4. The command lines are made only of one word. No arguments will be passed to programs.
-5. If an executable cannot be found, print an error message and display the prompt again.
-6. Handle errors.
-7. You have to handle the “end of file” condition (Ctrl+D)
+Display a prompt and wait for the user to type a command. A command line always ends with a new line.
+The prompt is displayed again each time a command has been executed.
+The command lines are simple, no semicolons, no pipes, no redirections or any other advanced features.
+The command lines are made only of one word. No arguments will be passed to programs.
+If an executable cannot be found, print an error message and display the prompt again.
+Handle errors.
+You have to handle the “end of file” condition (Ctrl+D)
 - You don’t have to:
-1. use the PATH
-2. implement built-ins
-3. handle special characters : ", ', `, \, *, &, #
+use the PATH
+implement built-ins
+handle special characters : ", ', `, \, *, &, #
 be able to move the cursor
 handle commands with arguments
 
@@ -144,7 +144,7 @@ handle commands with arguments
 
 7. Write a blogpost "What happens when you type ls -l in the shell"
 
--Advanced
+## Advanced
 0. Test suite 
 - Contribute to a test suite for your shell
 
