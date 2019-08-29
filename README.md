@@ -20,6 +20,7 @@ gcc *.c -o hsh
 
 ## Builtins
 | Command | Synopsis |
+| ------- | -------- |
 | `alias` | `alias [NAME[='VALUE'] ...]` |
 | `cd` | `alias [NAME[='VALUE'] ...]` |
 | `env` | `env` |
