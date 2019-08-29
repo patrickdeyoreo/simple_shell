@@ -154,16 +154,16 @@ handle commands with arguments
 7. Write a blogpost "What happens when you type ls -l in the shell"
 
 ### Advanced
-0. Test suite 
+1. Test suite 
 - Contribute to a test suite for your shell
 
-1. Simple shell 0.2.1
+2. Simple shell 0.2.1
 - Write your own strtok function
 
-2. Simple shell 0.4.1
+3. Simple shell 0.4.1
 - handle arguments for the built-in exit
 
-3. Simple shell 0.4.2
+4. Simple shell 0.4.2
 - Handle Ctrl+C: your shell should not quit when the user inputs ^C
 
 5. setenv, unsetenv
@@ -175,16 +175,16 @@ handle commands with arguments
 7. ;
 - Handle the commands separator ;
 
-9. alias 
+8. alias 
 - Implement the alias builtin command
 
-10. Comments
+19. Comments
 - Handle comments (#)
 
-11. help 
+10. help 
 - Implement the help built-in
 
-12. File as an input 
+11. File as an input 
 - Your shell should take a file as a command line argument
 
 ## Authors
