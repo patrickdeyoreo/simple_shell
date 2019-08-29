@@ -8,71 +8,30 @@
 .SH DESCRIPTION
 HSh executes commands read from standard input or from a file. HSh attempts to
 mimic the behavior of other POSIX-compliant shells (e.g. dash, bash --posix)
+.SH BUILTINS
+.TP
+alias [NAME[='VALUE'] ...] Print and define command aliases
+.TP
+cd [DIRECTORY]Change the current working directory 
+.TP
+envPrint the environment 
+.TP
+exit [STATUS]Exit the shell 
+.TP
+help [BUILTIN]Print a help messages for built-ins 
+.TP
+setenv VARIABLE VALUESet an environment variable 
+.TP
+unsetenv VARIABLEUnset an environment variable 
 .SH EXIT STATUS
 On success, returns the number of characters printed to stdout (excluding the
 null byte term). On failure, returns -1.
 .SH ENVIRONMENT
-.SH SEE ALSO
-List of characters that specify data to be printed
-.TP
-.B %c
-writes a single character
-.TP
-.B %s
-writes a character string
-.TP
-.B %%
-writes the literal %
-.TP
-.B %d
-writes the decimal form a signed integer
-.TP
-.B %i
-writes the decimal form of a signed integer
-.TP
-.B %u
-writes the decimal form of an unsigned integer
-.TP
-.B %b
-writes the binary form of an unsigned integer
-.TP
-.B %o
-writes the octal form of an unsigned integer
-.TP
-.B %x
-writes the hexadecimal form of an unsigned integer (using conversion letters: abcdef)
-.TP
-.B %X
-writes the hexadecimal form of an unsigned integer (using conversion letters: ABCDEF)
-.TP
-.B %r
-writes a character string in reverse order
-.TP
-.B %R
-encodes a character string in rot13 format
-.TP
-.B %p
-writes the character sequence defining a pointer
-.TP
-.B %S
-writes non-printable characters in the format: \x(ASCII Code Value in UPPERCASE Hexadecimal)
 .SH EXAMPLES
-To print some text alongside a
-.I name
-string variable and an
-.I age
-integer variable:
-.PP
-.nf
-.RS
-_printf("Hello my name is %s and I am %i years old", name, age);
-.RE
-.fi
-.PP
 .SH SEE ALSO
 .I printf(3)
 .SH BUGS
 No known bugs.
 Report bugs to ...
 .SH AUTHOR
-Patrick DeYoreo, Sudeep Raj
+Patrick DeYoreo, Banu Sapakova
