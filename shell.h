@@ -88,14 +88,13 @@ typedef struct built_in
 	char *help;
 } built_in_t;
 
-/* int _alias(info_t *info); */
+int _alias(info_t *info);
 int _cd(info_t *info);
 int _env(info_t *info);
 int exit_(info_t *info);
 int _setenv(info_t *info);
 int _unsetenv(info_t *info);
 int _help(info_t *info);
-
 
 char *num_to_str(size_t n);
 void _num_to_str(char **buf, size_t n);

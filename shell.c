@@ -6,9 +6,6 @@
  */
 void init_info(info_t *info, int argc, char **argv, built_in_t *ops)
 {
-	if (!info)
-		return;
-
 	info->argv = argv;
 	info->argc = argc;
 	info->cmd_num = 1;
@@ -37,9 +34,10 @@ void init_info(info_t *info, int argc, char **argv, built_in_t *ops)
 int main(int argc, char **argv)
 {
 	built_in_t ops[] = {
+		{"alias", _alias, "Usage: alias [NAME[='VALUE'] ...]"},
 		{"cd", _cd, "Usage: cd [DIRECTORY]"},
 		{"env", _env, "Usage: env"},
-		{"exit", exit_, "Usage: exit"},
+		{"exit", exit_, "Usage: exit [STATUS]"},
 		{"setenv", _setenv, "Usage: setenv VARIABLE VALUE"},
 		{"unsetenv", _unsetenv, "Usage: unsetenv VARIABLE"},
 		{"help", _help, "Usage: help [BUILTIN]"},

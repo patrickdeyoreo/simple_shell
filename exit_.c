@@ -31,6 +31,7 @@ int exit_(info_t *info)
 	free(info->cwd);
 	free_env(&info->env);
 	free_cmd_list(&info->commands);
+	free_env(&info->aliases);
 	free(info->full_cmd);
 	free_tokens(info->tokens);
 
