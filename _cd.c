@@ -16,16 +16,22 @@ int _cd(info_t *info)
 	if (tokens[1])
 	{
 		dir = _getenv(info->env, "OLDPWD");
-		if (_strcmp(tokens[1], "-") == 0)
+		if (_strcmp(tokens[1], "-") != 0)
 		{
+			dir = tokens[1];
+			info->status = chdir(dir);
+		}
+		else if (dir)
+		{
+			info->status = chdir(dir);
 			write(STDOUT_FILENO, dir, _strlen(dir));
 			write(STDOUT_FILENO, "\n", 1);
 		}
-		else if (dir)
-			dir = tokens[1];
 		else
+		{
 			dir = ".";
-		info->status = chdir(dir);
+			info->status = chdir(dir);
+		}
 	}
 	else
 	{
@@ -40,7 +46,7 @@ int _cd(info_t *info)
 		_perror(3, info->argv[0], cmd_num, error);
 		free(cmd_num);
 		free(error);
-		info->status = EXIT_FAILURE;
+		info->status = 2;
 	}
 	else
 	{
