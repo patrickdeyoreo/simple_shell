@@ -4,8 +4,8 @@
 Simple Shell is a Holberton School pair project. The general goal of the project is to Write a simple UNIX command interpreter. 
 ### Content
 * [General Requirements](#General-Requirements)
-* [Expected output](#Expected output)
-* [List of allowed functions](#List of allowed functions)
+* [Expected output](#Expected-output)
+* [List of allowed functions](#List-of-allowed-functions)
 * [Compilation](#Compilation)
 * [Testing](#Testing)
 * [Tasks](#Tasks)
