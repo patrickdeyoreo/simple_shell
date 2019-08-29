@@ -3,13 +3,13 @@
 ## Overview
 Simple Shell is a Holberton School pair project. The general goal of the project is to Write a simple UNIX command interpreter. 
 ### Content
-* General Requirements
-* Expected output
-* List of allowed functions
-* Compilation
-* Testing
-* Tasks
-- Mandatory
+* [General Requirements](#General-Requirements)
+* [Expected output]
+* [List of allowed functions]
+* [Compilation]
+* [Testing]
+* [Tasks]
+- [Mandatory]
 - Advanced
 
 ### General Requirements
