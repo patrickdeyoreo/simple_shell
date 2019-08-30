@@ -57,7 +57,8 @@ int _cd(info_t *info)
 			info->status = chdir(dir);
 		}
 		else
-		{	if (!dir)
+		{
+			if (!dir)
 				dir = info->cwd;
 			info->status = chdir(dir);
 			write(STDOUT_FILENO, dir, _strlen(dir));

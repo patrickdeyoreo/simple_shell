@@ -1,16 +1,16 @@
 #include "shell.h"
 
 /**
-  * expand_alias - perform alias expansion on the current command
+  * expand_alias - perform a single alias expansion on the current command
   * @info: arguments passed
   *
-  * Return: 1 if expansion succeeds, otherwise 0
+  * Return: If expansion succeeds, return a pointer the alias name.
+  * Otherwise, return NULL.
   */
-int expand_alias(info_t *info)
+char *expand_alias(info_t *info)
 {
 	alias_t *alias;
 	char **tokens, **alias_tokens, *alias_value;
-	size_t i;
 
 	for (alias = info->aliases; alias; alias = alias->next)
 	{
@@ -22,15 +22,13 @@ int expand_alias(info_t *info)
 
 			info->tokens = arrjoin(alias_tokens, tokens + 1);
 
-			for (i = 0; tokens[i]; ++i)
-				free(tokens[i]);
-			free(tokens);
-			for (i = 0; alias_tokens[i]; ++i)
-				free(alias_tokens[i]);
-			free(alias_tokens);
+			free_tokens(tokens);
+			free_tokens(alias_tokens);
 			free(alias_value);
-			return (1);
+
+			return (alias->key);
 		}
 	}
-	return (0);
+
+	return (NULL);
 }

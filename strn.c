@@ -9,16 +9,17 @@
   */
 ssize_t _strnchr(const char *str, char c, size_t n)
 {
-	size_t pos;
+	ssize_t index;
 
 	if (!str)
 		return (-1);
 
-	for (pos = 0; n && str[pos]; --n, ++pos)
+	for (index = 0; n && str[index]; --n, ++index)
 	{
-		if (str[pos] == c)
-			return (pos);
+		if (str[index] == c)
+			return (index);
 	}
+
 	return (-1);
 }
 
@@ -87,7 +88,7 @@ ssize_t _strnlen(const char *str, size_t n)
  */
 int _strncmp(const char *s1, const char *s2, size_t n)
 {
-	for (; n > 0 && *s1 && *s2; --n, ++s1, ++s2)
+	for (; n && *s1 && *s2; --n, ++s1, ++s2)
 	{
 		if (*s1 != *s2)
 			return (*s1 - *s2);

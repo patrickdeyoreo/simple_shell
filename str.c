@@ -8,15 +8,17 @@
   */
 ssize_t _strchr(const char *str, char c)
 {
-	size_t pos;
+	ssize_t index;
 
 	if (!str)
 		return (-1);
-	for (pos = 0; str[pos]; ++pos)
+
+	for (index = 0; str[index]; ++index)
 	{
-		if (str[pos] == c)
-			return (pos);
+		if (str[index] == c)
+			return (index);
 	}
+
 	return (-1);
 }
 
@@ -59,11 +61,9 @@ ssize_t _strlen(const char *str)
 	if (!str)
 		return (-1);
 
-	if (str)
-	{
-		while (*pos)
-			++pos;
-	}
+	while (*pos)
+		++pos;
+
 	return (pos - str);
 }
 
