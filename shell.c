@@ -19,8 +19,8 @@ void open_script(char **argv)
 }
 
 /**
- * init_info - initialize an info_t struct
- * @info: a pointer to the struct to initialize
+ * init_info - initialize shell info
+ * @info: a pointer to the info to initialize
  * @argc: the arg count
  * @argv: the arg values
  * @ops: array of built-ins
@@ -46,6 +46,22 @@ void init_info(info_t *info, int argc, char **argv, built_in_t *ops)
 }
 
 /**
+ * free_info - free dynamically allocated shell info
+ * @info: a pointer to the info to free
+ */
+void free_info(info_t *info)
+{
+	free(info->line);
+	free_tokens(info->tokens);
+	free_env(&info->env);
+	free(info->cwd);
+	free_list(&info->path);
+	free(info->full_cmd);
+	free_cmd_list(&info->commands);
+	free_env(&info->aliases);
+}
+
+/**
  * main - entry point
  * @argc: the argument count
  * @argv: the argument vector
@@ -66,25 +82,30 @@ int main(int argc, char **argv)
 	};
 	info_t info;
 
+	signal(2, _sigint);
+
 	if (argc > 1)
 		open_script(argv);
 
 	init_info(&info, argc, argv, ops);
-	signal(2, _sigint);
-	while (1)
+
+	while (++info.cmd_num, 1)
 	{
 		if (info.interactive)
 			write(STDERR_FILENO, "$ ", 2);
+
 		_read(&info);
-		info.commands = cmd_to_list(info.line);
+
+		if (info.line)
+			info.commands = cmd_to_list(info.line);
+
 		while (info.commands)
 		{
 			info.tokens = tokenize(info.commands->cmd);
 			if (info.tokens)
 				_run(&info);
-			free_tokens(info.tokens);
+			info.tokens = free_tokens(info.tokens);
 			remove_cmd(&info.commands, 0);
 		}
-		info.cmd_num += 1;
 	}
 }

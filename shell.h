@@ -102,38 +102,46 @@ int _setenv(info_t *info);
 int _unsetenv(info_t *info);
 int _help(info_t *info);
 
-char *num_to_str(size_t n);
-void _num_to_str(char **buf, size_t n);
-void init_info(info_t *info, int argc, char **argv, built_in_t *ops);
-void open_script(char **argv);
 void _sigint(int signal);
+
+void init_info(info_t *info, int argc, char **argv, built_in_t *ops);
+void free_info(info_t *info);
+void open_script(char **argv);
+
 int _read(info_t *info);
 int _run(info_t *info);
 int _exec(info_t *info);
+
+char *num_to_str(size_t n);
+void _num_to_str(char **buf, size_t n);
 void _perror(size_t argc, ...);
+
 list_t *strtolist(const char *str, char delim);
 list_t *add_node(list_t **headptr, const char *str);
 list_t *add_node_end(list_t **headptr, const char *str);
 void free_list(list_t **headptr);
+
 my_env_t *envtolist(char **env);
 char **listtoenv(my_env_t *head);
 my_env_t *add_env_node_end(my_env_t **ptr, const char *key, const char *value);
 my_env_t *find_env_node(my_env_t *head, const char *key);
-void free_env(my_env_t **headptr);
 my_env_t *del_env_node(my_env_t **headptr, const char *key);
-
-unsigned int _atou(char *s);
-int _isnumber(char *s);
-int _isdigit(char c);
-char *strjoin(char *s1, char *s2, char c);
-char **arrjoin(char **arr1, char **arr2);
+void free_env(my_env_t **headptr);
 
 char *search_path(info_t *info, list_t *path);
 void expand_aliases(info_t *info);
 char *expand_alias(info_t *info);
 
-int _isspace(int c);
+char *strjoin(char *s1, char *s2, char c);
+char **arrjoin(char **arr1, char **arr2);
+
+int _isnumber(char *s);
+int _isdigit(char c);
 int _isquote(int c);
+int _isspace(int c);
+
+unsigned int _atou(char *s);
+
 char *_memcpy(char *dest, const char *src, size_t n);
 
 char *_getenv(my_env_t *env, const char *key);
