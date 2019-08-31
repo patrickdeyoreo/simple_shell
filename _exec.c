@@ -6,23 +6,26 @@
   */
 int _exec(info_t *info)
 {
-	char **env;
+	char *path, **argv, **env;
 	pid_t child = fork();
 
 	if (child == 0)
 	{
+		path = info->full_cmd;
+		argv = info->tokens;
 		env = listtoenv(info->env);
-		free(info->line);
-		free_list(&info->path);
-		free(info->cwd);
-		free_env(&info->env);
-		free_cmd_list(&info->commands);
-		free_env(&info->aliases);
-		execve(info->full_cmd, info->tokens, env);
-		perror(info->argv[0]);
-		free(info->full_cmd);
-		free_tokens(info->tokens);
+
+		info->full_cmd = NULL;
+		info->tokens = NULL;
+		free_info(info);
+
+		execve(path, argv, env);
+		perror(argv[0]);
+
+		free(path);
+		free_tokens(argv);
 		free_tokens(env);
+
 		exit(EXIT_FAILURE);
 	}
 

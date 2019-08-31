@@ -11,15 +11,12 @@ int _run(info_t *info)
 	char *cmd_num, *error;
 	size_t i;
 
-	expand_aliases(info);
-	if (!info->tokens[0])
-		return (info->status);
-
 	for (i = 0; info->ops[i].name; i++)
 	{
 		if (!_strcmp(info->tokens[0], info->ops[i].name))
 			return ((info->ops)[i].f(info));
 	}
+
 	if (_strchr(info->tokens[0], '/') == -1)
 	{
 		free_list(&info->path);
@@ -43,6 +40,7 @@ int _run(info_t *info)
 		info->status = 127;
 		error = "not found";
 	}
+
 	cmd_num = num_to_str(info->cmd_num);
 	_perror(4, info->argv[0], cmd_num, info->tokens[0], error);
 	free(cmd_num);

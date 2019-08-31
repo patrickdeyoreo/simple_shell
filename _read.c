@@ -10,13 +10,7 @@ int _read(info_t *info)
 
 	if (n_read < 1)
 	{
-		free(info->line);
-		free_list(&info->path);
-		free(info->cwd);
-		free_env(&info->env);
-		free_cmd_list(&info->commands);
-		free_env(&info->aliases);
-		free(info->full_cmd);
+		free_info(info);
 
 		if (info->interactive)
 			write(STDOUT_FILENO, "\n", 1);

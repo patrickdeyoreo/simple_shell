@@ -1,5 +1,6 @@
 #ifndef SHELL_H
 #define SHELL_H
+
 #include <limits.h>
 #include <stdarg.h>
 #include <stdlib.h>
@@ -10,9 +11,11 @@
 #include <signal.h>
 #include <errno.h>
 #include <fcntl.h>
-#include "parse.h"
+#include "ctype.h"
 #include "quote.h"
-#include "str.h"
+#include "parse.h"
+#include "string.h"
+
 extern char **environ;
 
 /**
@@ -106,9 +109,10 @@ void _sigint(int signal);
 
 void init_info(info_t *info, int argc, char **argv, built_in_t *ops);
 void free_info(info_t *info);
-void open_script(char **argv);
+void open_script(info_t *info);
 
 int _read(info_t *info);
+int _parse(info_t *info);
 int _run(info_t *info);
 int _exec(info_t *info);
 
@@ -129,20 +133,18 @@ my_env_t *del_env_node(my_env_t **headptr, const char *key);
 void free_env(my_env_t **headptr);
 
 char *search_path(info_t *info, list_t *path);
+
 void expand_aliases(info_t *info);
 char *expand_alias(info_t *info);
 
-char *strjoin(char *s1, char *s2, char c);
-char **arrjoin(char **arr1, char **arr2);
+void expand_vars(info_t *info);
+char *_expand_vars(info_t *info);
 
-int _isnumber(char *s);
-int _isdigit(char c);
-int _isquote(int c);
-int _isspace(int c);
+char **arrjoin(char **arr1, char **arr2);
 
 unsigned int _atou(char *s);
 
-char *_memcpy(char *dest, const char *src, size_t n);
+int _isnumber(char *s);
 
 char *_getenv(my_env_t *env, const char *key);
 

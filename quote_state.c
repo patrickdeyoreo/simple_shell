@@ -1,28 +1,31 @@
 #include "quote.h"
-/**
- * get_quote_state - sets the state
- * @c: argument passed
- * quote_state_t - a quote state mnemonic
- * Return: quote_state_t
- */
 
+
+/**
+ * get_quote_state - get the state associated with a given character
+ * @c: character
+ *
+ * Return: the state associated with c
+ */
 quote_state_t get_quote_state(int c)
 {
 	if (_isspace(c))
 		return (NONE);
-	if (c == '"')
-		return (DOUBLE);
 	if (c == '\'')
 		return (SINGLE);
+	if (c == '"')
+		return (DOUBLE);
 	return (WORD);
 }
-/**
- * quote_state_none - returns the number of characters
- * @str: string passed
- * @state: state
- * Return: number of characters
- */
 
+
+/**
+ * quote_state_none - returns the length of state
+ * @str: string
+ * @state: state
+ *
+ * Return: length of state
+ */
 size_t quote_state_none(const char *str, quote_state_t *state)
 {
 	size_t len = 0;
@@ -32,13 +35,15 @@ size_t quote_state_none(const char *str, quote_state_t *state)
 	*state = get_quote_state(*str);
 	return (len);
 }
-/**
- * quote_state_word - returns the number of characters
- * @str: string passed
- * @state: state
- * Return: number of characters
- */
 
+
+/**
+ * quote_state_word - returns the length of state
+ * @str: string
+ * @state: state
+ *
+ * Return: length of state
+ */
 size_t quote_state_word(const char *str, quote_state_t *state)
 {
 	size_t len = 0;
@@ -49,11 +54,13 @@ size_t quote_state_word(const char *str, quote_state_t *state)
 	return (len);
 }
 
+
 /**
- * quote_state_double - returns the number of characters
- * @str: string passed
+ * quote_state_double - returns the length of state
+ * @str: string
  * @state: state
- * Return: number of characters
+ *
+ * Return: length of state
  */
 size_t quote_state_double(const char *str, quote_state_t *state)
 {
@@ -67,13 +74,15 @@ size_t quote_state_double(const char *str, quote_state_t *state)
 		*state = NONE;
 	return (len);
 }
-/**
- * quote_state_single - returns the number of characters
- * @str: string passed
- * @state: state
- * Return: number of characters
- */
 
+
+/**
+ * quote_state_single - returns the length of state
+ * @str: string
+ * @state: state
+ *
+ * Return: length of state
+ */
 size_t quote_state_single(const char *str, quote_state_t *state)
 {
 	size_t len = 0;

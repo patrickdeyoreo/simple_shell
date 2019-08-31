@@ -27,7 +27,7 @@ void expand_aliases(info_t *info)
 char *expand_alias(info_t *info)
 {
 	alias_t *alias;
-	char **tokens = info->tokens, **alias_tokens, *alias_value;
+	char **tokens = info->tokens, **alias_tokens;
 
 	if (!tokens[0])
 		return (NULL);
@@ -36,14 +36,12 @@ char *expand_alias(info_t *info)
 	{
 		if (!_strcmp(tokens[0], alias->key))
 		{
-			alias_value = _strdup(alias->value);
-			alias_tokens = tokenize(alias_value);
+			alias_tokens = tokenize(alias->value);
 
 			info->tokens = arrjoin(alias_tokens, tokens + 1);
 
 			free_tokens(tokens);
 			free_tokens(alias_tokens);
-			free(alias_value);
 
 			return (alias->key);
 		}

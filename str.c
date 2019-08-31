@@ -1,4 +1,5 @@
-#include "str.h"
+#include "string.h"
+
 
 /**
   * _strchr - get the index of the first matching character
@@ -21,6 +22,7 @@ ssize_t _strchr(const char *str, char c)
 
 	return (-1);
 }
+
 
 /**
  * _strdup - create a new array containing a copy of the given string
@@ -48,6 +50,7 @@ char *_strdup(const char *str)
 
 	return (dup);
 }
+
 
 /**
  * _strlen - calculate the length of a string
@@ -91,6 +94,7 @@ int _strcmp(const char *s1, const char *s2)
 
 	return (0);
 }
+
 
 /**
  * _strcpy - copy a string

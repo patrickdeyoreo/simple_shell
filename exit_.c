@@ -26,14 +26,8 @@ int exit_(info_t *info)
 			return (info->status);
 		}
 	}
-	free(info->line);
-	free_list(&info->path);
-	free(info->cwd);
-	free_env(&info->env);
-	free_cmd_list(&info->commands);
-	free_env(&info->aliases);
-	free(info->full_cmd);
-	free_tokens(info->tokens);
+
+	free_info(info);
 
 	exit(info->status);
 	return (0);

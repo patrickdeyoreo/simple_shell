@@ -7,10 +7,11 @@
  * Return: If malloc fails or if str is 0 or contains no tokens, return NULL.
  * Otherwise, return an array containing the tokens in str, terminated by NULL.
  */
-char **tokenize(char *str)
+char **tokenize(const char *str)
 {
-	char **tokens, *tok;
-	ssize_t count;
+	char **tokens;
+	const char *tok;
+	size_t count;
 	quote_state_t state;
 
 	if (!str)
@@ -23,10 +24,11 @@ char **tokenize(char *str)
 	for (count = 0; *(str += quote_state_none(str, &state)); ++count)
 	{
 		tok = str;
-		while (*str && state != NONE)
-		{
+		do {
 			if (state == WORD)
+			{
 				str += quote_state_word(str, &state);
+			}
 			else
 			{
 				++str;
@@ -37,12 +39,14 @@ char **tokenize(char *str)
 				if (*str)
 					++str;
 			}
-		}
-		if (*str)
-			*str++ = '\0';
-		tokens[count] = dequote(tok);
+		} while (*str && state != NONE);
+
+		tokens[count] = _strndup(tok, str - tok);
 		if (!tokens[count])
-			return (free_tokens(tokens));
+		{
+			free_tokens(tokens);
+			return (NULL);
+		}
 	}
 	tokens[count] = NULL;
 	return (tokens);
@@ -61,8 +65,7 @@ size_t count_tokens(const char *str)
 
 	for (count = 0; *(str += quote_state_none(str, &state)); ++count)
 	{
-		while (*str && state != NONE)
-		{
+		do {
 			if (state == WORD)
 				str += quote_state_word(str, &state);
 			else
@@ -75,7 +78,7 @@ size_t count_tokens(const char *str)
 				if (*str)
 					++str;
 			}
-		}
+		} while (*str && state != NONE);
 	}
 	return (count);
 }
@@ -87,42 +90,39 @@ size_t count_tokens(const char *str)
  * Return: If malloc fails or if str is 0 or contains no tokens, return NULL.
  * Otherwise, return an array containing the tokens in str, terminated by NULL.
  */
-char **tokenize_old(char *str)
+char **tokenize_noquote(const char *str)
 {
 	char **tokens;
-	size_t tok_count, tok_len;
+	const char *tok;
+	size_t count;
 
-	tok_count = count_tokens(str);
-	if (!tok_count)
+	if (!str)
 		return (NULL);
-	tokens = malloc(sizeof(char *) * (tok_count + 1));
+
+	tokens = malloc(sizeof(char *) * (count_tokens_noquote(str) + 1));
 	if (!tokens)
 		return (NULL);
 
-	for (tok_count = 0; *str; ++tok_count)
+	for (count = 0; *str; ++count)
 	{
 		while (_isspace(*str))
 			++str;
 		if (!*str)
 			break;
 
-		tok_len = 1;
-		while (str[tok_len] && !_isspace(str[tok_len]))
-			++tok_len;
+		tok = str;
+		do {
+			++str;
+		} while (*str && !_isspace(*str));
 
-		tokens[tok_count] = malloc(sizeof(char) * (tok_len + 1));
-		if (!tokens[tok_count])
+		tokens[count] = _strndup(tok, str - tok);
+		if (!tokens[count])
 		{
 			free_tokens(tokens);
 			return (NULL);
 		}
-		_memcpy(tokens[tok_count], str, tok_len);
-		tokens[tok_count][tok_len] = '\0';
-
-		str += tok_len;
 	}
-	tokens[tok_count] = NULL;
-
+	tokens[count] = NULL;
 	return (tokens);
 }
 
@@ -133,12 +133,9 @@ char **tokenize_old(char *str)
  * Return: If str is NULL, return -1.
  * Otherwise, return the number of words in str.
  */
-size_t count_tokens_old(const char *str)
+size_t count_tokens_noquote(const char *str)
 {
 	size_t tok_count;
-
-	if (!str)
-		return (0);
 
 	for (tok_count = 0; *str; ++tok_count)
 	{
@@ -156,10 +153,9 @@ size_t count_tokens_old(const char *str)
 
 /**
  * free_tokens - free an array of strings
- * @tokens: the array to free
- * Return: pointer
+ * @tokens: pointer to an array of tokens
  */
-char **free_tokens(char **tokens)
+void free_tokens(char **tokens)
 {
 	char **tok;
 
@@ -169,5 +165,4 @@ char **free_tokens(char **tokens)
 			free(*tok);
 		free(tokens);
 	}
-	return (NULL);
 }

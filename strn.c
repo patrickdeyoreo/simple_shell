@@ -1,4 +1,5 @@
-#include "str.h"
+#include "string.h"
+
 
 /**
   * _strnchr - get the index of the first matching character
@@ -23,6 +24,7 @@ ssize_t _strnchr(const char *str, char c, size_t n)
 	return (-1);
 }
 
+
 /**
  * _strndup - duplicate the given string
  * @str: the string to duplicate
@@ -45,7 +47,7 @@ char *_strndup(const char *str, size_t n)
 	while (n && str[len])
 		--n, ++len;
 
-	dup = malloc(sizeof(char) * len + 1);
+	dup = malloc(sizeof(char) * (len + 1));
 	if (!dup)
 		return (NULL);
 
@@ -56,6 +58,7 @@ char *_strndup(const char *str, size_t n)
 
 	return (dup);
 }
+
 
 /**
  * _strnlen - calculate the length of a string
@@ -75,6 +78,7 @@ ssize_t _strnlen(const char *str, size_t n)
 
 	return (pos - str);
 }
+
 
 
 /**
@@ -104,6 +108,7 @@ int _strncmp(const char *s1, const char *s2, size_t n)
 
 	return (0);
 }
+
 
 /**
  * _strncpy - copy the string
