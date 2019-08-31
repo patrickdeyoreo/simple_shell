@@ -30,21 +30,19 @@ char *dequote(const char *str)
 		{
 			state_len = quote_state_fn[state](str, &state);
 			_memcpy(new + len, str, state_len);
+			str += state_len;
 			if (state == DOUBLE || state == SINGLE)
-				str += state_len + 2;
+				str += 2;
 			else if (*str)
-				str += state_len + 1;
-			else
-				str += state_len;
+				++str;
 		}
 		else
 		{
 			state_len = quote_state_fn[state](str, &state);
 			_memcpy(new + len, str, state_len);
+			str += state_len;
 			if (state == DOUBLE || state == SINGLE)
-				str += state_len + 1;
-			else
-				str += state_len;
+				++str;
 		}
 	}
 	new[len] = '\0';
@@ -74,20 +72,18 @@ size_t dequote_len(const char *str)
 		if (state == DOUBLE || state == SINGLE)
 		{
 			state_len = quote_state_fn[state](str, &state);
+			str += state_len;
 			if (state == DOUBLE || state == SINGLE)
-				str += state_len + 2;
+				str += 2;
 			else if (*str)
-				str += state_len + 1;
-			else
-				str += state_len;
+				++str;
 		}
 		else
 		{
 			state_len = quote_state_fn[state](str, &state);
+			str += state_len;
 			if (state == DOUBLE || state == SINGLE)
-				str += state_len + 1;
-			else
-				str += state_len;
+				++str;
 		}
 	}
 	return (len);

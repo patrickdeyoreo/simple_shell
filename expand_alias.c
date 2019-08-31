@@ -10,13 +10,15 @@
 char *expand_alias(info_t *info)
 {
 	alias_t *alias;
-	char **tokens, **alias_tokens, *alias_value;
+	char **tokens = info->tokens, **alias_tokens, *alias_value;
+
+	if (!tokens)
+		return (NULL);
 
 	for (alias = info->aliases; alias; alias = alias->next)
 	{
-		if (!_strcmp(info->tokens[0], alias->key))
+		if (!_strcmp(*tokens, alias->key))
 		{
-			tokens = info->tokens;
 			alias_value = _strdup(alias->value);
 			alias_tokens = tokenize(alias_value);
 
