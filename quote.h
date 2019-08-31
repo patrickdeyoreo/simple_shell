@@ -5,8 +5,8 @@
 
 /**
  * enum quote_state - a quote state mnemonic
- * @NONE: In a sequence of unquoted blanks
- * @WORD: In a sequence of non-blanks
+ * @NONE: In an unquoted sequence of blanks
+ * @WORD: In an unquoted sequence of non-blanks
  * @DOUBLE: In double quotes
  * @SINGLE: In single quotes
  */

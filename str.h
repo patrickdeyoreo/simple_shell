@@ -2,7 +2,6 @@
 #define STR_H
 
 #include <stdlib.h>
-#include <stdio.h>
 
 ssize_t _strchr(const char *str, char c);
 ssize_t _strnchr(const char *str, char c, size_t n);

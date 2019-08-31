@@ -10,9 +10,9 @@
 #include <signal.h>
 #include <errno.h>
 #include <fcntl.h>
-#include "str.h"
-#include "quote.h"
 #include "parse.h"
+#include "quote.h"
+#include "str.h"
 extern char **environ;
 
 /**
