@@ -10,13 +10,13 @@
 char **tokenize(char *str)
 {
 	char **tokens, *tok;
+	ssize_t count;
 	quote_state_t state;
-	size_t count = count_tokens(str);
 
-	if (!count)
+	if (!str)
 		return (NULL);
 
-	tokens = malloc(sizeof(char *) * (count + 1));
+	tokens = malloc(sizeof(char *) * (count_tokens(str) + 1));
 	if (!tokens)
 		return (NULL);
 
@@ -45,9 +45,9 @@ char **tokenize(char *str)
 			return (free_tokens(tokens));
 	}
 	tokens[count] = NULL;
-
 	return (tokens);
 }
+
 
 /**
  * count_tokens - compute the length of a string after dequoting
@@ -58,9 +58,6 @@ size_t count_tokens(const char *str)
 {
 	size_t count;
 	quote_state_t state;
-
-	if (!str)
-		return (0);
 
 	for (count = 0; *(str += quote_state_none(str, &state)); ++count)
 	{

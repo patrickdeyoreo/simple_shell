@@ -13,10 +13,6 @@ char *dequote(const char *str)
 	size_t len, state_len;
 	quote_state_t state;
 
-	static size_t (*quote_state_fn[])(const char *, quote_state_t *) = {
-		quote_state_none, quote_state_word, quote_state_double, quote_state_single
-	};
-
 	if (!str)
 		return (NULL);
 
@@ -26,22 +22,28 @@ char *dequote(const char *str)
 
 	for (len = 0, state = NONE; *str; len += state_len)
 	{
-		if (state == DOUBLE || state == SINGLE)
+		if (state == NONE)
 		{
-			state_len = quote_state_fn[state](str, &state);
+			state_len = quote_state_none(str, &state);
 			_memcpy(new + len, str, state_len);
 			str += state_len;
-			if (state == DOUBLE || state == SINGLE)
-				str += 2;
-			else if (*str)
-				++str;
+		}
+		else if (state == WORD)
+		{
+			state_len = quote_state_word(str, &state);
+			_memcpy(new + len, str, state_len);
+			str += state_len;
 		}
 		else
 		{
-			state_len = quote_state_fn[state](str, &state);
+			++str;
+			if (state == DOUBLE)
+				state_len = quote_state_double(str, &state);
+			else
+				state_len = quote_state_single(str, &state);
 			_memcpy(new + len, str, state_len);
 			str += state_len;
-			if (state == DOUBLE || state == SINGLE)
+			if (*str)
 				++str;
 		}
 	}
@@ -60,29 +62,27 @@ size_t dequote_len(const char *str)
 	size_t len, state_len;
 	quote_state_t state;
 
-	static size_t (*quote_state_fn[])(const char *, quote_state_t *) = {
-		quote_state_none, quote_state_word, quote_state_double, quote_state_single
-	};
-
-	if (!str)
-		return (0);
-
 	for (len = 0, state = NONE; *str; len += state_len)
 	{
-		if (state == DOUBLE || state == SINGLE)
+		if (state == NONE)
 		{
-			state_len = quote_state_fn[state](str, &state);
+			state_len = quote_state_none(str, &state);
 			str += state_len;
-			if (state == DOUBLE || state == SINGLE)
-				str += 2;
-			else if (*str)
-				++str;
+		}
+		else if (state == WORD)
+		{
+			state_len = quote_state_word(str, &state);
+			str += state_len;
 		}
 		else
 		{
-			state_len = quote_state_fn[state](str, &state);
+			++str;
+			if (state == DOUBLE)
+				state_len = quote_state_double(str, &state);
+			else
+				state_len = quote_state_single(str, &state);
 			str += state_len;
-			if (state == DOUBLE || state == SINGLE)
+			if (*str)
 				++str;
 		}
 	}

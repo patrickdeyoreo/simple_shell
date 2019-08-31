@@ -12,6 +12,8 @@ int _run(info_t *info)
 	size_t i;
 
 	expand_aliases(info);
+	if (!info->tokens[0])
+		return (info->status);
 
 	for (i = 0; info->ops[i].name; i++)
 	{
@@ -41,7 +43,6 @@ int _run(info_t *info)
 		info->status = 127;
 		error = "not found";
 	}
-
 	cmd_num = num_to_str(info->cmd_num);
 	_perror(4, info->argv[0], cmd_num, info->tokens[0], error);
 	free(cmd_num);
