@@ -3,7 +3,7 @@
 
 /**
  * open_script - execute commands from a script
- * @argv: the arguments to the shell
+ * @info: shell information
  */
 void open_script(info_t *info)
 {

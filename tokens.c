@@ -43,10 +43,7 @@ char **tokenize(const char *str)
 
 		tokens[count] = _strndup(tok, str - tok);
 		if (!tokens[count])
-		{
-			free_tokens(tokens);
-			return (NULL);
-		}
+			return (free_tokens(tokens));
 	}
 	tokens[count] = NULL;
 	return (tokens);
@@ -85,7 +82,7 @@ size_t count_tokens(const char *str)
 
 
 /**
- * tokenize_old - split a string into words (tokens)
+ * tokenize_noquote - split a string into words (tokens)
  * @str: the string to tokenize
  * Return: If malloc fails or if str is 0 or contains no tokens, return NULL.
  * Otherwise, return an array containing the tokens in str, terminated by NULL.
@@ -110,17 +107,14 @@ char **tokenize_noquote(const char *str)
 		if (!*str)
 			break;
 
-		tok = str;
-		do {
+		tok = str++;
+
+		while (*str && !_isspace(*str))
 			++str;
-		} while (*str && !_isspace(*str));
 
 		tokens[count] = _strndup(tok, str - tok);
 		if (!tokens[count])
-		{
-			free_tokens(tokens);
-			return (NULL);
-		}
+			return (free_tokens(tokens));
 	}
 	tokens[count] = NULL;
 	return (tokens);
@@ -128,7 +122,7 @@ char **tokenize_noquote(const char *str)
 
 
 /**
- * count_tokens_old - count the words in a string
+ * count_tokens_noquote - count the words in a string
  * @str: the string to evaluate
  * Return: If str is NULL, return -1.
  * Otherwise, return the number of words in str.
@@ -154,8 +148,10 @@ size_t count_tokens_noquote(const char *str)
 /**
  * free_tokens - free an array of strings
  * @tokens: pointer to an array of tokens
+ *
+ * Return: Always NULL
  */
-void free_tokens(char **tokens)
+char **free_tokens(char **tokens)
 {
 	char **tok;
 
@@ -165,4 +161,5 @@ void free_tokens(char **tokens)
 			free(*tok);
 		free(tokens);
 	}
+	return (NULL);
 }

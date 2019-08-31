@@ -45,7 +45,7 @@ char **tokenize_noquote(const char *str);
 size_t count_tokens(const char *str);
 size_t count_tokens_noquote(const char *str);
 
-void free_tokens(char **tokens);
+char **free_tokens(char **tokens);
 
 char *dequote(const char *str);
 size_t dequote_len(const char *str);
