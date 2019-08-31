@@ -7,9 +7,9 @@
  */
 void expand_vars(info_t *info)
 {
-	char **new = NULL, **old, **tmp, **tokens = info->tokens;
+	char **new = NULL, **old, **tmp, **tokens;
 
-	while (*info->tokens)
+	for (tokens = info->tokens; *info->tokens; ++info->tokens)
 	{
 		old = new;
 		tmp = tokenize(_expand_vars(info));
@@ -17,7 +17,6 @@ void expand_vars(info_t *info)
 		free_tokens(old);
 		free_tokens(tmp);
 		free(*info->tokens);
-		++info->tokens;
 	}
 	free(tokens);
 	info->tokens = new;
@@ -35,17 +34,17 @@ char *_expand_vars(info_t *info)
 	char *var = NULL, *val = NULL, *tok = *info->tokens;
 	size_t pos = 0, var_len = 1, val_len = 1;
 
-	for (; tok[pos]; var_len = 1, val_len = 1, free(val), val = NULL)
+	for (; tok[pos]; pos += val_len, var_len = 1, val_len = 1)
 	{
-		while (tok[pos] && tok[pos] != '$')
-			++pos;
-		if (!tok[pos])
-			break;
+		if (tok[pos] != '$')
+			continue;
 
 		if (tok[pos + 1] == '$')
 			val = num_to_str(info->pid);
+
 		else if (tok[pos + 1] == '?')
 			val = num_to_str(info->status);
+
 		else if (_isident(tok[pos + 1]) && !_isdigit(tok[pos + 1]))
 		{
 			while (_isident(tok[pos + var_len + 1]))
@@ -59,8 +58,8 @@ char *_expand_vars(info_t *info)
 		if (val)
 		{
 			val_len = _strlen(val);
-			*info->tokens = malloc(sizeof(char) *
-					(pos + val_len + _strlen(tok + pos + var_len) + 1)
+			*info->tokens = malloc(sizeof(char) * (
+					pos + val_len + _strlen(tok + pos + var_len) + 1)
 					);
 			_memcpy(*info->tokens, tok, pos);
 			_memcpy(*info->tokens + pos, val, val_len);
@@ -68,8 +67,10 @@ char *_expand_vars(info_t *info)
 
 			free(tok);
 			tok = *info->tokens;
+
+			free(val);
+			val = NULL;
 		}
-		pos += val_len;
 	}
 	return (*info->tokens);
 }

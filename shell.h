@@ -148,4 +148,6 @@ int _isnumber(char *s);
 
 char *_getenv(my_env_t *env, const char *key);
 
+ssize_t _getline(char **lineptr, size_t *nptr, int fd);
+
 #endif /* SHELL_H */

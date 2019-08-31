@@ -6,7 +6,7 @@
   */
 int _read(info_t *info)
 {
-	ssize_t n_read = getline(&info->line, &info->len, stdin);
+	ssize_t n_read = _getline(&info->line, &info->len, STDIN_FILENO);
 
 	if (n_read < 1)
 	{
