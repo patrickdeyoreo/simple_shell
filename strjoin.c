@@ -35,6 +35,38 @@ char *strjoin(const char *s1, const char *s2, char c)
 
 
 /**
+ * strjoina - join strings from an array with a character
+ * @arr: array of strings
+ * @c: character
+ *
+ * Return: a dynamically-allocated string of the elements in arr joined by c
+ */
+char *strjoina(const char **arr, char c)
+{
+	char *new;
+	size_t n = 0, len = 0;
+
+	while (arr[n])
+		len += _strlen(arr[n++]);
+
+	new = malloc(len + n);
+	if (!new)
+		return (NULL);
+
+	for (len = 0; *arr; ++arr)
+	{
+		_strcpy(new + len, *arr);
+		len += _strlen(*arr);
+		if (--n)
+			new[len++] = c;
+	}
+	new[len] = '\0';
+
+	return (new);
+}
+
+
+/**
   * strjoinl - joins a NULL terminated list of strings with a character
   * @c: character
   * @...: strings
@@ -44,28 +76,28 @@ char *strjoin(const char *s1, const char *s2, char c)
 char *strjoinl(char c, ...)
 {
 	char *new, *tmp;
-	size_t len;
+	size_t n = 0, len = 0;
 	va_list strings;
 
 	va_start(strings, c);
-
-	for (len = 0; (tmp = va_arg(strings, char *)); len += _strlen(tmp) + 1)
-		;
-
+	while ((tmp = va_arg(strings, char *)))
+		++n, len += _strlen(tmp);
 	va_end(strings);
 
-	new = malloc(len + 1);
+	new = malloc(len + n);
 	if (!new)
 		return (NULL);
 
 	va_start(strings, c);
-
-	for (len = 0; (tmp = va_arg(strings, char *)); len += _strlen(tmp) + 1)
+	len = 0;
+	while ((tmp = va_arg(strings, char *)))
 	{
 		_strcpy(new + len, tmp);
-		new[len] = c;
+		len += _strlen(tmp);
+		if (--n)
+			new[len++] = c;
 	}
-
+	new[len] = '\0';
 	va_end(strings);
 
 	return (new);

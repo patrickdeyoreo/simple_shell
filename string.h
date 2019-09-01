@@ -16,6 +16,7 @@ char *_strncpy(char *dest, const char *src, size_t n);
 int _strcmp(const char *s1, const char *s2);
 int _strncmp(const char *s1, const char *s2, size_t n);
 char *strjoin(const char *s1, const char *s2, char c);
+char *strjoina(const char **arr, char c);
 char *strjoinl(char c, ...);
 
 #endif /* STRING_H */

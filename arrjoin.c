@@ -41,4 +41,3 @@ char **arrjoin(char **arr1, char **arr2)
 	new_arr[new_len] = NULL;
 	return (new_arr);
 }
-

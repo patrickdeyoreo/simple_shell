@@ -33,27 +33,59 @@ char *_expand_vars(info_t *info)
 {
 	char *var = NULL, *val = NULL, *tok = *info->tokens;
 	size_t pos = 0, var_len = 1, val_len = 1;
+	quote_state_t state = get_quote_state(*tok);
+	size_t (*state_fn)(const char *, quote_state_t *) = get_quote_state_fn(state);
 
-	for (; tok[pos]; pos += val_len, var_len = 1, val_len = 1)
+	while (tok[pos])
 	{
-		if (tok[pos] != '$')
+		if (state == SINGLE)
+		{
+			pos++;
+			pos += quote_state_single(tok + pos, &state);
+			if (tok[pos])
+				pos++;
 			continue;
-
+		}
+		if (state_fn(tok + pos, NULL) == 0)
+		{
+			state = get_quote_state(*(tok + pos));
+			state_fn = get_quote_state_fn(state);
+			if (state == DOUBLE)
+				pos++;
+			continue;
+		}
+		if (tok[pos] != '$')
+		{
+			pos++;
+			continue;
+		}
 		if (tok[pos + 1] == '$')
+		{
 			val = num_to_str(info->pid);
-
+		}
 		else if (tok[pos + 1] == '?')
+		{
 			val = num_to_str(info->status);
-
+		}
+		else if (tok[pos + 1] == '@')
+		{
+			val = strjoina((const char **) info->argv, ' ');
+		}
 		else if (_isident(tok[pos + 1]) && !_isdigit(tok[pos + 1]))
 		{
 			while (_isident(tok[pos + var_len + 1]))
 				++var_len;
+
 			var = _strndup(tok + pos + 1, var_len);
-			val = _strdup(_getenv(info->env, var));
-			if (!val)
+			val = _getenv(info->env, var);
+
+			if (val)
+				val = _strdup(val);
+			else
 				val = _strdup("");
+
 			free(var);
+			var = NULL;
 		}
 		if (val)
 		{
@@ -70,7 +102,12 @@ char *_expand_vars(info_t *info)
 
 			free(val);
 			val = NULL;
+
+			pos += val_len;
+
+			continue;
 		}
+		++pos;
 	}
 	return (*info->tokens);
 }

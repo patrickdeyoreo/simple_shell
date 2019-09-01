@@ -20,6 +20,7 @@ typedef enum quote_state
 } quote_state_t;
 
 quote_state_t get_quote_state(int c);
+size_t (*get_quote_state_fn(quote_state_t s))(const char *, quote_state_t *);
 size_t quote_state_none(const char *str, quote_state_t *state);
 size_t quote_state_word(const char *str, quote_state_t *state);
 size_t quote_state_double(const char *str, quote_state_t *state);

@@ -64,7 +64,9 @@ size_t count_tokens(const char *str)
 	{
 		do {
 			if (state == WORD)
+			{
 				str += quote_state_word(str, &state);
+			}
 			else
 			{
 				++str;
