@@ -14,21 +14,22 @@
 ssize_t _getline(char **lineptr, size_t *nptr, int fd)
 {
 	static char buffer[BUFSIZE];
-	static char *pos = buffer, *end = buffer;
+	static char *r_pos = buffer, *w_pos = buffer;
+	static size_t n_rem;
 	ssize_t n_read, eol = -1;
 	size_t len = 0;
 	char *tmp;
 
-	if (!(fd > -1 && lineptr && nptr))
+	if (fd < 0 || !lineptr || !nptr)
 		return (-1);
 
-	if (end - pos > 0)
+	if (n_rem)
 	{
-		eol = _strnchr(pos, '\n', end - pos);
+		eol = _strnchr(r_pos, '\n', n_rem);
 		if (eol > -1)
 		{
 			len = eol + 1;
-			if (len >= *nptr)
+			if (*nptr <= len)
 			{
 				if (*lineptr)
 					tmp = realloc(*lineptr, sizeof(char) * (len + 1));
@@ -44,20 +45,22 @@ ssize_t _getline(char **lineptr, size_t *nptr, int fd)
 				*lineptr = tmp;
 				*nptr = len + 1;
 			}
-			_memcpy(*lineptr, pos, len);
 			(*lineptr)[len] = '\0';
-			pos += len;
-			if (pos >= end)
+			_memcpy(*lineptr, r_pos, len);
+
+			n_rem -= len;
+			if (n_rem)
+				r_pos += len;
+			else
 			{
-				pos = buffer;
-				end = buffer;
+				r_pos = buffer;
+				w_pos = buffer;
 			}
 			return (len);
 		}
 	}
 
-	len = 0;
-	while ((n_read = read(fd, end, buffer + BUFSIZE - end)))
+	while ((n_read = read(fd, w_pos, buffer + BUFSIZE - w_pos)))
 	{
 		if (n_read == -1)
 		{
@@ -67,12 +70,13 @@ ssize_t _getline(char **lineptr, size_t *nptr, int fd)
 			return (-1);
 		}
 
-		end += n_read;
+		n_rem += n_read;
+		w_pos += n_read;
 
-		eol = _strnchr(pos, '\n', n_read);
+		eol = _strnchr(r_pos, '\n', n_rem);
 		if (eol > -1)
 		{
-			if (len + eol + 1 >= *nptr)
+			if (*nptr <= len + eol + 1)
 			{
 				if (*lineptr)
 					tmp = realloc(*lineptr, sizeof(char) * (len + eol + 2));
@@ -88,23 +92,26 @@ ssize_t _getline(char **lineptr, size_t *nptr, int fd)
 				*lineptr = tmp;
 				*nptr = len + eol + 2;
 			}
-			_memcpy(*lineptr + len, pos, eol + 1);
 			(*lineptr)[len + eol + 1] = '\0';
-			pos += (eol + 1);
-			if (pos >= end)
+			_memcpy(*lineptr + len, r_pos, eol + 1);
+
+			n_rem -= eol + 1;
+			if (n_rem)
+				r_pos += (eol + 1);
+			else
 			{
-				pos = buffer;
-				end = buffer;
+				r_pos = buffer;
+				w_pos = buffer;
 			}
 			return (len + eol + 1);
 		}
 
-		if (len + n_read >= *nptr)
+		if (*nptr <= len + n_rem)
 		{
 			if (*lineptr)
-				tmp = realloc(*lineptr, sizeof(char) * (len + n_read + 1));
+				tmp = realloc(*lineptr, sizeof(char) * (len + n_rem + 1));
 			else
-				tmp = malloc(sizeof(char) * (len + n_read + 1));
+				tmp = malloc(sizeof(char) * (len + n_rem + 1));
 			if (!tmp)
 			{
 				free(*lineptr);
@@ -113,13 +120,15 @@ ssize_t _getline(char **lineptr, size_t *nptr, int fd)
 				return (-1);
 			}
 			*lineptr = tmp;
-			*nptr = len + n_read + 1;
+			*nptr = len + n_rem + 1;
 		}
-		_memcpy(*lineptr + len, pos, end - pos);
-		(*lineptr)[len + n_read] = '\0';
-		pos = buffer;
-		end = buffer;
-		len += n_read;
+		(*lineptr)[len + n_rem] = '\0';
+		_memcpy(*lineptr + len, r_pos, n_rem);
+
+		len += n_rem;
+		n_rem = 0;
+		r_pos = buffer;
+		w_pos = buffer;
 	}
 
 	if (!*lineptr)
@@ -133,7 +142,8 @@ ssize_t _getline(char **lineptr, size_t *nptr, int fd)
 		*lineptr = tmp;
 		*nptr = 1;
 	}
-	(*lineptr)[len] = *end;
+	(*lineptr)[len] = *r_pos;
+
 	return (len);
 }
 
