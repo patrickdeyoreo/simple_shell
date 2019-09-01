@@ -16,7 +16,7 @@
 ssize_t _getline(char **lineptr, size_t *nptr, int fd)
 {
 	static char buffer[BUFSIZE];
-	static size_t pos, rem;
+	static char *pos = buffer, *end = buffer;
 	ssize_t n_read, eol = -1;
 	size_t len = 0;
 	char *tmp;
@@ -24,9 +24,9 @@ ssize_t _getline(char **lineptr, size_t *nptr, int fd)
 	if (!(fd > -1 && lineptr && nptr))
 		return (-1);
 
-	if (rem > 0)
+	if (end - pos > 0)
 	{
-		eol = _strnchr(buffer + pos, '\n', rem);
+		eol = _strnchr(pos, '\n', end - pos);
 		if (eol > -1)
 		{
 			len = eol + 1;
@@ -46,16 +46,20 @@ ssize_t _getline(char **lineptr, size_t *nptr, int fd)
 				*lineptr = tmp;
 				*nptr = len + 1;
 			}
-			_memcpy(*lineptr, buffer + pos, len);
+			_memcpy(*lineptr, pos, len);
 			(*lineptr)[len] = '\0';
 			pos += len;
-			rem -= len;
+			if (pos >= end)
+			{
+				pos = buffer;
+				end = buffer;
+			}
 			return (len);
 		}
 	}
 
 	len = 0;
-	while ((n_read = read(fd, buffer + pos + rem, BUFSIZE - (pos + rem))))
+	while ((n_read = read(fd, end, buffer + BUFSIZE - end)))
 	{
 		if (n_read == -1)
 		{
@@ -65,7 +69,9 @@ ssize_t _getline(char **lineptr, size_t *nptr, int fd)
 			return (-1);
 		}
 
-		eol = _strnchr(buffer + pos, '\n', n_read);
+		end += n_read;
+
+		eol = _strnchr(pos, '\n', n_read);
 		if (eol > -1)
 		{
 			if (len + eol + 1 >= *nptr)
@@ -84,13 +90,14 @@ ssize_t _getline(char **lineptr, size_t *nptr, int fd)
 				*lineptr = tmp;
 				*nptr = len + eol + 2;
 			}
-			_memcpy(*lineptr + len, buffer + pos, eol + 1);
+			_memcpy(*lineptr + len, pos, eol + 1);
 			(*lineptr)[len + eol + 1] = '\0';
-			rem = n_read - (eol + 1);
-			if (rem)
-				pos += (eol + 1);
-			else
-				pos = 0;
+			pos += (eol + 1);
+			if (pos >= end)
+			{
+				pos = buffer;
+				end = buffer;
+			}
 			return (len + eol + 1);
 		}
 
@@ -110,11 +117,11 @@ ssize_t _getline(char **lineptr, size_t *nptr, int fd)
 			*lineptr = tmp;
 			*nptr = len + n_read + 1;
 		}
-		_memcpy(*lineptr + len, buffer + pos, n_read);
+		_memcpy(*lineptr + len, pos, end - pos);
 		(*lineptr)[len + n_read] = '\0';
-		pos = 0;
-		rem = 0;
 		len += n_read;
+		pos = buffer;
+		end = buffer;
 	}
 
 	if (!*lineptr)
