@@ -1,8 +1,6 @@
 #include "shell.h"
 
-#ifndef BUFSIZE
-#define BUFSIZE 4096
-#endif
+#define BUFSIZE 8192
 
 /**
  * _getline - get a line
@@ -119,9 +117,9 @@ ssize_t _getline(char **lineptr, size_t *nptr, int fd)
 		}
 		_memcpy(*lineptr + len, pos, end - pos);
 		(*lineptr)[len + n_read] = '\0';
-		len += n_read;
 		pos = buffer;
 		end = buffer;
+		len += n_read;
 	}
 
 	if (!*lineptr)
@@ -135,7 +133,7 @@ ssize_t _getline(char **lineptr, size_t *nptr, int fd)
 		*lineptr = tmp;
 		*nptr = 1;
 	}
-	(*lineptr)[len] = '\004';
+	(*lineptr)[len] = *end;
 	return (len);
 }
 
