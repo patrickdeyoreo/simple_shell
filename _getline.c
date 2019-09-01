@@ -24,6 +24,8 @@ ssize_t _getline(char **lineptr, size_t *nptr, int fd)
 	if (!(fd > -1 && lineptr && nptr))
 		return (-1);
 
+			printf("pos: %lu\n", pos);
+			printf("rem: %lu\n", rem);
 	if (rem > 0)
 	{
 		eol = _strnchr(buffer + pos, '\n', rem);
@@ -48,11 +50,10 @@ ssize_t _getline(char **lineptr, size_t *nptr, int fd)
 			}
 			_memcpy(*lineptr, buffer + pos, len);
 			(*lineptr)[len] = '\0';
+			pos += len;
 			rem -= len;
-			if (rem)
-				pos += len;
-			else
-				pos = 0;
+			printf("pos: %lu\n", pos);
+			printf("rem: %lu\n", rem);
 			return (len);
 		}
 	}
@@ -91,9 +92,11 @@ ssize_t _getline(char **lineptr, size_t *nptr, int fd)
 			(*lineptr)[len + eol + 1] = '\0';
 			rem = n_read - (eol + 1);
 			if (rem)
-				pos += eol + 1;
+				pos += (eol + 1);
 			else
 				pos = 0;
+			printf("pos: %lu\n", pos);
+			printf("rem: %lu\n", rem);
 			return (len + eol + 1);
 		}
 
@@ -117,6 +120,8 @@ ssize_t _getline(char **lineptr, size_t *nptr, int fd)
 		(*lineptr)[len + n_read] = '\0';
 		pos = 0;
 		rem = 0;
+			printf("pos: %lu\n", pos);
+			printf("rem: %lu\n", rem);
 		len += n_read;
 	}
 
@@ -132,7 +137,6 @@ ssize_t _getline(char **lineptr, size_t *nptr, int fd)
 		*nptr = 1;
 	}
 	(*lineptr)[len] = '\004';
-
 	return (len);
 }
 
