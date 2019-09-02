@@ -39,7 +39,7 @@ char **tokenize(const char *str)
 				if (*str)
 					++str;
 			}
-		} while (*str && state != NONE);
+		} while (*str && state);
 
 		tokens[count] = _strndup(tok, str - tok);
 		if (!tokens[count])
@@ -77,7 +77,7 @@ size_t count_tokens(const char *str)
 				if (*str)
 					++str;
 			}
-		} while (*str && state != NONE);
+		} while (*str && state);
 	}
 	return (count);
 }

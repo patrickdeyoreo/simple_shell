@@ -13,7 +13,7 @@ int _parse(info_t *info)
 	char *tok;
 	size_t i;
 
-	info->tokens = tokenize(info->commands->cmd);
+	info->tokens = tokenize(info->cmds->cmd);
 	if (!info->tokens)
 		return (0);
 

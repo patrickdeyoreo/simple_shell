@@ -18,7 +18,7 @@ typedef struct cmd_list
 } cmd_list_t;
 
 /**
- * struct cmd_tree - a binary tree of commands
+ * struct cmd_tree - a binary tree of cmds
  * @cmd: a simple command with no separators
  * @left: the command to execute upon failure
  * @right: the command to execute upon success

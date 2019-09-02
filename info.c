@@ -24,7 +24,7 @@ void init_info(info_t *info, int argc, char **argv, built_in_t *ops)
 	info->path = NULL;
 	info->full_cmd = NULL;
 	info->ops = ops;
-	info->commands = NULL;
+	info->cmds = NULL;
 	info->aliases = NULL;
 }
 
@@ -41,7 +41,7 @@ void free_info(info_t *info)
 	free(info->cwd);
 	free_list(&info->path);
 	free(info->full_cmd);
-	free_cmd_list(&info->commands);
+	free_cmd_list(&info->cmds);
 	free_env(&info->aliases);
 }
 

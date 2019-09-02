@@ -1,7 +1,7 @@
 #include "parse.h"
 
 /**
- * cmd_to_tree - construct a binary tree of commands
+ * cmd_to_tree - construct a binary tree of cmds
  * @cmd: the command to parse
  *
  * Return: If memory allocation fails, return NULL. Otherwise, return the

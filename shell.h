@@ -61,7 +61,7 @@ typedef struct built_in built_in_t;
   * @path: arguments passed
   * @full_cmd: arguments passed
   * @ops: arguments passed
-  * @commands: arguments passed
+  * @cmds: arguments passed
   * @aliases: arguments passed
   */
 typedef struct info
@@ -80,7 +80,7 @@ typedef struct info
 	list_t *path;
 	char *full_cmd;
 	built_in_t *ops;
-	struct cmd_list *commands;
+	struct cmd_list *cmds;
 	alias_t *aliases;
 } info_t;
 
@@ -112,6 +112,7 @@ void free_info(info_t *info);
 void open_script(info_t *info);
 
 int _read(info_t *info);
+quote_state_t _read_one(info_t *info, char **lineptr, size_t *nptr);
 int _parse(info_t *info);
 int _run(info_t *info);
 int _exec(info_t *info);

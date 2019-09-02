@@ -20,7 +20,7 @@ char *dequote(const char *str)
 	if (!new)
 		return (NULL);
 
-	for (len = 0, state = NONE; *str; len += state_len)
+	for (len = 0, state = get_quote_state(*str); *str; len += state_len)
 	{
 		if (state == NONE)
 		{
@@ -62,7 +62,7 @@ size_t dequote_len(const char *str)
 	size_t len, state_len;
 	quote_state_t state;
 
-	for (len = 0, state = NONE; *str; len += state_len)
+	for (len = 0, state = get_quote_state(*str); *str; len += state_len)
 	{
 		if (state == NONE)
 		{

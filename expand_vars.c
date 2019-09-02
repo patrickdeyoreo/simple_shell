@@ -33,30 +33,26 @@ char *_expand_vars(info_t *info)
 {
 	char *var = NULL, *val = NULL, *tok = *info->tokens;
 	size_t pos = 0, var_len = 1, val_len = 1;
-	quote_state_t state = get_quote_state(*tok);
-	size_t (*state_fn)(const char *, quote_state_t *) = get_quote_state_fn(state);
+	quote_state_t state = NONE;
 
 	while (tok[pos])
 	{
+		if (get_quote_state_fn(state)(tok + pos, NULL) == 0)
+		{
+			if ((state & (DOUBLE | SINGLE)) && !tok[++pos])
+				break;
+			state = get_quote_state(*(tok + pos));
+			if ((state & (DOUBLE | SINGLE)) && !tok[++pos])
+				break;
+		}
 		if (state == SINGLE)
 		{
-			pos++;
 			pos += quote_state_single(tok + pos, &state);
-			if (tok[pos])
-				pos++;
-			continue;
-		}
-		if (state_fn(tok + pos, NULL) == 0)
-		{
-			state = get_quote_state(*(tok + pos));
-			state_fn = get_quote_state_fn(state);
-			if (state == DOUBLE)
-				pos++;
 			continue;
 		}
 		if (tok[pos] != '$')
 		{
-			pos++;
+			++pos;
 			continue;
 		}
 		if (tok[pos + 1] == '$')

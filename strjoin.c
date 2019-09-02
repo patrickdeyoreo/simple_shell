@@ -22,13 +22,14 @@ char *strjoin(const char *s1, const char *s2, char c)
 	s1_len = _strlen(s1);
 	s2_len = _strlen(s2);
 
-	new = malloc(s1_len + s2_len + 2);
+	new = malloc(s1_len + s2_len + (c != 0) + 1);
 	if (!new)
 		return (NULL);
 
 	_strcpy(new, s1);
-	new[s1_len] = c;
-	_strcpy(new + s1_len + 1, s2);
+	if (c)
+		new[s1_len] = c;
+	_strcpy(new + s1_len + (c != 0), s2);
 
 	return (new);
 }
@@ -49,7 +50,7 @@ char *strjoina(const char **arr, char c)
 	while (arr[n])
 		len += _strlen(arr[n++]);
 
-	new = malloc(len + n);
+	new = malloc(len + (c ? n : 1));
 	if (!new)
 		return (NULL);
 
@@ -57,10 +58,9 @@ char *strjoina(const char **arr, char c)
 	{
 		_strcpy(new + len, *arr);
 		len += _strlen(*arr);
-		if (--n)
+		if (c && --n)
 			new[len++] = c;
 	}
-	new[len] = '\0';
 
 	return (new);
 }
@@ -84,7 +84,7 @@ char *strjoinl(char c, ...)
 		++n, len += _strlen(tmp);
 	va_end(strings);
 
-	new = malloc(len + n);
+	new = malloc(len + (c ? n : 1));
 	if (!new)
 		return (NULL);
 
@@ -94,10 +94,9 @@ char *strjoinl(char c, ...)
 	{
 		_strcpy(new + len, tmp);
 		len += _strlen(tmp);
-		if (--n)
+		if (c && --n)
 			new[len++] = c;
 	}
-	new[len] = '\0';
 	va_end(strings);
 
 	return (new);

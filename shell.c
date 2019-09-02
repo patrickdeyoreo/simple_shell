@@ -2,7 +2,7 @@
 
 
 /**
- * open_script - execute commands from a script
+ * open_script - execute cmds from a script
  * @info: shell information
  */
 void open_script(info_t *info)
@@ -10,6 +10,7 @@ void open_script(info_t *info)
 	char *cmd_num, *error;
 
 	close(STDIN_FILENO);
+
 	if (open(info->argv[1], O_RDONLY) == -1)
 	{
 		cmd_num = num_to_str(info->cmd_num);
@@ -51,25 +52,22 @@ int main(int argc, char **argv)
 	if (argc > 1)
 		open_script(&info);
 
-	while (1)
+	while (++info.cmd_num, 1)
 	{
-		++info.cmd_num;
-
-		if (info.interactive)
-			write(STDERR_FILENO, "$ ", 2);
-
 		_read(&info);
 
-		if (info.line)
-			info.commands = cmd_to_list(info.line);
-
-		while (info.commands)
+		info.cmds = cmd_to_list(info.line);
+		while (info.cmds)
 		{
 			if (_parse(&info))
 				_run(&info);
 			free_tokens(info.tokens);
-			remove_cmd(&info.commands, 0);
+			remove_cmd(&info.cmds, 0);
 		}
 		info.tokens = NULL;
+
+		free(info.line);
+		info.line = NULL;
+		info.len = 0;
 	}
 }

@@ -21,19 +21,24 @@ quote_state_t get_quote_state(int c)
 
 /**
  * get_quote_state_fn - get the state associated with a given character
- * @c: character
+ * @s: state
  *
  * Return: the state associated with c
  */
 size_t (*get_quote_state_fn(quote_state_t s))(const char *, quote_state_t *)
 {
-	if (s == NONE)
+	switch (s)
+	{
+	case NONE:
 		return (quote_state_none);
-	if (s == DOUBLE)
+	case WORD:
+		return (quote_state_word);
+	case DOUBLE:
 		return (quote_state_double);
-	if (s == SINGLE)
+	case SINGLE:
 		return (quote_state_single);
-	return (quote_state_word);
+	}
+	return (NULL);
 }
 
 

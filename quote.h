@@ -13,10 +13,10 @@
  */
 typedef enum quote_state
 {
-	NONE,
-	WORD,
-	DOUBLE,
-	SINGLE
+	NONE   = 0,
+	WORD   = 1,
+	DOUBLE = 2,
+	SINGLE = 4
 } quote_state_t;
 
 quote_state_t get_quote_state(int c);

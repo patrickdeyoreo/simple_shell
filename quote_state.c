@@ -14,7 +14,7 @@ size_t quote_state_none(const char *str, quote_state_t *state)
 
 	while (_isspace(*str))
 		++str, ++len;
-	if (state)
+	if (state && *str)
 		*state = get_quote_state(*str);
 	return (len);
 }
@@ -33,7 +33,7 @@ size_t quote_state_word(const char *str, quote_state_t *state)
 
 	while (*str && !_isspace(*str) && !_isquote(*str))
 		++str, ++len;
-	if (state)
+	if (state && *str)
 		*state = get_quote_state(*str);
 	return (len);
 }
@@ -52,13 +52,8 @@ size_t quote_state_double(const char *str, quote_state_t *state)
 
 	while (*str && *str != '"')
 		++str, ++len;
-	if (state)
-	{
-		if (*str)
-			*state = get_quote_state(*(str + 1));
-		else
-			*state = NONE;
-	}
+	if (state && *str)
+		*state = get_quote_state(*(str + 1));
 	return (len);
 }
 
@@ -76,13 +71,8 @@ size_t quote_state_single(const char *str, quote_state_t *state)
 
 	while (*str && *str != '\'')
 		++str, ++len;
-	if (state)
-	{
-		if (*str)
-			*state = get_quote_state(*(str + 1));
-		else
-			*state = NONE;
-	}
+	if (state && *str)
+		*state = get_quote_state(*(str + 1));
 	return (len);
 }
 
