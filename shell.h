@@ -12,22 +12,14 @@
 #include <errno.h>
 #include <fcntl.h>
 #include "ctype.h"
-#include "quote.h"
+#include "getline.h"
+#include "list.h"
 #include "parse.h"
+#include "quote.h"
 #include "string.h"
 
 extern char **environ;
 
-/**
- * struct list - singly linked list
- * @str: dynamically-allocated string
- * @next: pointer to the next node
- */
-typedef struct list
-{
-	char *str;
-	struct list *next;
-} list_t;
 /**
   * struct my_env - singly linked list
   * @key: variable name
@@ -42,8 +34,6 @@ typedef struct my_env
 } my_env_t;
 
 typedef my_env_t alias_t;
-
-typedef struct built_in built_in_t;
 
 /**
   * struct info - shell state
@@ -77,9 +67,9 @@ typedef struct info
 	int interactive;
 	pid_t pid;
 	char *cwd;
-	list_t *path;
+	struct list *path;
 	char *full_cmd;
-	built_in_t *ops;
+	struct built_in *ops;
 	struct cmd_list *cmds;
 	alias_t *aliases;
 } info_t;
@@ -90,12 +80,12 @@ typedef struct info
   * @f: function
   * @help: arguments passed
   */
-struct built_in
+typedef struct built_in
 {
 	char *name;
 	int (*f)(info_t *);
 	char *help;
-};
+} built_in_t;
 
 int _alias(info_t *info);
 int _cd(info_t *info);
@@ -121,11 +111,6 @@ char *num_to_str(size_t n);
 void _num_to_str(char **buf, size_t n);
 void _perror(size_t argc, ...);
 
-list_t *strtolist(const char *str, char delim);
-list_t *add_node(list_t **headptr, const char *str);
-list_t *add_node_end(list_t **headptr, const char *str);
-void free_list(list_t **headptr);
-
 my_env_t *envtolist(char **env);
 char **listtoenv(my_env_t *head);
 my_env_t *add_env_node_end(my_env_t **ptr, const char *key, const char *value);
@@ -148,7 +133,5 @@ unsigned int _atou(char *s);
 int _isnumber(char *s);
 
 char *_getenv(my_env_t *env, const char *key);
-
-ssize_t _getline(char **lineptr, size_t *nptr, int fd);
 
 #endif /* SHELL_H */

@@ -1,139 +1,155 @@
-#include "shell.h"
+#include "getline.h"
 
-#define BUFSIZE 8192
 
 /**
  * _getline - get a line
  *
- * @lineptr: pointer to the line buffer
- * @nptr: pointer to the size of the *lineptr
+ * @line: pointer to the line buffer
+ * @n: pointer to the size of the *line
  * @fd: file descriptor to read from
  *
  * Return: number of characters read
  */
-ssize_t _getline(char **lineptr, size_t *nptr, int fd)
+ssize_t _getline(char **line, size_t *n, int fd)
 {
-	static char buffer[BUFSIZE];
-	static char *r_pos = buffer, *w_pos = buffer;
-	ssize_t n_read, eol = -1;
-	size_t len = 0;
-	char *new;
+	static buf_t buf;
+	ssize_t n_read, len = 0;
 
-	if (fd < 0 || !lineptr || !nptr)
+	if (!buf.r_pos)
+		buf.r_pos = buf.w_pos = buf.buffer;
+
+	if (fd < 0 || !line || !n)
 		return (-1);
 
-	if (w_pos - r_pos)
-	{
-		eol = _strnchr(r_pos, '\n', w_pos - r_pos);
-		if (eol > -1)
-		{
-			len = eol + 1;
-			if (*nptr <= len)
-			{
-				if (*lineptr)
-					new = realloc(*lineptr, sizeof(char) * (len + 1));
-				else
-					new = malloc(sizeof(char) * (len + 1));
-				if (!new)
-				{
-					free(*lineptr);
-					*lineptr = NULL;
-					*nptr = 0;
-					return (-1);
-				}
-				*lineptr = new;
-				*nptr = len + 1;
-			}
-			(*lineptr)[len] = '\0';
-			_memcpy(*lineptr, r_pos, len);
+	if (buf.w_pos - buf.r_pos && _getline_one(&buf, &len, line, n))
+		return (len);
 
-			if (r_pos + len < w_pos)
-				r_pos += len;
-			else
-				r_pos = w_pos = buffer;
-
-			return (len);
-		}
-	}
-
-	while ((n_read = read(fd, w_pos, buffer + BUFSIZE - w_pos)))
+	while ((n_read = read(fd, buf.w_pos, buf.buffer + BUFSIZE - buf.w_pos)))
 	{
 		if (n_read == -1)
-		{
-			free(*lineptr);
-			*lineptr = NULL;
-			*nptr = 0;
+			return (_getline_free_line(line, n));
+
+		buf.w_pos += n_read;
+
+		if (_getline_one(&buf, &len, line, n))
+			return (len);
+
+		if (_getline_full(&buf, &len, line, n) == -1)
 			return (-1);
-		}
-
-		w_pos += n_read;
-
-		eol = _strnchr(r_pos, '\n', w_pos - r_pos);
-		if (eol > -1)
-		{
-			if (*nptr <= len + eol + 1)
-			{
-				if (*lineptr)
-					new = realloc(*lineptr, sizeof(char) * (len + eol + 2));
-				else
-					new = malloc(sizeof(char) * (len + eol + 2));
-				if (!new)
-				{
-					free(*lineptr);
-					*lineptr = NULL;
-					*nptr = 0;
-					return (-1);
-				}
-				*lineptr = new;
-				*nptr = len + eol + 2;
-			}
-			(*lineptr)[len + eol + 1] = '\0';
-			_memcpy(*lineptr + len, r_pos, eol + 1);
-
-			if (r_pos + eol + 1 < w_pos)
-				r_pos += eol + 1;
-			else
-				r_pos = w_pos = buffer;
-
-			return (len + eol + 1);
-		}
-
-		if (*nptr <= len + (w_pos - r_pos))
-		{
-			if (*lineptr)
-				new = realloc(*lineptr, sizeof(char) * (len + w_pos - r_pos + 1));
-			else
-				new = malloc(sizeof(char) * (len + w_pos - r_pos + 1));
-			if (!new)
-			{
-				free(*lineptr);
-				*lineptr = NULL;
-				*nptr = 0;
-				return (-1);
-			}
-			*lineptr = new;
-			*nptr = len + w_pos - r_pos + 1;
-		}
-		(*lineptr)[len + w_pos - r_pos] = '\0';
-		_memcpy(*lineptr + len, r_pos, w_pos - r_pos);
-
-		len += w_pos - r_pos;
-		r_pos = w_pos = buffer;
 	}
 
-	if (!*lineptr)
+	if (!*line)
 	{
-		new = malloc(sizeof(char));
-		if (!new)
-		{
-			*nptr = 0;
-			return (-1);
-		}
-		*lineptr = new;
-		*nptr = 1;
+		*line = malloc(sizeof(char));
+		if (!*line)
+			return (_getline_free_line(line, n));
+		*n = 1;
 	}
-	(*lineptr)[len] = '\0';
+	(*line)[len] = '\0';
 
 	return (len);
 }
 
+
+/**
+ * _getline_one - get a line from the buffer
+ * @buf: pointer to the buffer structure to read from
+ * @len: pointer to the current length of the line
+ * @line: pointer to the line buffer
+ * @n: pointer to the size of the line buffer
+ *
+ * Return: If memory allocation fails, return -1. If a line is not found,
+ * return 0. Otherwise, return the total length of the line.
+ */
+ssize_t _getline_one(buf_t *buf, ssize_t *len, char **line, size_t *n)
+{
+	char *new;
+	ssize_t eol = _strnchr(buf->r_pos, '\n', buf->w_pos - buf->r_pos);
+
+	if (eol == -1)
+		return (0);
+
+	if (*n < (size_t) *len + eol + 2)
+	{
+		if (*line)
+			new = realloc(*line, sizeof(char) * (*len + eol + 2));
+		else
+			new = malloc(sizeof(char) * (*len + eol + 2));
+
+		if (!new)
+		{
+			*len = _getline_free_line(line, n);
+			return (-1);
+		}
+		*line = new;
+		*n = *len + eol + 2;
+	}
+	_memcpy(*line + *len, buf->r_pos, eol + 1);
+	(*line)[*len + eol + 1] = '\0';
+
+	*len += eol + 1;
+
+	if (buf->r_pos + eol + 1 < buf->w_pos)
+		buf->r_pos += eol + 1;
+	else
+		buf->r_pos = buf->w_pos = buf->buffer;
+
+	return (*len);
+}
+
+
+/**
+ * _getline_full - copy the whole buffer
+ * @buf: pointer to the buffer structure to read from
+ * @len: pointer to the current length of the line
+ * @line: pointer to the line buffer
+ * @n: pointer to the size of the line buffer
+ *
+ * Return: If memory allocation fails, return -1. Otherwise, return the total
+ * length of the line.
+ */
+ssize_t _getline_full(buf_t *buf, ssize_t *len, char **line, size_t *n)
+{
+	char *new;
+
+	if (*n <= (size_t) *len + (buf->w_pos - buf->r_pos))
+	{
+		if (*line)
+			new = realloc(*line, sizeof(char) * (*len + buf->w_pos - buf->r_pos + 1));
+		else
+			new = malloc(sizeof(char) * (*len + buf->w_pos - buf->r_pos + 1));
+
+		if (!new)
+		{
+			*len = _getline_free_line(line, n);
+			return (-1);
+		}
+		*line = new;
+		*n = *len + buf->w_pos - buf->r_pos + 1;
+	}
+	_memcpy(*line + *len, buf->r_pos, buf->w_pos - buf->r_pos);
+	(*line)[*len + buf->w_pos - buf->r_pos] = '\0';
+
+	*len += buf->w_pos - buf->r_pos;
+
+	buf->r_pos = buf->w_pos = buf->buffer;
+
+	return (*len);
+}
+
+
+/**
+ * _getline_free_line - free & nullify the line buffer
+ * @line: pointer to the line buffer
+ * @n: pointer to the size of the line buffer
+ *
+ * Return: Always -1
+ */
+ssize_t _getline_free_line(char **line, size_t *n)
+{
+	free(*line);
+	*line = NULL;
+	*n = 0;
+
+	return (-1);
+}

@@ -1,4 +1,6 @@
-#include "shell.h"
+#include "list.h"
+
+
 /**
  * add_node - insert a string at the beginning of the list
  * @headptr: a pointer to the address of the first list node
@@ -24,6 +26,8 @@ list_t *add_node(list_t **headptr, const char *str)
 
 	return (new);
 }
+
+
 /**
  * add_node_end - add a string at the end of the list
  * @headptr: a pointer to the address of the first list node
@@ -52,6 +56,8 @@ list_t *add_node_end(list_t **headptr, const char *str)
 
 	return (new);
 }
+
+
 /**
  * free_list - free a linked list and and set head to NULL
  * @headptr: the first list node
@@ -66,6 +72,8 @@ void free_list(list_t **headptr)
 	free(*headptr);
 	*headptr = NULL;
 }
+
+
 /**
  * strtolist - turn a string into a linked list
  * @str: string passed

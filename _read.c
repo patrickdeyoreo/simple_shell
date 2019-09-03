@@ -36,7 +36,7 @@ int _read(info_t *info)
 
 
 /**
- * _read_line - read a single line
+ * _read_one - read a single line
  * @info: shell information
  * @lineptr: line buffer
  * @nptr: line buffer size
