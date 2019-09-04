@@ -83,8 +83,8 @@ char **_expand_vars(info_t *info)
 		{
 			val_len = _strlen(val);
 			*info->tokens = malloc(sizeof(char) * (
-					pos + val_len + _strlen(tok + pos + var_len) + 1)
-					);
+					pos + val_len + _strlen(tok + pos + var_len) + 1
+					));
 			_memcpy(*info->tokens, tok, pos);
 			_memcpy(*info->tokens + pos, val, val_len);
 			_strcpy(*info->tokens + pos + val_len, tok + pos + var_len + 1);

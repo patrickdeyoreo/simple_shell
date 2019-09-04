@@ -30,7 +30,7 @@ int _help(info_t *info)
 		{
 			cmd_num = num_to_str(info->cmd_num);
 			_perror(5, info->argv[0], cmd_num, info->tokens[0], info->tokens[1],
-					"no help topics match");
+				"no help topics match");
 			free(cmd_num);
 			info->status = EXIT_FAILURE;
 			return (info->status);
