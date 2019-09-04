@@ -39,7 +39,7 @@ typedef my_env_t alias_t;
   * struct info - shell state
   * @argv: arguments passed
   * @argc: arguments passed
-  * @cmd_num: arguments passed
+  * @lineno: arguments passed
   * @line: arguments passed
   * @len: arguments passed
   * @tokens: arguments passed
@@ -58,7 +58,7 @@ typedef struct info
 {
 	char **argv;
 	int argc;
-	size_t cmd_num;
+	size_t lineno;
 	char *line;
 	size_t len;
 	char **tokens;

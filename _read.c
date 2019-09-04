@@ -15,7 +15,7 @@ int _read(info_t *info)
 	if (info->interactive)
 		write(STDERR_FILENO, "$ ", 2);
 
-	while (_read_one(info, &line, &len) & (DOUBLE | SINGLE))
+	while (++info->lineno, _read_one(info, &line, &len) & (DOUBLE | SINGLE))
 	{
 		if (info->interactive)
 			write(STDERR_FILENO, "> ", 2);

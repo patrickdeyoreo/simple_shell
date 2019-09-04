@@ -35,14 +35,14 @@ void _cd_success(info_t *info)
  */
 void _cd_error(info_t *info, char *dir)
 {
-	char *cmd_num, *error;
+	char *lineno, *error;
 
-	cmd_num = num_to_str(info->cmd_num);
+	lineno = num_to_str(info->lineno);
 	error = strjoin("can't cd to", dir, ' ');
 
-	_perror(4, info->argv[0], cmd_num, info->tokens[0], error);
+	_perror(4, info->argv[0], lineno, info->tokens[0], error);
 
-	free(cmd_num);
+	free(lineno);
 	free(error);
 
 	info->status = 2;

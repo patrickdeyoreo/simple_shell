@@ -8,7 +8,7 @@
   */
 int _run(info_t *info)
 {
-	char *cmd_num, *error;
+	char *lineno, *error;
 	size_t i;
 
 	for (i = 0; info->ops[i].name; i++)
@@ -41,9 +41,9 @@ int _run(info_t *info)
 		error = "not found";
 	}
 
-	cmd_num = num_to_str(info->cmd_num);
-	_perror(4, info->argv[0], cmd_num, info->tokens[0], error);
-	free(cmd_num);
+	lineno = num_to_str(info->lineno);
+	_perror(4, info->argv[0], lineno, info->tokens[0], error);
+	free(lineno);
 
 	return (info->status);
 }

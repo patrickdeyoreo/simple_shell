@@ -12,7 +12,7 @@ void init_info(info_t *info, int argc, char **argv, built_in_t *ops)
 {
 	info->argv = argv;
 	info->argc = argc;
-	info->cmd_num = 0;
+	info->lineno = 0;
 	info->line = NULL;
 	info->len = 0;
 	info->tokens = NULL;

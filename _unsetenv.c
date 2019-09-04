@@ -7,14 +7,14 @@
 
 int _unsetenv(info_t *info)
 {
-	char *cmd_num;
+	char *lineno;
 	size_t i;
 
 	if (!info->tokens[1])
 	{
-		cmd_num = num_to_str(info->cmd_num);
-		_perror(4, info->argv[0], cmd_num, info->tokens[0], "Too few arguments.");
-		free(cmd_num);
+		lineno = num_to_str(info->lineno);
+		_perror(4, info->argv[0], lineno, info->tokens[0], "Too few arguments.");
+		free(lineno);
 		info->status = 1;
 		return (info->status);
 	}

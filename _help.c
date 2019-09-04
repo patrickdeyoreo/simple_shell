@@ -8,7 +8,7 @@
 int _help(info_t *info)
 {
 	size_t i, j, flag;
-	char *cmd_num;
+	char *lineno;
 
 	if (info->tokens[1])
 	{
@@ -28,10 +28,10 @@ int _help(info_t *info)
 		}
 		if (!flag)
 		{
-			cmd_num = num_to_str(info->cmd_num);
-			_perror(5, info->argv[0], cmd_num, info->tokens[0], info->tokens[1],
+			lineno = num_to_str(info->lineno);
+			_perror(5, info->argv[0], lineno, info->tokens[0], info->tokens[1],
 				"no help topics match");
-			free(cmd_num);
+			free(lineno);
 			info->status = EXIT_FAILURE;
 			return (info->status);
 		}

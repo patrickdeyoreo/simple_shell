@@ -7,16 +7,16 @@
  */
 void open_script(info_t *info)
 {
-	char *cmd_num, *error;
+	char *lineno, *error;
 
 	close(STDIN_FILENO);
 
 	if (open(info->argv[1], O_RDONLY) == -1)
 	{
-		cmd_num = num_to_str(info->cmd_num);
+		lineno = num_to_str(info->lineno);
 		error = strjoin("Can't open", info->argv[1], ' ');
-		_perror(3, info->argv[0], cmd_num, error);
-		free(cmd_num);
+		_perror(3, info->argv[0], lineno, error);
+		free(lineno);
 		free(error);
 		free_info(info);
 		exit(127);
@@ -53,7 +53,7 @@ int main(int argc, char **argv)
 	if (argc > 1)
 		open_script(&info);
 
-	while (++info.cmd_num, 1)
+	while (1)
 	{
 		_read(&info);
 

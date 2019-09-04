@@ -8,15 +8,15 @@
 int _setenv(info_t *info)
 {
 	my_env_t *var;
-	char *cmd_num;
+	char *lineno;
 
 	if (info->tokens[1] && info->tokens[2])
 	{
 		if (info->tokens[3])
 		{
-			cmd_num = num_to_str(info->cmd_num);
-			_perror(4, info->argv[0], cmd_num, info->tokens[0], "Too many arguments.");
-			free(cmd_num);
+			lineno = num_to_str(info->lineno);
+			_perror(4, info->argv[0], lineno, info->tokens[0], "Too many arguments.");
+			free(lineno);
 
 			info->status = EXIT_FAILURE;
 			return (info->status);

@@ -8,7 +8,7 @@
 
 int exit_(info_t *info)
 {
-	char *cmd_num;
+	char *lineno;
 
 	if (info->tokens[1])
 	{
@@ -18,10 +18,10 @@ int exit_(info_t *info)
 		}
 		else
 		{
-			cmd_num = num_to_str(info->cmd_num);
-			_perror(5, info->argv[0], cmd_num, info->tokens[0],
+			lineno = num_to_str(info->lineno);
+			_perror(5, info->argv[0], lineno, info->tokens[0],
 					"Illegal number", info->tokens[1]);
-			free(cmd_num);
+			free(lineno);
 			info->status = 2;
 			return (info->status);
 		}
