@@ -1,6 +1,5 @@
 #include "shell.h"
 
-
 /**
  * expand_vars - perform variable expansion on the current set of tokens
  * @info: shell information
@@ -14,8 +13,8 @@ void expand_vars(info_t *info)
 		old = new;
 		tmp = _expand_vars(info);
 		new = arrjoin(old, tmp);
-		free_tokens(old);
-		free_tokens(tmp);
+		free_tokens(&old);
+		free_tokens(&tmp);
 		free(*info->tokens);
 	}
 	free(tokens);

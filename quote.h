@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include "ctype.h"
+#include "string.h"
 
 /**
  * enum quote_state - a quote state mnemonic
@@ -25,5 +26,8 @@ size_t quote_state_none(const char *str, quote_state_t *state);
 size_t quote_state_word(const char *str, quote_state_t *state);
 size_t quote_state_double(const char *str, quote_state_t *state);
 size_t quote_state_single(const char *str, quote_state_t *state);
+
+char *dequote(const char *str);
+size_t dequote_len(const char *str);
 
 #endif /* QUOTE_H */

@@ -1,4 +1,4 @@
-#include "parse.h"
+#include "command.h"
 
 /**
  * cmd_to_list - construct a linked list of command trees
@@ -7,9 +7,9 @@
  * Return: If memory allocation fails, return NULL. Otherwise, return the
  * address of the head of the new list
  */
-cmd_list_t *cmd_to_list(const char *cmd)
+cmdlist_t *cmd_to_list(const char *cmd)
 {
-	cmd_list_t *head = NULL, *tail = NULL;
+	cmdlist_t *head = NULL, *tail = NULL;
 	char *temp;
 	ssize_t len;
 
@@ -25,8 +25,9 @@ cmd_list_t *cmd_to_list(const char *cmd)
 		temp = _strndup(cmd, len);
 		tail = add_cmd_end(&head, temp);
 		free(temp);
+
 		if (!tail)
-			return (free_cmd_list(&head));
+			return (free_cmdlist(&head));
 
 		if (cmd[len])
 			cmd += len + 1;
@@ -44,14 +45,14 @@ cmd_list_t *cmd_to_list(const char *cmd)
  * Return: If memory allocation fails, return NULL. Otherwise, return the
  * address of the new node.
  */
-cmd_list_t *add_cmd(cmd_list_t **headptr, const char *cmd)
+cmdlist_t *add_cmd(cmdlist_t **headptr, const char *cmd)
 {
-	cmd_list_t *new;
+	cmdlist_t *new;
 
 	if (!headptr)
 		return (NULL);
 
-	new = malloc(sizeof(cmd_list_t));
+	new = malloc(sizeof(cmdlist_t));
 	if (!new)
 		return (NULL);
 
@@ -70,9 +71,9 @@ cmd_list_t *add_cmd(cmd_list_t **headptr, const char *cmd)
  * Return: If memory allocation fails, return NULL. Otherwise, return the
  * address of the new node.
  */
-cmd_list_t *add_cmd_end(cmd_list_t **headptr, const char *cmd)
+cmdlist_t *add_cmd_end(cmdlist_t **headptr, const char *cmd)
 {
-	cmd_list_t *new;
+	cmdlist_t *new;
 
 	if (!headptr)
 		return (NULL);
@@ -80,7 +81,7 @@ cmd_list_t *add_cmd_end(cmd_list_t **headptr, const char *cmd)
 	if (*headptr)
 		return (add_cmd_end(&((*headptr)->next), cmd));
 
-	new = malloc(sizeof(cmd_list_t));
+	new = malloc(sizeof(cmdlist_t));
 	if (!new)
 		return (NULL);
 
@@ -97,9 +98,9 @@ cmd_list_t *add_cmd_end(cmd_list_t **headptr, const char *cmd)
  * @index: argument passed
  * Return: NULL
  */
-cmd_list_t *remove_cmd(cmd_list_t **headptr, size_t index)
+cmdlist_t *remove_cmd(cmdlist_t **headptr, size_t index)
 {
-	cmd_list_t *temp;
+	cmdlist_t *temp;
 
 	if (!(headptr && *headptr))
 		return (NULL);
@@ -116,16 +117,16 @@ cmd_list_t *remove_cmd(cmd_list_t **headptr, size_t index)
 }
 
 /**
- * free_cmd_list - free a linked list and and set head to NULL
+ * free_cmdlist - free a linked list and and set head to NULL
  * @headptr: the first node
  *
  * Return: NULL
  */
-cmd_list_t *free_cmd_list(cmd_list_t **headptr)
+cmdlist_t *free_cmdlist(cmdlist_t **headptr)
 {
 	if (headptr && *headptr)
 	{
-		free_cmd_list(&((*headptr)->next));
+		free_cmdlist(&((*headptr)->next));
 		free((*headptr)->cmd);
 		free(*headptr);
 		*headptr = NULL;

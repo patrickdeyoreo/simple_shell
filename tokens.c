@@ -1,5 +1,4 @@
-#include "parse.h"
-
+#include "tokens.h"
 
 /**
  * tokenize - split a string into words (tokens) and dequote
@@ -26,9 +25,7 @@ char **tokenize(const char *str)
 		tok = str;
 		do {
 			if (state == WORD)
-			{
 				str += quote_state_word(str, &state);
-			}
 			else
 			{
 				++str;
@@ -41,9 +38,13 @@ char **tokenize(const char *str)
 			}
 		} while (*str && state);
 
-		tokens[count] = _strndup(tok, str - tok);
+		tokens[count] = _memdup(tok, str - tok + 1);
 		if (!tokens[count])
-			return (free_tokens(tokens));
+		{
+			free_tokens(&tokens);
+			return (NULL);
+		}
+		tokens[count][str - tok] = '\0';
 	}
 	tokens[count] = NULL;
 	return (tokens);
@@ -64,9 +65,7 @@ size_t count_tokens(const char *str)
 	{
 		do {
 			if (state == WORD)
-			{
 				str += quote_state_word(str, &state);
-			}
 			else
 			{
 				++str;
@@ -109,14 +108,18 @@ char **tokenize_noquote(const char *str)
 		if (!*str)
 			break;
 
-		tok = str++;
-
-		while (*str && !_isspace(*str))
+		tok = str;
+		do {
 			++str;
+		} while (*str && !_isspace(*str));
 
-		tokens[count] = _strndup(tok, str - tok);
+		tokens[count] = _memdup(tok, str - tok + 1);
 		if (!tokens[count])
-			return (free_tokens(tokens));
+		{
+			free_tokens(&tokens);
+			return (NULL);
+		}
+		tokens[count][str - tok] = '\0';
 	}
 	tokens[count] = NULL;
 	return (tokens);
@@ -148,20 +151,23 @@ size_t count_tokens_noquote(const char *str)
 
 
 /**
- * free_tokens - free an array of strings
+ * free_tokens - free & nullify an array of strings
  * @tokens: pointer to an array of tokens
- *
- * Return: Always NULL
  */
-char **free_tokens(char **tokens)
+void free_tokens(char ***tokens)
 {
 	char **tok;
 
-	if (tokens)
-	{
-		for (tok = tokens; *tok; ++tok)
-			free(*tok);
-		free(tokens);
-	}
-	return (NULL);
+	if (!tokens)
+		return;
+
+	tok = *tokens;
+	if (!tok)
+		return;
+
+	while (*tok)
+		free(*tok++);
+	free(*tokens);
+
+	*tokens = NULL;
 }

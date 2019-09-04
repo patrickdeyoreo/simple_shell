@@ -1,29 +1,29 @@
 #include "shell.h"
+
 /**
-  * search_path - searches for the directory with executable program
+  * search_path - searches for the directory with the executable program
   * @info: argument passed
   * @path: argument passed
   * Return: pointer to directory string
   */
-
 char *search_path(info_t *info, list_t *path)
 {
-	char *s;
-	struct stat st;
+	char *pathname, *command = info->tokens[0];
+	struct stat sb;
 
 	while (path)
 	{
 		if (*path->str == '\0')
-			s = strjoin(".", info->tokens[0], '/');
+			pathname = strjoin(".", command, '/', NULL);
 		else
-			s = strjoin(path->str, info->tokens[0], '/');
-		if (stat(s, &st) == 0)
+			pathname = strjoin(path->str, command, '/', NULL);
+		if (stat(pathname, &sb) == 0)
 		{
-			if ((st.st_mode & S_IFMT) != S_IFDIR)
-				return (s);
+			if ((sb.st_mode & S_IFMT) != S_IFDIR)
+				return (pathname);
 		}
+		free(pathname);
 		path = path->next;
-		free(s);
 	}
 	return (NULL);
 }

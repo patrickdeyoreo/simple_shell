@@ -1,15 +1,17 @@
-#include "shell.h"
+#include "builtins.h"
+
 /**
-  * _env - displays environment
+  * env_ - displays environment
   * @info: arguments passed
   * Return: int
   */
-
-int _env(info_t *info)
+int env_(info_t *info)
 {
-	my_env_t *var = info->env;
+	env_t *var;
 
-	while (var)
+	info->status = EXIT_SUCCESS;
+
+	for (var = info->env; var; var = var->next)
 	{
 		if (var->key)
 			write(STDOUT_FILENO, var->key, _strlen(var->key));
@@ -17,9 +19,6 @@ int _env(info_t *info)
 		if (var->value)
 			write(STDOUT_FILENO, var->value, _strlen(var->value));
 		write(STDOUT_FILENO, "\n", 1);
-		var = var->next;
 	}
-
-	info->status = EXIT_SUCCESS;
 	return (info->status);
 }

@@ -1,11 +1,11 @@
-#include "shell.h"
+#include "builtins.h"
+
 /**
-  * _isnumber - checks if the string consists of digits
+  * isnumber - checks if the string consists of digits
   * @s: pointer to string
   * Return: int
   */
-
-int _isnumber(char *s)
+int isnumber(char *s)
 {
 	while (*s)
 	{

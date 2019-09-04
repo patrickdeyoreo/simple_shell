@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "string.h"
 
 /**
   * num_to_str - converts number to string

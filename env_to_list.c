@@ -1,14 +1,14 @@
-#include "shell.h"
+#include "env.h"
+
 /**
-  * envtolist - creates a list from environment
+  * env_to_list - creates a list from environment
   * @env: environment passed
   * Return: head
   */
-
-my_env_t *envtolist(char **env)
+env_t *env_to_list(char **env)
 {
 	char *env_str;
-	my_env_t *head = NULL;
+	env_t *head = NULL;
 	size_t key_len = 0;
 
 	while (*env)

@@ -1,49 +1,46 @@
 #include "shell.h"
 
-
 /**
-  * _read - reads the command line passed
-  * @info: arguments passed
+  * get_cmd - read a command
+  * @info: shell information
   *
-  * Return: int
+  * Return: line size
   */
-int _read(info_t *info)
+int get_cmd(info_t *info)
 {
-	char *line = NULL, *temp = NULL;
-	size_t len = 0;
+	char **lineptr = &info->line, *line = NULL, *temp;
+	size_t *nptr = &info->linesize;
 
 	if (info->interactive)
 		write(STDERR_FILENO, "$ ", 2);
 
-	while (++info->lineno, _read_one(info, &line, &len) & (DOUBLE | SINGLE))
+	while (++info->lineno, _get_cmd(info, lineptr, nptr) & (DOUBLE | SINGLE))
 	{
+		temp = line;
+		line = strjoin(line, *lineptr, '\0', NULL);
+		free(temp);
+
 		if (info->interactive)
 			write(STDERR_FILENO, "> ", 2);
-
-		temp = info->line;
-		info->line = strjoin(info->line, line, '\0');
-		info->len += len;
-		free(temp);
 	}
-	temp = info->line;
-	info->line = strjoin(info->line, line, '\0');
-	info->len += len;
+	temp = *lineptr;
+	*lineptr = strjoin(line, *lineptr, '\0', nptr);
 	free(temp);
 	free(line);
 
-	return (1);
+	return (*nptr);
 }
 
 
 /**
- * _read_one - read a single line
+ * _get_cmd - read a single line
  * @info: shell information
  * @lineptr: line buffer
  * @nptr: line buffer size
  *
  * Return: ending quote state
  */
-quote_state_t _read_one(info_t *info, char **lineptr, size_t *nptr)
+int _get_cmd(info_t *info, char **lineptr, size_t *nptr)
 {
 	static quote_state_t state = NONE;
 	size_t index = 0;
@@ -51,9 +48,8 @@ quote_state_t _read_one(info_t *info, char **lineptr, size_t *nptr)
 
 	if (n_read < 1)
 	{
-		free(*lineptr);
-
 		free_info(info);
+		free(*lineptr);
 
 		if (info->interactive)
 			write(STDOUT_FILENO, "\n", 1);
@@ -77,6 +73,5 @@ quote_state_t _read_one(info_t *info, char **lineptr, size_t *nptr)
 		if (state & (DOUBLE | SINGLE))
 			++index;
 	}
-
 	return (state);
 }

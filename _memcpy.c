@@ -13,10 +13,10 @@
  */
 char *_memcpy(char *dest, const char *src, size_t n)
 {
-	char *pos = dest;
+	char *copy = dest;
 
 	while (n--)
-		*pos++ = *src++;
+		*dest++ = *src++;
 
-	return (dest);
+	return (copy);
 }

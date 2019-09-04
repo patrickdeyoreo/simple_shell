@@ -1,9 +1,10 @@
-#include "shell.h"
+#include "env.h"
+
 /**
  * free_env - free a linked list and and set head to NULL
  * @headptr: the first list node
  */
-void free_env(my_env_t **headptr)
+void free_env(env_t **headptr)
 {
 	if (!*headptr)
 		return;

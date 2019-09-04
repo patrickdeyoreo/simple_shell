@@ -1,6 +1,5 @@
 #include "shell.h"
 
-
 /**
   * expand_aliases - perform recursive alias expansion on the current command
   * @info: arguments passed
@@ -13,7 +12,7 @@ void expand_aliases(info_t *info)
 
 	do {
 		name = expand_alias(info);
-	} while (name && info->tokens[0] && _strcmp(name, info->tokens[0]));
+	} while (name && *info->tokens && _strcmp(name, *info->tokens));
 }
 
 
@@ -27,20 +26,20 @@ void expand_aliases(info_t *info)
 char *expand_alias(info_t *info)
 {
 	alias_t *alias;
-	char **tokens = info->tokens, **alias_tokens;
+	char **alias_tokens, **tokens = info->tokens;
 
-	if (!tokens[0])
+	if (!*tokens)
 		return (NULL);
 
 	for (alias = info->aliases; alias; alias = alias->next)
 	{
-		if (!_strcmp(tokens[0], alias->key))
+		if (!_strcmp(*tokens, alias->key))
 		{
 			alias_tokens = tokenize(alias->value);
 			info->tokens = arrjoin(alias_tokens, tokens + 1);
 
-			free_tokens(tokens);
-			free_tokens(alias_tokens);
+			free_tokens(&tokens);
+			free_tokens(&alias_tokens);
 
 			return (alias->key);
 		}

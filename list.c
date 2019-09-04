@@ -1,6 +1,5 @@
 #include "list.h"
 
-
 /**
  * add_node - insert a string at the beginning of the list
  * @headptr: a pointer to the address of the first list node

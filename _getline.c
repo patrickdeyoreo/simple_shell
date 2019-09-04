@@ -1,6 +1,5 @@
 #include "getline.h"
 
-
 /**
  * _getline - get a line
  *

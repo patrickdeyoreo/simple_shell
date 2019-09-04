@@ -1,11 +1,11 @@
-#include "shell.h"
+#include "builtins.h"
+
 /**
- * _atou - convert a string to an integer
+ * atou - convert a string to an integer
  * @s: character to check
  * Return: int
  */
-
-unsigned int _atou(char *s)
+unsigned int atou(char *s)
 {
 	size_t i;
 	unsigned int number = 0;

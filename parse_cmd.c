@@ -1,19 +1,18 @@
 #include "shell.h"
 
 /**
- * _parse - parse a command
+ * parse_cmd - parse a command
  * @info: shell information
  *
  * Description: This function expands aliases, variables, and word splitting
  *
  * Return: the final number of tokens
  */
-int _parse(info_t *info)
+int parse_cmd(info_t *info)
 {
-	char *tok;
-	size_t i;
+	char **tokens, *tok;
 
-	info->tokens = tokenize(info->cmds->cmd);
+	info->tokens = tokenize(info->commands->cmd);
 	if (!info->tokens)
 		return (0);
 
@@ -25,11 +24,10 @@ int _parse(info_t *info)
 	if (!info->tokens)
 		return (0);
 
-	for (i = 0, tok = info->tokens[0]; tok; tok = info->tokens[++i])
+	for (tokens = info->tokens, tok = *tokens; tok; tok = *(++tokens))
 	{
-		info->tokens[i] = dequote(tok);
+		*tokens = dequote(tok);
 		free(tok);
 	}
-
-	return (i);
+	return (tokens - info->tokens);
 }

@@ -1,34 +1,29 @@
-#include "shell.h"
+#include "builtins.h"
+
 /**
   * exit_ - exits from shell
   * @info: arguments passed
   * Return: int
   */
-
-
 int exit_(info_t *info)
 {
-	char *lineno;
+	char **args = info->tokens + 1;
 
-	if (info->tokens[1])
+	if (*args)
 	{
-		if (_isnumber(info->tokens[1]) && _atou(info->tokens[1]) <= INT_MAX)
+		if (isnumber(*args) && atou(*args) <= INT_MAX)
 		{
-			info->status = _atou(info->tokens[1]);
+			info->status = atou(*args);
 		}
 		else
 		{
-			lineno = num_to_str(info->lineno);
-			_perror(5, info->argv[0], lineno, info->tokens[0],
-					"Illegal number", info->tokens[1]);
-			free(lineno);
+			_lperror_default(info, *args, *info->tokens,
+				"Illegal number", NULL);
 			info->status = 2;
 			return (info->status);
 		}
 	}
-
 	free_info(info);
-
 	exit(info->status);
-	return (0);
+	return (info->status);
 }

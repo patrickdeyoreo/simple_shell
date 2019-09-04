@@ -1,6 +1,5 @@
 #include "quote.h"
 
-
 /**
  * get_quote_state - get the state associated with a given character
  * @c: character

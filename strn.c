@@ -1,6 +1,5 @@
 #include "string.h"
 
-
 /**
   * _strnchr - get the index of the first matching character
   * @str: string passed

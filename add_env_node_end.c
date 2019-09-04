@@ -1,4 +1,5 @@
-#include "shell.h"
+#include "env.h"
+
 /**
   * add_env_node_end - adds node at the end of list
   * @ptr: pointer
@@ -6,10 +7,9 @@
   * @value: value of environment variable
   * Return: pointer to list
   */
-
-my_env_t *add_env_node_end(my_env_t **ptr, const char *key, const char *value)
+env_t *add_env_node_end(env_t **ptr, const char *key, const char *value)
 {
-	my_env_t *new;
+	env_t *new;
 
 	if (!ptr)
 		return (NULL);
@@ -17,7 +17,7 @@ my_env_t *add_env_node_end(my_env_t **ptr, const char *key, const char *value)
 	if (*ptr)
 		return (add_env_node_end(&((*ptr)->next), key, value));
 
-	new = malloc(sizeof(my_env_t));
+	new = malloc(sizeof(env_t));
 	if (!new)
 		return (NULL);
 

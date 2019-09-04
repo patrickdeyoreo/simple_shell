@@ -1,6 +1,5 @@
 #include "quote.h"
 
-
 /**
  * quote_state_none - returns the length of state
  * @str: string
