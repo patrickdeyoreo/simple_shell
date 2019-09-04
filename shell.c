@@ -18,6 +18,7 @@ void open_script(info_t *info)
 		_perror(3, info->argv[0], cmd_num, error);
 		free(cmd_num);
 		free(error);
+		free_info(info);
 		exit(127);
 	}
 	info->interactive = isatty(STDIN_FILENO);
