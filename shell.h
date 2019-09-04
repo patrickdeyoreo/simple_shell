@@ -16,13 +16,13 @@
 #include "dict.h"
 #include "env.h"
 #include "error.h"
-#include "general.h"
 #include "getline.h"
 #include "info.h"
 #include "list.h"
 #include "quote.h"
 #include "string.h"
 #include "tokens.h"
+#include "types.h"
 
 extern char **environ;
 

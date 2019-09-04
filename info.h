@@ -7,9 +7,9 @@
 #include "builtins.h"
 #include "command.h"
 #include "env.h"
-#include "general.h"
 #include "list.h"
 #include "tokens.h"
+#include "types.h"
 
 extern char **environ;
 
@@ -52,7 +52,7 @@ struct info
 	cmdlist_t *commands;
 };
 
-void init_info(info_t *info, int argc, char **argv, builtin_t *builtins);
+void init_info(info_t *info, int argc, char **argv);
 void free_info(info_t *info);
 
 #endif /* INFO_H */

@@ -18,8 +18,8 @@ list_t *add_node(list_t **headptr, const char *str)
 	if (!new)
 		return (NULL);
 
-	new->str = _strdup(str);
 	new->next = *headptr;
+	new->str = _strdup(str);
 
 	*headptr = new;
 

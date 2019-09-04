@@ -3,17 +3,18 @@
 
 #include <stdlib.h>
 #include "string.h"
+#include "types.h"
 
 /**
  * struct list - singly linked list
  * @str: dynamically-allocated string
  * @next: pointer to the next node
  */
-typedef struct list
+struct list
 {
-	char *str;
 	struct list *next;
-} list_t;
+	char *str;
+};
 
 list_t *strtolist(const char *str, char delim);
 list_t *add_node(list_t **headptr, const char *str);

@@ -7,7 +7,7 @@
  * @argv: the arg values
  * @builtins: the array of builtins
  */
-void init_info(info_t *info, int argc, char **argv, builtin_t *builtins)
+void init_info(info_t *info, int argc, char **argv)
 {
 	info->interactive = isatty(STDIN_FILENO);
 	info->argc = argc;
@@ -23,8 +23,8 @@ void init_info(info_t *info, int argc, char **argv, builtin_t *builtins)
 	info->env = env_to_list(environ);
 	info->path = NULL;
 	info->aliases = NULL;
-	info->builtins = builtins;
 	info->commands = NULL;
+	load_builtins(info);
 }
 
 

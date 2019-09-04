@@ -2,9 +2,9 @@
 #define ERROR_H
 
 #include <unistd.h>
-#include "general.h"
 #include "info.h"
 #include "string.h"
+#include "types.h"
 
 
 void _perror(const char *msg, size_t n, ...);

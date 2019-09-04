@@ -1,12 +1,12 @@
 #include "builtins.h"
 
 /**
- * cd_ - changes the directory
+ * _cd_ - changes the directory
  * @info: arguments passed
  *
  * Return: int
  */
-int cd_(info_t *info)
+int _cd_(info_t *info)
 {
 	char *dir, **args = info->tokens + 1;
 
@@ -41,19 +41,19 @@ int cd_(info_t *info)
 	}
 
 	if (info->status == -1)
-		cd_error(info, dir);
+		_cd_error(info, dir);
 	else
-		cd_success(info);
+		_cd_success(info);
 
 	return (info->status);
 }
 
 
 /**
- * cd_success - update the environment upon success
+ * _cd_success - update the environment upon success
  * @info: shell info
  */
-void cd_success(info_t *info)
+void _cd_success(info_t *info)
 {
 	char **tokens = info->tokens;
 	char *setenv_tokens[] = { "setenv", NULL, NULL, NULL };
@@ -63,7 +63,7 @@ void cd_success(info_t *info)
 	setenv_tokens[1] = "OLDPWD";
 	setenv_tokens[2] = info->cwd;
 
-	setenv_(info);
+	_setenv_(info);
 
 	free(info->cwd);
 	info->cwd = getcwd(NULL, 0);
@@ -71,7 +71,7 @@ void cd_success(info_t *info)
 	setenv_tokens[1] = "PWD";
 	setenv_tokens[2] = info->cwd;
 
-	setenv_(info);
+	_setenv_(info);
 
 	info->tokens = tokens;
 
@@ -80,11 +80,11 @@ void cd_success(info_t *info)
 
 
 /**
- * cd_error - print an error upon failure to change directory
+ * _cd_error - print an error upon failure to change directory
  * @info: shell info
  * @dir: directory
  */
-void cd_error(info_t *info, char *dir)
+void _cd_error(info_t *info, char *dir)
 {
 	char *error = strjoin("can't cd to", dir, ' ', NULL);
 

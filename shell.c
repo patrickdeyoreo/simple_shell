@@ -9,21 +9,11 @@
  */
 int main(int argc, char **argv)
 {
-	builtin_t builtins[] = {
-		{"alias", alias_, "Usage: alias [NAME[='VALUE'] ...]"},
-		{"cd", cd_, "Usage: cd [DIRECTORY]"},
-		{"env", env_, "Usage: env"},
-		{"exit", exit_, "Usage: exit [STATUS]"},
-		{"help", help_, "Usage: help [BUILTIN]"},
-		{"setenv", setenv_, "Usage: setenv VARIABLE VALUE"},
-		{"unsetenv", unsetenv_, "Usage: unsetenv VARIABLE"},
-		{NULL, NULL, NULL}
-	};
 	info_t info;
 
 	signal(2, _sigint);
 
-	init_info(&info, argc, argv, builtins);
+	init_info(&info, argc, argv);
 
 	if (argc > 1)
 		open_script(&info);

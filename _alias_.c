@@ -1,12 +1,12 @@
 #include "builtins.h"
 
 /**
- * alias_ - create and display aliases
+ * _alias_ - create and display aliases
  * @info: shell info struct
  *
  * Return: status
  */
-int alias_(info_t *info)
+int _alias_(info_t *info)
 {
 	alias_t *alias;
 	char *name, **args = info->tokens + 1;
@@ -22,7 +22,7 @@ int alias_(info_t *info)
 				alias = find_env_node(info->aliases, *args);
 				if (alias)
 				{
-					alias_print(alias);
+					_alias_print(alias);
 				}
 				else
 				{
@@ -34,7 +34,7 @@ int alias_(info_t *info)
 			else
 			{
 				name = _strndup(*args, name_len);
-				alias_add(&info->aliases, name,
+				_alias_add(&info->aliases, name,
 					*args + name_len + 1);
 				free(name);
 			}
@@ -43,19 +43,19 @@ int alias_(info_t *info)
 	else
 	{
 		for (alias = info->aliases; alias; alias = alias->next)
-			alias_print(alias);
+			_alias_print(alias);
 	}
 	return (info->status);
 }
 
 
 /**
- * alias_add - add an alias to a list of aliases
+ * _alias_add - add an alias to a list of aliases
  * @aliases: a pointer to a list of aliases
  * @name: the name of the alias
  * @value: the value of the alias
  */
-void alias_add(alias_t **aliases, const char *name, const char *value)
+void _alias_add(alias_t **aliases, const char *name, const char *value)
 {
 	alias_t *alias = find_env_node(*aliases, name);
 
@@ -70,10 +70,10 @@ void alias_add(alias_t **aliases, const char *name, const char *value)
 
 
 /**
- * alias_print - print an alias
+ * _alias_print - print an alias
  * @alias: the alias to print
  */
-void alias_print(alias_t *alias)
+void _alias_print(alias_t *alias)
 {
 	write(STDOUT_FILENO, alias->key, _strlen(alias->key));
 	write(STDOUT_FILENO, "='", 2);

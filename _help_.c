@@ -1,11 +1,11 @@
 #include "builtins.h"
 
 /**
- * help_ - show help for builtins commands
+ * _help_ - show help for builtins commands
  * @info: shell info
  * Return: status
  */
-int help_(struct info *info)
+int _help_(struct info *info)
 {
 	builtin_t *bltn;
 	char **args = info->tokens + 1;
@@ -19,11 +19,12 @@ int help_(struct info *info)
 				if (!_strcmp(*args, bltn->name))
 				{
 					info->status = EXIT_SUCCESS;
-
 					write(STDOUT_FILENO, bltn->name,
 						_strlen(bltn->name));
 					write(STDOUT_FILENO, ": ", 2);
-
+					write(STDOUT_FILENO, bltn->usage,
+						_strlen(bltn->usage));
+					write(STDOUT_FILENO, "\n", 1);
 					write(STDOUT_FILENO, bltn->help,
 						_strlen(bltn->help));
 					write(STDOUT_FILENO, "\n", 1);
@@ -38,11 +39,10 @@ int help_(struct info *info)
 	else
 	{
 		info->status = EXIT_SUCCESS;
-
 		for (bltn = info->builtins; bltn->fn; ++bltn)
 		{
-			write(STDOUT_FILENO, bltn->help,
-				_strlen(bltn->help));
+			write(STDOUT_FILENO, bltn->usage,
+				_strlen(bltn->usage));
 			write(STDOUT_FILENO, "\n", 1);
 		}
 	}
