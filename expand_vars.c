@@ -12,7 +12,7 @@ void expand_vars(info_t *info)
 	for (tokens = info->tokens; *info->tokens; ++info->tokens)
 	{
 		old = new;
-		tmp = tokenize(_expand_vars(info));
+		tmp = _expand_vars(info);
 		new = arrjoin(old, tmp);
 		free_tokens(old);
 		free_tokens(tmp);
@@ -29,7 +29,7 @@ void expand_vars(info_t *info)
  *
  * Return: the expanded token
  */
-char *_expand_vars(info_t *info)
+char **_expand_vars(info_t *info)
 {
 	char *var = NULL, *val = NULL, *tok = *info->tokens;
 	size_t pos = 0, var_len = 1, val_len = 1;
@@ -63,10 +63,6 @@ char *_expand_vars(info_t *info)
 		{
 			val = num_to_str(info->status);
 		}
-		else if (tok[pos + 1] == '@')
-		{
-			val = strjoina((const char **) info->argv, ' ');
-		}
 		else if (_isident(tok[pos + 1]) && !_isdigit(tok[pos + 1]))
 		{
 			while (_isident(tok[pos + var_len + 1]))
@@ -99,11 +95,13 @@ char *_expand_vars(info_t *info)
 			free(val);
 			val = NULL;
 
+			var_len = 1;
+
 			pos += val_len;
 
 			continue;
 		}
 		++pos;
 	}
-	return (*info->tokens);
+	return (tokenize(*info->tokens));
 }

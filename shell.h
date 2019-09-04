@@ -124,7 +124,7 @@ void expand_aliases(info_t *info);
 char *expand_alias(info_t *info);
 
 void expand_vars(info_t *info);
-char *_expand_vars(info_t *info);
+char **_expand_vars(info_t *info);
 
 char **arrjoin(char **arr1, char **arr2);
 

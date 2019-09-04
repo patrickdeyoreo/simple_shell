@@ -21,13 +21,16 @@ ssize_t _getline(char **line, size_t *n, int fd)
 	if (fd < 0 || !line || !n)
 		return (-1);
 
-	if (buf.w_pos - buf.r_pos && _getline_one(&buf, &len, line, n))
+	if (_getline_one(&buf, &len, line, n))
 		return (len);
 
 	while ((n_read = read(fd, buf.w_pos, buf.buffer + BUFSIZE - buf.w_pos)))
 	{
 		if (n_read == -1)
-			return (_getline_free_line(line, n));
+		{
+			_getline_free_line(line, n);
+			return (-1);
+		}
 
 		buf.w_pos += n_read;
 
@@ -37,16 +40,17 @@ ssize_t _getline(char **line, size_t *n, int fd)
 		if (_getline_full(&buf, &len, line, n) == -1)
 			return (-1);
 	}
-
 	if (!*line)
 	{
 		*line = malloc(sizeof(char));
 		if (!*line)
-			return (_getline_free_line(line, n));
+		{
+			*n = 0;
+			return (-1);
+		}
 		*n = 1;
 	}
 	(*line)[len] = '\0';
-
 	return (len);
 }
 
@@ -78,7 +82,8 @@ ssize_t _getline_one(buf_t *buf, ssize_t *len, char **line, size_t *n)
 
 		if (!new)
 		{
-			*len = _getline_free_line(line, n);
+			_getline_free_line(line, n);
+			*len = (-1);
 			return (-1);
 		}
 		*line = new;
@@ -121,7 +126,8 @@ ssize_t _getline_full(buf_t *buf, ssize_t *len, char **line, size_t *n)
 
 		if (!new)
 		{
-			*len = _getline_free_line(line, n);
+			_getline_free_line(line, n);
+			*len = (-1);
 			return (-1);
 		}
 		*line = new;
@@ -142,14 +148,10 @@ ssize_t _getline_full(buf_t *buf, ssize_t *len, char **line, size_t *n)
  * _getline_free_line - free & nullify the line buffer
  * @line: pointer to the line buffer
  * @n: pointer to the size of the line buffer
- *
- * Return: Always -1
  */
-ssize_t _getline_free_line(char **line, size_t *n)
+void _getline_free_line(char **line, size_t *n)
 {
 	free(*line);
 	*line = NULL;
 	*n = 0;
-
-	return (-1);
 }

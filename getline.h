@@ -23,6 +23,6 @@ typedef struct buf
 ssize_t _getline(char **line, size_t *n, int fd);
 ssize_t _getline_one(buf_t *buf, ssize_t *len, char **line, size_t *n);
 ssize_t _getline_full(buf_t *buf, ssize_t *len, char **line, size_t *n);
-ssize_t _getline_free_line(char **line, size_t *n);
+void _getline_free_line(char **line, size_t *n);
 
 #endif /* GETLINE_H */
