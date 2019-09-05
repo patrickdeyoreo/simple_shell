@@ -19,7 +19,7 @@ int _alias_(info_t *info)
 			name_len = _strchr(*args, '=');
 			if (name_len == -1)
 			{
-				alias = find_env_node(info->aliases, *args);
+				alias = get_dict_node(info->aliases, *args);
 				if (alias)
 				{
 					_alias_print(alias);
@@ -57,15 +57,15 @@ int _alias_(info_t *info)
  */
 void _alias_add(alias_t **aliases, const char *name, const char *value)
 {
-	alias_t *alias = find_env_node(*aliases, name);
+	alias_t *alias = get_dict_node(*aliases, name);
 
 	if (alias)
 	{
-		free(alias->value);
-		alias->value = _strdup(value);
+		free(alias->val);
+		alias->val = _strdup(value);
 		return;
 	}
-	add_env_node_end(aliases, name, value);
+	add_dict_node_end(aliases, name, value);
 }
 
 
@@ -77,6 +77,6 @@ void _alias_print(alias_t *alias)
 {
 	write(STDOUT_FILENO, alias->key, _strlen(alias->key));
 	write(STDOUT_FILENO, "='", 2);
-	write(STDOUT_FILENO, alias->value, _strlen(alias->value));
+	write(STDOUT_FILENO, alias->val, _strlen(alias->val));
 	write(STDOUT_FILENO, "'\n", 2);
 }

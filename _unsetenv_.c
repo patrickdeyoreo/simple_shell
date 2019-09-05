@@ -12,7 +12,7 @@ int _unsetenv_(info_t *info)
 	if (*args)
 	{
 		do {
-			del_env_node(&info->env, *args);
+			del_dict_node(&info->env, *args);
 		} while (*(++args));
 		info->status = EXIT_SUCCESS;
 	}

@@ -19,7 +19,7 @@ void init_info(info_t *info, int argc, char **argv)
 	info->pid = getpid();
 	info->cwd = getcwd(NULL, 0);
 	info->exe = NULL;
-	info->env = env_to_list(environ);
+	info->env = env_to_dict(environ);
 	info->path = NULL;
 	info->aliases = NULL;
 	info->commands = NULL;
@@ -41,9 +41,9 @@ void free_info(info_t *info)
 	info->cwd = NULL;
 	free(info->exe);
 	info->exe = NULL;
-	free_env(&info->env);
+	free_dict(&info->env);
 	free_list(&info->path);
-	free_env(&info->aliases);
+	free_dict(&info->aliases);
 	free_cmdlist(&info->commands);
 }
 

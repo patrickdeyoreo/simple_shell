@@ -12,8 +12,8 @@
  */
 struct list
 {
-	struct list *next;
 	char *str;
+	struct list *next;
 };
 
 list_t *str_to_list(const char *str, char delim);

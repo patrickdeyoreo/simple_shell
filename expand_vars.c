@@ -68,7 +68,7 @@ char **_expand_vars(info_t *info)
 				++var_len;
 
 			var = _strndup(tok + pos + 1, var_len);
-			val = _getenv(info->env, var);
+			val = get_dict_val(info->env, var);
 
 			if (val)
 				val = _strdup(val);

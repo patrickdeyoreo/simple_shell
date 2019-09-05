@@ -16,8 +16,8 @@ int _env_(info_t *info)
 		if (var->key)
 			write(STDOUT_FILENO, var->key, _strlen(var->key));
 		write(STDOUT_FILENO, "=", 1);
-		if (var->value)
-			write(STDOUT_FILENO, var->value, _strlen(var->value));
+		if (var->val)
+			write(STDOUT_FILENO, var->val, _strlen(var->val));
 		write(STDOUT_FILENO, "\n", 1);
 	}
 	return (info->status);

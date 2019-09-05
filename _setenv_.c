@@ -23,15 +23,15 @@ int _setenv_(info_t *info)
 		}
 		else
 		{
-			var = find_env_node(info->env, args[0]);
+			var = get_dict_node(info->env, args[0]);
 			if (var)
 			{
-				free(var->value);
-				var->value = _strdup(args[1]);
+				free(var->val);
+				var->val = _strdup(args[1]);
 			}
 			else
 			{
-				add_env_node_end(&info->env, args[0], args[1]);
+				add_dict_node_end(&info->env, args[0], args[1]);
 			}
 		}
 	}

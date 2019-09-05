@@ -35,7 +35,7 @@ char *expand_alias(info_t *info)
 	{
 		if (!_strcmp(*tokens, alias->key))
 		{
-			alias_tokens = tokenize(alias->value);
+			alias_tokens = tokenize(alias->val);
 			info->tokens = arrjoin(alias_tokens, tokens + 1);
 
 			free_tokens(&tokens);

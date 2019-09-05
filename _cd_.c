@@ -19,7 +19,7 @@ int _cd_(info_t *info)
 		}
 		else
 		{
-			dir = _getenv(info->env, "OLDPWD");
+			dir = get_dict_val(info->env, "OLDPWD");
 			if (!dir)
 				dir = info->cwd;
 
@@ -33,7 +33,7 @@ int _cd_(info_t *info)
 	}
 	else
 	{
-		dir = _getenv(info->env, "HOME");
+		dir = get_dict_val(info->env, "HOME");
 		if (dir)
 			info->status = chdir(dir);
 		else

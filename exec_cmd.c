@@ -19,7 +19,7 @@ int exec_cmd(info_t *info)
 	if (_strchr(*info->tokens, '/') == -1)
 	{
 		free_list(&info->path);
-		info->path = str_to_list(_getenv(info->env, "PATH"), ':');
+		info->path = str_to_list(get_dict_val(info->env, "PATH"), ':');
 		info->exe = search_path(info, info->path);
 	}
 	else
@@ -60,7 +60,7 @@ int _exec_cmd(info_t *info)
 	case 0:
 		exe = info->exe;
 		argv = info->tokens;
-		env = list_to_env(info->env);
+		env = dict_to_env(info->env);
 
 		info->exe = NULL;
 		info->tokens = NULL;
