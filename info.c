@@ -5,7 +5,6 @@
  * @info: a pointer to the info to initialize
  * @argc: the arg count
  * @argv: the arg values
- * @builtins: the array of builtins
  */
 void init_info(info_t *info, int argc, char **argv)
 {

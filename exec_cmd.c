@@ -19,7 +19,7 @@ int exec_cmd(info_t *info)
 	if (_strchr(*info->tokens, '/') == -1)
 	{
 		free_list(&info->path);
-		info->path = strtolist(_getenv(info->env, "PATH"), ':');
+		info->path = str_to_list(_getenv(info->env, "PATH"), ':');
 		info->exe = search_path(info, info->path);
 	}
 	else

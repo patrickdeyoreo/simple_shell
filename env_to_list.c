@@ -7,18 +7,43 @@
   */
 env_t *env_to_list(char **env)
 {
-	char *env_str;
 	env_t *head = NULL;
-	size_t key_len = 0;
 
-	while (*env)
-	{
-		env_str = _strdup(*env);
-		key_len = _strchr(*env, '=');
-		env_str[key_len] = '\0';
-		add_env_node_end(&head, env_str, env_str + key_len + 1);
-		free(env_str);
-		env++;
-	}
+	if (!_env_to_list(&head, env))
+		free_env(&head);
+
 	return (head);
+}
+
+
+/**
+ * _env_to_list - turn the environment into a linked list (helper)
+ * @tailptr: pointer to the tail of the list
+ * @env: environment
+ *
+ * Return: pointer to the tail of the list
+ */
+env_t *_env_to_list(env_t **tailptr, char **env)
+{
+	env_t *tail;
+	char *env_str;
+	ssize_t key_len;
+
+	if (!*env)
+		return (*tailptr);
+
+	env_str = _strdup(*env);
+	if (!env_str)
+		return (NULL);
+
+	key_len = _strchr(*env, '=');
+
+	if (key_len == -1)
+		return (NULL);
+
+	env_str[key_len] = '\0';
+	tail = add_env_node_end(tailptr, env_str, env_str + key_len + 1);
+	free(env_str);
+
+	return (_env_to_list(&tail, env + 1));
 }

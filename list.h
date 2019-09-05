@@ -16,7 +16,8 @@ struct list
 	char *str;
 };
 
-list_t *strtolist(const char *str, char delim);
+list_t *str_to_list(const char *str, char delim);
+list_t *_str_to_list(list_t **tailptr, const char *str, char delim);
 list_t *add_node(list_t **headptr, const char *str);
 list_t *add_node_end(list_t **headptr, const char *str);
 void free_list(list_t **headptr);
