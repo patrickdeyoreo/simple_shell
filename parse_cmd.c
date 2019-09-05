@@ -11,23 +11,33 @@
 int parse_cmd(info_t *info)
 {
 	char **tokens, *tok;
+	size_t n = 0;
+	cmdlist_t *cmd = info->commands = cmd_to_list(info->line);
 
-	info->tokens = tokenize(info->commands->cmd);
-	if (!info->tokens)
-		return (0);
-
-	expand_aliases(info);
-	if (!info->tokens)
-		return (0);
-
-	expand_vars(info);
-	if (!info->tokens)
-		return (0);
-
-	for (tokens = info->tokens, tok = *tokens; tok; tok = *(++tokens))
+	while (cmd)
 	{
-		*tokens = dequote(tok);
-		free(tok);
+		expand_aliases(info->aliases, &(cmd->tokens));
+		if (!cmd->tokens)
+		{
+			cmd = cmd->next;
+			remove_cmd(&info->commands, n);
+			continue;
+		}
+		expand_vars(info, &(cmd->tokens));
+		if (!cmd->tokens)
+		{
+			cmd = cmd->next;
+			remove_cmd(&info->commands, n);
+			continue;
+		}
+		tokens = cmd->tokens;
+		for (tok = *tokens; tok; tok = *(++tokens))
+		{
+			*tokens = dequote(tok);
+			free(tok);
+		}
+		cmd = cmd->next;
+		++n;
 	}
-	return (tokens - info->tokens);
+	return (n);
 }

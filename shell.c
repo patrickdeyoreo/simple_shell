@@ -21,13 +21,11 @@ int main(int argc, char **argv)
 	while (1)
 	{
 		get_cmd(&info);
-
-		info.commands = cmd_to_list(info.line);
+		parse_cmd(&info);
 		while (info.commands)
 		{
-			if (parse_cmd(&info))
-				exec_cmd(&info);
-
+			info.tokens = arrdup(info.commands->tokens);
+			exec_cmd(&info);
 			free_tokens(&info.tokens);
 			remove_cmd(&info.commands, 0);
 		}

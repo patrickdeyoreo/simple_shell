@@ -1,67 +1,60 @@
 #include "command.h"
 
 /**
- * cmd_to_list - construct a linked list of command trees
+ * cmd_to_list - construct a linked list of tokenized commands
  * @cmd: the command to parse
  *
- * Return: If memory allocation fails, return NULL. Otherwise, return the
- * address of the head of the new list
+ * Return: If memory allocation fails, return NULL. Otherwise, return a
+ * pointer to the head of the new list.
  */
 cmdlist_t *cmd_to_list(const char *cmd)
 {
-	cmdlist_t *head = NULL, *tail = NULL;
-	char *temp;
-	ssize_t len;
+	cmdlist_t *head = NULL;
+	size_t count;
+	char *split = _strdup(cmd);
 
-	if (!cmd)
+	if (!split)
 		return (NULL);
 
-	while (*cmd)
+	count = split_cmd(split);
+
+	if (!_cmd_to_list(&head, split, count))
 	{
-		len = _strchr(cmd, ';');
-		if (len == -1)
-			len = _strlen(cmd);
-
-		temp = _strndup(cmd, len);
-		tail = add_cmd_end(&head, temp);
-		free(temp);
-
-		if (!tail)
-			return (free_cmdlist(&head));
-
-		if (cmd[len])
-			cmd += len + 1;
-		else
-			cmd += len;
+		free_cmdlist(&head);
+		return (NULL);
 	}
+	free(split);
+
 	return (head);
 }
 
+
 /**
- * add_cmd - insert a command at the beginning of the list
- * @headptr: a pointer to the address of the first list node
- * @cmd: the cmd to add to the list
+ * _cmd_to_list - construct a linked list of tokenized commands (helper)
+ * @tailptr: pointer to the tail of the command list
+ * @split: a line split with null bytes on separators
+ * @count: the number of commands contained in split
  *
- * Return: If memory allocation fails, return NULL. Otherwise, return the
- * address of the new node.
+ * Return: If memory allocation fails, return NULL. Otherwise, return a
+ * pointer to the tail of the new list.
  */
-cmdlist_t *add_cmd(cmdlist_t **headptr, const char *cmd)
+cmdlist_t *_cmd_to_list(cmdlist_t **tailptr, const char *split, size_t count)
 {
-	cmdlist_t *new;
+	cmdlist_t *tail;
 
-	if (!headptr)
+	if (!count)
+		return (*tailptr);
+
+	tail = add_cmd_end(tailptr, split);
+	if (!tail)
 		return (NULL);
 
-	new = malloc(sizeof(cmdlist_t));
-	if (!new)
-		return (NULL);
+	while (*split++)
+		;
 
-	new->cmd = _strdup(cmd);
-	new->next = *headptr;
-	*headptr = new;
-
-	return (new);
+	return (_cmd_to_list(&tail, split, count - 1));
 }
+
 
 /**
  * add_cmd_end - add a command at the end of the list
@@ -85,12 +78,13 @@ cmdlist_t *add_cmd_end(cmdlist_t **headptr, const char *cmd)
 	if (!new)
 		return (NULL);
 
-	new->cmd = _strdup(cmd);
+	new->tokens = tokenize(cmd);
 	new->next = *headptr;
 	*headptr = new;
 
 	return (new);
 }
+
 
 /**
  * remove_cmd - remove a command from a command list
@@ -110,26 +104,24 @@ cmdlist_t *remove_cmd(cmdlist_t **headptr, size_t index)
 	temp = *headptr;
 	*headptr = (*headptr)->next;
 
-	free(temp->cmd);
+	free_tokens(&temp->tokens);
 	free(temp);
 
 	return (temp);
 }
 
+
 /**
  * free_cmdlist - free a linked list and and set head to NULL
  * @headptr: the first node
- *
- * Return: NULL
  */
-cmdlist_t *free_cmdlist(cmdlist_t **headptr)
+void free_cmdlist(cmdlist_t **headptr)
 {
-	if (headptr && *headptr)
-	{
-		free_cmdlist(&((*headptr)->next));
-		free((*headptr)->cmd);
-		free(*headptr);
-		*headptr = NULL;
-	}
-	return (NULL);
+	if (!(headptr && *headptr))
+		return;
+
+	free_cmdlist(&((*headptr)->next));
+	free_tokens(&((*headptr)->tokens));
+	free(*headptr);
+	*headptr = NULL;
 }

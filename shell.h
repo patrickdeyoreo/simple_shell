@@ -36,11 +36,11 @@ int _exec_cmd(info_t *info);
 
 char *search_path(info_t *info, list_t *path);
 
-void expand_aliases(info_t *info);
-char *expand_alias(info_t *info);
+void expand_aliases(alias_t *aliases, char ***tokptr);
+char *expand_alias(alias_t *aliases, char ***tokptr);
 
-void expand_vars(info_t *info);
-char **_expand_vars(info_t *info);
+void expand_vars(info_t *info, char ***tokptr);
+char **_expand_vars(info_t *info, char ***tokptr);
 
 void open_script(info_t *info);
 

@@ -1,9 +1,11 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
+#include <stdio.h>
 #include <stdlib.h>
 #include "quote.h"
 #include "string.h"
+#include "tokens.h"
 
 /**
  * struct cmdlist - a linked list of command trees
@@ -12,7 +14,7 @@
  */
 typedef struct cmdlist
 {
-	char *cmd;
+	char **tokens;
 	struct cmdlist *next;
 } cmdlist_t;
 
@@ -29,11 +31,15 @@ typedef struct cmdtree
 	struct cmdtree *right;
 } cmdtree_t;
 
+size_t split_cmd(char *cmd);
+
 cmdlist_t *cmd_to_list(const char *cmd);
+cmdlist_t *_cmd_to_list(cmdlist_t **tailptr, const char *split, size_t count);
+
 cmdlist_t *add_cmd(cmdlist_t **headptr, const char *cmd);
 cmdlist_t *add_cmd_end(cmdlist_t **headptr, const char *cmd);
 cmdlist_t *remove_cmd(cmdlist_t **headptr, size_t index);
-cmdlist_t *free_cmdlist(cmdlist_t **headptr);
+void free_cmdlist(cmdlist_t **headptr);
 
 cmdtree_t *cmd_to_tree(const char *cmd);
 cmdtree_t *free_cmdtree(cmdtree_t **rootptr);

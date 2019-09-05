@@ -4,21 +4,21 @@
  * expand_vars - perform variable expansion on the current set of tokens
  * @info: shell information
  */
-void expand_vars(info_t *info)
+void expand_vars(info_t *info, char ***tokptr)
 {
 	char **new = NULL, **old, **tmp, **tokens;
 
-	for (tokens = info->tokens; *info->tokens; ++info->tokens)
+	for (tokens = *tokptr; **tokptr; ++(*tokptr))
 	{
 		old = new;
-		tmp = _expand_vars(info);
+		tmp = _expand_vars(info, tokptr);
 		new = arrjoin(old, tmp);
 		free_tokens(&old);
 		free_tokens(&tmp);
-		free(*info->tokens);
+		free(**tokptr);
 	}
 	free(tokens);
-	info->tokens = new;
+	*tokptr = new;
 }
 
 
@@ -28,13 +28,13 @@ void expand_vars(info_t *info)
  *
  * Return: the expanded token
  */
-char **_expand_vars(info_t *info)
+char **_expand_vars(info_t *info, char ***tokptr)
 {
-	char *var = NULL, *val = NULL, *tok = *info->tokens;
-	size_t pos = 0, var_len = 1, val_len = 1;
+	char *var = NULL, *val = NULL, *tok = **tokptr;
+	size_t pos = 0, var_len, val_len;
 	quote_state_t state = NONE;
 
-	while (tok[pos])
+	while (var_len = val_len = 1, tok[pos])
 	{
 		if (get_quote_state_fn(state)(tok + pos, NULL) == 0)
 		{
@@ -81,26 +81,20 @@ char **_expand_vars(info_t *info)
 		if (val)
 		{
 			val_len = _strlen(val);
-			*info->tokens = malloc(sizeof(char) * (
+			**tokptr = malloc(sizeof(char) * (
 					pos + val_len + _strlen(tok + pos + var_len) + 1
 					));
-			_memcpy(*info->tokens, tok, pos);
-			_memcpy(*info->tokens + pos, val, val_len);
-			_strcpy(*info->tokens + pos + val_len, tok + pos + var_len + 1);
+			_memcpy(**tokptr, tok, pos);
+			_memcpy(**tokptr + pos, val, val_len);
+			_strcpy(**tokptr + pos + val_len, tok + pos + var_len + 1);
 
 			free(tok);
-			tok = *info->tokens;
+			tok = **tokptr;
 
 			free(val);
 			val = NULL;
-
-			var_len = 1;
-
-			pos += val_len;
-
-			continue;
 		}
-		++pos;
+		pos += val_len;
 	}
-	return (tokenize(*info->tokens));
+	return (tokenize(**tokptr));
 }

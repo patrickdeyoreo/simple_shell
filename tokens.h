@@ -13,6 +13,8 @@ size_t count_tokens_noquote(const char *str);
 
 void free_tokens(char ***tokens);
 
+char **arrdup(char **arr);
+
 char **arrjoin(char **arr1, char **arr2);
 
 #endif /* TOKENS_H */

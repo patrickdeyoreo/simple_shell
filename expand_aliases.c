@@ -6,13 +6,13 @@
   *
   * Return: If expansion succeeds, return a pointer t to the otherwise 0
   */
-void expand_aliases(info_t *info)
+void expand_aliases(alias_t *aliases, char ***tokptr)
 {
 	char *name;
 
 	do {
-		name = expand_alias(info);
-	} while (name && *info->tokens && _strcmp(name, *info->tokens));
+		name = expand_alias(aliases, tokptr);
+	} while (name && **tokptr && _strcmp(name, **tokptr));
 }
 
 
@@ -23,26 +23,26 @@ void expand_aliases(info_t *info)
   * Return: If expansion succeeds, return a pointer the alias name.
   * Otherwise, return NULL.
   */
-char *expand_alias(info_t *info)
+char *expand_alias(alias_t *aliases, char ***tokptr)
 {
-	alias_t *alias;
-	char **alias_tokens, **tokens = info->tokens;
+	char **alias_tokens, **tokens = *tokptr;
 
 	if (!*tokens)
 		return (NULL);
 
-	for (alias = info->aliases; alias; alias = alias->next)
+	while (aliases)
 	{
-		if (!_strcmp(*tokens, alias->key))
+		if (!_strcmp(*tokens, aliases->key))
 		{
-			alias_tokens = tokenize(alias->val);
-			info->tokens = arrjoin(alias_tokens, tokens + 1);
+			alias_tokens = tokenize(aliases->val);
+			*tokptr = arrjoin(alias_tokens, tokens + 1);
 
 			free_tokens(&tokens);
 			free_tokens(&alias_tokens);
 
-			return (alias->key);
+			return (aliases->key);
 		}
+		aliases = aliases->next;
 	}
 	return (NULL);
 }
