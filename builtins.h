@@ -8,6 +8,7 @@
 #include "env.h"
 #include "error.h"
 #include "info.h"
+#include "path.h"
 #include "string.h"
 #include "types.h"
 
@@ -28,6 +29,13 @@
 #define ENV_USAGE "env"
 #define ENV_HELP \
 	"  Print the environment."
+
+#define EXEC_USAGE "exec COMMAND [ARGUMENTS ...]"
+#define EXEC_HELP \
+	"  Replace the shell with the given command.\n\n"\
+	"  COMMAND is executed, replacing the shell with the specified program.\n"\
+	"  ARGUMENTS become the arguments to COMMAND.\n"\
+	"  If the command cannot be executed, the shell exits."
 
 #define EXIT_USAGE "exit [STATUS]"
 #define EXIT_HELP \
@@ -67,6 +75,7 @@ void init_builtins(info_t *info);
 int alias_(info_t *info);
 int cd_(info_t *info);
 int env_(info_t *info);
+int exec_(info_t *info);
 int exit_(info_t *info);
 int setenv_(info_t *info);
 int unsetenv_(info_t *info);

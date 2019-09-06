@@ -21,14 +21,14 @@ struct cmd_list
 /**
  * struct cmd_tree - a binary tree of commands
  * @tokens: a simple command with no separators
- * @left: the command to execute upon failure
- * @right: the command to execute upon success
+ * @success: the command to execute upon failure
+ * @failure: the command to execute upon success
  */
 struct cmd_tree
 {
-	char **tokens;
-	struct cmd_tree *left;
-	struct cmd_tree *right;
+	const char **tokens;
+	struct cmd_tree *success;
+	struct cmd_tree *failure;
 };
 
 cmd_list_t *cmd_to_list(const char *cmd);

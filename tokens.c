@@ -27,8 +27,9 @@ char **tokenize(const char *str)
 		while (*str && (state = quote_state(*str)) != Q_NONE)
 		{
 			if (state & (Q_DOUBLE | Q_SINGLE | Q_ESCAPE))
-				++str;
-			str += quote_state_len(str, state);
+				str += quote_state_len(str + 1, state) + 1;
+			else
+				str += quote_state_len(str, state);
 
 			if (*str && (state & (Q_DOUBLE | Q_SINGLE)))
 				++str;
@@ -63,8 +64,9 @@ size_t count_tokens(const char *str)
 		while (*str && (state = quote_state(*str)) != Q_NONE)
 		{
 			if (state & (Q_DOUBLE | Q_SINGLE | Q_ESCAPE))
-				++str;
-			str += quote_state_len(str, state);
+				str += quote_state_len(str + 1, state) + 1;
+			else
+				str += quote_state_len(str, state);
 
 			if (*str && (state & (Q_DOUBLE | Q_SINGLE)))
 				++str;

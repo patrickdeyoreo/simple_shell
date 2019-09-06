@@ -21,9 +21,9 @@ void free_cmd_tree(cmd_tree_t **rootptr)
 {
 	if (rootptr && *rootptr)
 	{
-		free_cmd_tree(&((*rootptr)->left));
-		free_cmd_tree(&((*rootptr)->right));
-		free_tokens(&((*rootptr)->tokens));
-		*rootptr = NULL;
+		free_cmd_tree(&((*rootptr)->success));
+		free_cmd_tree(&((*rootptr)->failure));
+		(*rootptr)->tokens = NULL;
+		(*rootptr) = NULL;
 	}
 }

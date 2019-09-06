@@ -10,6 +10,7 @@ void init_builtins(info_t *info)
 		{"alias", alias_, ALIAS_USAGE, ALIAS_HELP},
 		{"cd", cd_, CD_USAGE, CD_HELP},
 		{"env", env_, ENV_USAGE, ENV_HELP},
+		{"exec", exec_, EXEC_USAGE, EXEC_HELP},
 		{"exit", exit_, EXIT_USAGE, EXIT_HELP},
 		{"help", help_, HELP_USAGE, HELP_HELP},
 		{"setenv", setenv_, SETENV_USAGE, SETENV_HELP},

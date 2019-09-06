@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "path.h"
 
 /**
   * search_path - searches for the directory with the executable program
@@ -8,7 +8,7 @@
   */
 char *search_path(info_t *info, list_t *path)
 {
-	char *pathname, *command = info->tokens[0];
+	char *pathname, *command = *info->tokens;
 	struct stat sb;
 
 	while (path)

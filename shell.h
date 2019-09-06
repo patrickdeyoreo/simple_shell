@@ -18,6 +18,7 @@
 #include "getline.h"
 #include "info.h"
 #include "list.h"
+#include "path.h"
 #include "quote.h"
 #include "string.h"
 #include "tokens.h"
@@ -40,8 +41,6 @@ void expand_vars(info_t *info, char ***tokptr);
 char **_expand_vars(info_t *info, char ***tokptr);
 
 void remove_comments(cmd_list_t *cmd);
-
-char *search_path(info_t *info, list_t *path);
 
 void open_script(info_t *info);
 
