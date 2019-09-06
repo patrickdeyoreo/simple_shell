@@ -59,14 +59,14 @@ int _get_cmd(info_t *info, char **lineptr, size_t *nptr)
 
 	while ((*lineptr)[index] && (*lineptr)[index] != '\n')
 	{
-		index += get_quote_state_fn(state)((*lineptr) + index, NULL);
+		index += quote_state_fn(state)((*lineptr) + index, NULL);
 
 		if (!(*lineptr)[index] || (*lineptr)[index] == '\n')
 			break;
 		if (state & (DOUBLE | SINGLE))
 			++index;
 
-		state = get_quote_state((*lineptr)[index]);
+		state = quote_state((*lineptr)[index]);
 
 		if (!(*lineptr)[index] || (*lineptr)[index] == '\n')
 			break;

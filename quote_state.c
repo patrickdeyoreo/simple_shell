@@ -1,77 +1,60 @@
 #include "quote.h"
 
 /**
- * quote_state_none - returns the length of state
- * @str: string
- * @state: state
+ * quote_state - get the state associated with a given character
+ * @c: character
  *
- * Return: length of state
+ * Return: the state associated with c
  */
-size_t quote_state_none(const char *str, quote_state_t *state)
+quote_state_t quote_state(char c)
 {
-	size_t len = 0;
-
-	while (_isspace(*str))
-		++str, ++len;
-	if (state && *str)
-		*state = get_quote_state(*str);
-	return (len);
+	if (_isspace(c))
+		return (NONE);
+	if (c == '"')
+		return (DOUBLE);
+	if (c == '\'')
+		return (SINGLE);
+	if (c == '\\')
+		return (ESCAPE);
+	return (WORD);
 }
 
 
 /**
- * quote_state_word - returns the length of state
- * @str: string
- * @state: state
+ * quote_state_fn - get the function associated with a given state
+ * @s: state
  *
- * Return: length of state
+ * Return: the state associated with c
  */
-size_t quote_state_word(const char *str, quote_state_t *state)
+size_t (*quote_state_fn(quote_state_t s))(const char *, quote_state_t *)
 {
-	size_t len = 0;
-
-	while (*str && !_isspace(*str) && !_isquote(*str))
-		++str, ++len;
-	if (state && *str)
-		*state = get_quote_state(*str);
-	return (len);
+	switch (s)
+	{
+	case NONE:
+		return (_quote_state_none);
+	case WORD:
+		return (_quote_state_word);
+	case DOUBLE:
+		return (_quote_state_double);
+	case SINGLE:
+		return (_quote_state_single);
+	case ESCAPE:
+		return (_quote_state_escape);
+	}
+	return (NULL);
 }
 
 
 /**
- * quote_state_double - returns the length of state
- * @str: string
- * @state: state
+ * quote_state_len - get the length of a given state
+ * @s: state
  *
- * Return: length of state
+ * Return: the state associated with c
  */
-size_t quote_state_double(const char *str, quote_state_t *state)
+size_t quote_state_len(const char *str, quote_state_t *state)
 {
-	size_t len = 0;
+	if (state)
+		return (quote_state_fn(*state)(str, state));
 
-	while (*str && *str != '"')
-		++str, ++len;
-	if (state && *str)
-		*state = get_quote_state(*(str + 1));
-	return (len);
+	return (quote_state_fn(quote_state(*str))(str, NULL));
 }
-
-
-/**
- * quote_state_single - returns the length of state
- * @str: string
- * @state: state
- *
- * Return: length of state
- */
-size_t quote_state_single(const char *str, quote_state_t *state)
-{
-	size_t len = 0;
-
-	while (*str && *str != '\'')
-		++str, ++len;
-	if (state && *str)
-		*state = get_quote_state(*(str + 1));
-	return (len);
-}
-

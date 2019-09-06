@@ -38,17 +38,17 @@ char **_expand_vars(info_t *info, char ***tokptr)
 
 	while (var_len = val_len = 1, tok[pos])
 	{
-		if (get_quote_state_fn(state)(tok + pos, NULL) == 0)
+		if (quote_state_fn(state)(tok + pos, NULL) == 0)
 		{
 			if ((state & (DOUBLE | SINGLE)) && !tok[++pos])
 				break;
-			state = get_quote_state(*(tok + pos));
+			state = quote_state(*(tok + pos));
 			if ((state & (DOUBLE | SINGLE)) && !tok[++pos])
 				break;
 		}
 		if (state == SINGLE)
 		{
-			pos += quote_state_single(tok + pos, &state);
+			pos += _quote_state_single(tok + pos, &state);
 			continue;
 		}
 		if (tok[pos] != '$')

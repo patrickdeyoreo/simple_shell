@@ -20,19 +20,19 @@ char **tokenize(const char *str)
 	if (!tokens)
 		return (NULL);
 
-	for (count = 0; *(str += quote_state_none(str, &state)); ++count)
+	for (count = 0; *(str += _quote_state_none(str, &state)); ++count)
 	{
 		tok = str;
 		do {
 			if (state == WORD)
-				str += quote_state_word(str, &state);
+				str += _quote_state_word(str, &state);
 			else
 			{
 				++str;
 				if (state == DOUBLE)
-					str += quote_state_double(str, &state);
+					str += _quote_state_double(str, &state);
 				else
-					str += quote_state_single(str, &state);
+					str += _quote_state_single(str, &state);
 				if (*str)
 					++str;
 			}
@@ -61,18 +61,18 @@ size_t count_tokens(const char *str)
 	size_t count;
 	quote_state_t state;
 
-	for (count = 0; *(str += quote_state_none(str, &state)); ++count)
+	for (count = 0; *(str += _quote_state_none(str, &state)); ++count)
 	{
 		do {
 			if (state == WORD)
-				str += quote_state_word(str, &state);
+				str += _quote_state_word(str, &state);
 			else
 			{
 				++str;
 				if (state == DOUBLE)
-					str += quote_state_double(str, &state);
+					str += _quote_state_double(str, &state);
 				else
-					str += quote_state_single(str, &state);
+					str += _quote_state_single(str, &state);
 				if (*str)
 					++str;
 			}

@@ -12,12 +12,12 @@ size_t split_cmd(char *cmd)
 	ssize_t sep_index;
 	quote_state_t state;
 
-	while (*(cmd += quote_state_none(cmd, &state)))
+	while (*(cmd += _quote_state_none(cmd, &state)))
 	{
 		do {
 			if (state == WORD)
 			{
-				state_len = quote_state_word(cmd, NULL);
+				state_len = _quote_state_word(cmd, NULL);
 				sep_index = _strnchr(cmd, ';', state_len);
 				if (sep_index == -1)
 				{
@@ -29,12 +29,12 @@ size_t split_cmd(char *cmd)
 					cmd += sep_index + 1;
 					++count;
 				}
-				state = get_quote_state(*cmd);
+				state = quote_state(*cmd);
 			}
 			else
 			{
 				++cmd;
-				cmd += get_quote_state_fn(state)(cmd, &state);
+				cmd += quote_state_fn(state)(cmd, &state);
 				if (*cmd)
 					++cmd;
 			}
