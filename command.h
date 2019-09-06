@@ -9,8 +9,8 @@
 
 /**
  * struct cmdlist - a linked list of command trees
- * @cmd: a command
- * @next: the next command
+ * @tokens: tokenized command
+ * @next: next command
  */
 typedef struct cmdlist
 {

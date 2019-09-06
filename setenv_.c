@@ -1,12 +1,12 @@
 #include "builtins.h"
 
 /**
- * _setenv_ - sets the environment variables
+ * setenv_ - sets the environment variables
  * @info: arguments passed
  *
  * Return: status
  */
-int _setenv_(info_t *info)
+int setenv_(info_t *info)
 {
 	env_t *var;
 	char **args = info->tokens + 1;

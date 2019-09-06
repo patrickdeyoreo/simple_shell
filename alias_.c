@@ -1,12 +1,12 @@
 #include "builtins.h"
 
 /**
- * _alias_ - create and display aliases
+ * alias_ - create and display aliases
  * @info: shell info struct
  *
  * Return: status
  */
-int _alias_(info_t *info)
+int alias_(info_t *info)
 {
 	alias_t *alias;
 	char *name, **args = info->tokens + 1;
@@ -22,7 +22,7 @@ int _alias_(info_t *info)
 				alias = get_dict_node(info->aliases, *args);
 				if (alias)
 				{
-					_alias_print(alias);
+					alias_print(alias);
 				}
 				else
 				{
@@ -34,7 +34,7 @@ int _alias_(info_t *info)
 			else
 			{
 				name = _strndup(*args, name_len);
-				_alias_add(&info->aliases, name,
+				alias_add(&info->aliases, name,
 					*args + name_len + 1);
 				free(name);
 			}
@@ -43,19 +43,19 @@ int _alias_(info_t *info)
 	else
 	{
 		for (alias = info->aliases; alias; alias = alias->next)
-			_alias_print(alias);
+			alias_print(alias);
 	}
 	return (info->status);
 }
 
 
 /**
- * _alias_add - add an alias to a list of aliases
+ * alias_add - add an alias to a list of aliases
  * @aliases: a pointer to a list of aliases
  * @name: the name of the alias
  * @value: the value of the alias
  */
-void _alias_add(alias_t **aliases, const char *name, const char *value)
+void alias_add(alias_t **aliases, const char *name, const char *value)
 {
 	alias_t *alias = get_dict_node(*aliases, name);
 
@@ -70,10 +70,10 @@ void _alias_add(alias_t **aliases, const char *name, const char *value)
 
 
 /**
- * _alias_print - print an alias
+ * alias_print - print an alias
  * @alias: the alias to print
  */
-void _alias_print(alias_t *alias)
+void alias_print(alias_t *alias)
 {
 	write(STDOUT_FILENO, alias->key, _strlen(alias->key));
 	write(STDOUT_FILENO, "='", 2);

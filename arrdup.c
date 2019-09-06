@@ -1,11 +1,10 @@
 #include "tokens.h"
 
 /**
- * arrjoin - join two arrays
- * @arr1: the first array
- * @arr2: the second array
+ * arrdup - duplicate an array
+ * @arr: the array to duplicate
  *
- * Return: a dynamically-allocated array of the elements from arr1 and arr2
+ * Return: a dynamically-allocated duplicate of arr
  */
 char **arrdup(char **arr)
 {

@@ -17,14 +17,19 @@ size_t split_cmd(char *cmd)
 		do {
 			if (state == WORD)
 			{
-				state_len = quote_state_word(cmd, &state);
+				state_len = quote_state_word(cmd, NULL);
 				sep_index = _strnchr(cmd, ';', state_len);
-				if (sep_index > -1)
+				if (sep_index == -1)
+				{
+					cmd += state_len;
+				}
+				else
 				{
 					cmd[sep_index] = '\0';
+					cmd += sep_index + 1;
 					++count;
 				}
-				cmd += state_len;
+				state = get_quote_state(*cmd);
 			}
 			else
 			{

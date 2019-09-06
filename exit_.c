@@ -1,11 +1,11 @@
 #include "builtins.h"
 
 /**
-  * _exit_ - exits from shell
+  * exit_ - exits from shell
   * @info: arguments passed
   * Return: int
   */
-int _exit_(info_t *info)
+int exit_(info_t *info)
 {
 	char **args = info->tokens + 1;
 

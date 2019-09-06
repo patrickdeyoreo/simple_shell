@@ -16,6 +16,13 @@ int parse_cmd(info_t *info)
 
 	while (cmd)
 	{
+		remove_comments(cmd);
+		if (!cmd->tokens)
+		{
+			cmd = cmd->next;
+			remove_cmd(&info->commands, n);
+			continue;
+		}
 		expand_aliases(info->aliases, &(cmd->tokens));
 		if (!cmd->tokens)
 		{
