@@ -11,34 +11,41 @@
 #include "string.h"
 #include "types.h"
 
+#define ALIAS_USAGE "alias [NAME[=VALUE] ...]"
 #define ALIAS_HELP \
-	"Define or display aliases.\n\n"\
-	"Without arguments, a list of aliases is printed.\n"\
-	"With arguments, an alias is defined for each NAME whose VALUE is given.\n"\
-	"For each NAME whose VALUE is omitted, the corresponding alias is printed.\n"\
-	"Upon expansion, a trailing space in VALUE causes expansion of the next word."
+	"  Define or display aliases.\n\n"\
+	"  Without arguments, a list of aliases is printed.\n"\
+	"  With arguments, an alias is defined for each NAME=VALUE pair.\n"\
+	"  For each NAME without a VALUE, the corresponding alias is printed.\n"\
+	"  Upon expansion, a trailing space in VALUE causes expansion of the next word."
 
+#define CD_USAGE "cd [DIR]"
 #define CD_HELP \
-	"Change the current directory to DIR.\n\n"\
-	"If DIR is ommitted, the value of the variable HOME is used instead.\n"\
-	"If DIR is -, the directory is changed to the previous working directory."
+	"  Change the current directory to DIR.\n\n"\
+	"  If DIR is ommitted, the value of the variable HOME is used instead.\n"\
+	"  If DIR is -, the directory is changed to the previous working directory."
 
+#define ENV_USAGE "env"
 #define ENV_HELP \
-	"Print the environment."
+	"  Print the environment."
 
+#define EXIT_USAGE "exit [STATUS]"
 #define EXIT_HELP \
-	"Exit the shell with a status of STATUS.\n\n"\
-	"If STATUS is omitted, the exit status is that of the previous command."
+	"  Exit the shell with a status of STATUS.\n\n"\
+	"  If STATUS is omitted, the exit status is that of the previous command."
 
+#define HELP_USAGE "help [BUILTIN]"
 #define HELP_HELP \
-	"Display information about builtin commands.\n\n"\
-	"If BUILTIN is omitted, a list of available builtins is printed."
+	"  Display information about builtin commands.\n\n"\
+	"  If BUILTIN is omitted, a list of available builtins is printed."
 
+#define SETENV_USAGE "setenv NAME VALUE"
 #define SETENV_HELP \
-	"Set the environment variable NAME to VALUE."
+	"  Set the environment variable NAME to VALUE."
 
+#define UNSETENV_USAGE "unsetenv NAME"
 #define UNSETENV_HELP \
-	"Remove the variable NAME from the environment."
+	"  Remove the variable NAME from the environment."
 
 /**
  * struct builtin - builtin command
@@ -55,7 +62,7 @@ struct builtin
 	char *help;
 };
 
-void load_builtins(info_t *info);
+void init_builtins(info_t *info);
 
 int alias_(info_t *info);
 int cd_(info_t *info);

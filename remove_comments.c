@@ -4,7 +4,7 @@
  * remove_comments - remove comments (#) from a command
  * @cmd: pointer to the cmd to process
  */
-void remove_comments(cmdlist_t *cmd)
+void remove_comments(cmd_list_t *cmd)
 {
 	char **tokens, **new, *tmp;
 
@@ -18,7 +18,7 @@ void remove_comments(cmdlist_t *cmd)
 			*tokens = tmp;
 			free_tokens(&(cmd->tokens));
 			cmd->tokens = new;
-			free_cmdlist(&(cmd->next));
+			free_cmd_list(&(cmd->next));
 			return;
 		}
 	}

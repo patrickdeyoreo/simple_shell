@@ -1,47 +1,47 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
-#include <stdio.h>
 #include <stdlib.h>
 #include "quote.h"
 #include "string.h"
 #include "tokens.h"
+#include "types.h"
 
 /**
- * struct cmdlist - a linked list of command trees
+ * struct cmd_list - a linked list of commands
  * @tokens: tokenized command
  * @next: next command
  */
-typedef struct cmdlist
+struct cmd_list
 {
 	char **tokens;
-	struct cmdlist *next;
-} cmdlist_t;
+	struct cmd_list *next;
+};
 
 /**
- * struct cmdtree - a binary tree of commands
- * @cmd: a simple command with no separators
+ * struct cmd_tree - a binary tree of commands
+ * @tokens: a simple command with no separators
  * @left: the command to execute upon failure
  * @right: the command to execute upon success
  */
-typedef struct cmdtree
+struct cmd_tree
 {
-	char *cmd;
-	struct cmdtree *left;
-	struct cmdtree *right;
-} cmdtree_t;
+	char **tokens;
+	struct cmd_tree *left;
+	struct cmd_tree *right;
+};
+
+cmd_list_t *cmd_to_list(const char *cmd);
+cmd_list_t *_cmd_to_list(cmd_list_t **tailptr, char *split, size_t count);
 
 size_t split_cmd(char *cmd);
 
-cmdlist_t *cmd_to_list(const char *cmd);
-cmdlist_t *_cmd_to_list(cmdlist_t **tailptr, const char *split, size_t count);
+cmd_list_t *add_cmd_end(cmd_list_t **headptr, const char *cmd);
+cmd_list_t *del_cmd(cmd_list_t **headptr, size_t index);
+char **pop_cmd(cmd_list_t **headptr);
+void free_cmd_list(cmd_list_t **headptr);
 
-cmdlist_t *add_cmd(cmdlist_t **headptr, const char *cmd);
-cmdlist_t *add_cmd_end(cmdlist_t **headptr, const char *cmd);
-cmdlist_t *remove_cmd(cmdlist_t **headptr, size_t index);
-void free_cmdlist(cmdlist_t **headptr);
-
-cmdtree_t *cmd_to_tree(const char *cmd);
-cmdtree_t *free_cmdtree(cmdtree_t **rootptr);
+cmd_tree_t *cmd_to_tree(const char *cmd);
+void free_cmd_tree(cmd_tree_t **rootptr);
 
 #endif /* COMMAND_H */

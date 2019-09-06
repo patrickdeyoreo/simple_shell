@@ -20,11 +20,14 @@ void expand_aliases(alias_t *aliases, char ***tokptr)
 		{
 			old = *tokptr;
 			new = arrdup(old + 1);
+
 			expand_aliases(aliases, &new);
-			tmp = old[1];
-			old[1] = NULL;
+			tmp = *(old + 1);
+
+			*(old + 1) = NULL;
 			*tokptr = arrjoin(old, new);
-			old[1] = tmp;
+			*(old + 1) = tmp;
+
 			free_tokens(&old);
 			free_tokens(&new);
 		}

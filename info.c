@@ -23,7 +23,7 @@ void init_info(info_t *info, int argc, char **argv)
 	info->path = NULL;
 	info->aliases = NULL;
 	info->commands = NULL;
-	load_builtins(info);
+	init_builtins(info);
 }
 
 
@@ -44,6 +44,6 @@ void free_info(info_t *info)
 	free_dict(&info->env);
 	free_list(&info->path);
 	free_dict(&info->aliases);
-	free_cmdlist(&info->commands);
+	free_cmd_list(&info->commands);
 }
 

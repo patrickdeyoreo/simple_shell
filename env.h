@@ -4,8 +4,9 @@
 #include <stdlib.h>
 #include "dict.h"
 #include "string.h"
+#include "types.h"
 
-typedef struct dict env_t;
+typedef dict_t env_t;
 
 env_t *env_to_dict(char **env);
 env_t *_env_to_dict(env_t **tailptr, char **env);

@@ -38,17 +38,38 @@ char **_expand_vars(info_t *info, char ***tokptr)
 
 	while (var_len = val_len = 1, tok[pos])
 	{
-		if (quote_state_fn(state)(tok + pos, NULL) == 0)
+		if (quote_state_len(tok + pos, state) == 0)
 		{
 			if ((state & (Q_DOUBLE | Q_SINGLE)) && !tok[++pos])
 				break;
-			state = quote_state(*(tok + pos));
-			if ((state & (Q_DOUBLE | Q_SINGLE)) && !tok[++pos])
-				break;
+			state = quote_state(tok[pos]);
+			if (state & (Q_DOUBLE | Q_SINGLE | Q_ESCAPE))
+				++pos;
+			continue;
 		}
-		if (state == Q_SINGLE)
+		if ((state & (Q_DOUBLE)) && (quote_state(tok[pos]) & Q_ESCAPE))
 		{
-			pos += _quote_state_single(tok + pos, &state);
+			if (!tok[++pos] || !tok[++pos])
+				break;
+			state = quote_state(tok[pos]);
+			if (state & (Q_DOUBLE | Q_SINGLE | Q_ESCAPE))
+				++pos;
+			continue;
+		}
+		if (state & (Q_SINGLE))
+		{
+			pos += quote_state_len(tok + pos, state);
+			if (tok[pos])
+				++pos;
+			continue;
+		}
+		if (state & (Q_ESCAPE))
+		{
+			if (!tok[++pos] || !tok[++pos])
+				break;
+			state = quote_state(tok[pos]);
+			if (state & (Q_DOUBLE | Q_SINGLE | Q_ESCAPE))
+				++pos;
 			continue;
 		}
 		if (tok[pos] != '$')

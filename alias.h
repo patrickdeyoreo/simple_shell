@@ -2,7 +2,8 @@
 #define ALIAS_H
 
 #include "dict.h"
+#include "types.h"
 
-typedef struct dict alias_t;
+typedef dict_t alias_t;
 
 #endif /* ALIAS_H */

@@ -2,7 +2,6 @@
 #define SHELL_H
 
 #include <stdlib.h>
-#include <stdio.h>
 #include <unistd.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
@@ -26,15 +25,13 @@
 
 extern char **environ;
 
-int get_cmd(info_t *info);
-int _get_cmd(info_t *info, char **lineptr, size_t *nptr);
+int input(info_t *info);
+quote_state_t _input(char **lineptr, size_t *nptr);
 
-int parse_cmd(info_t *info);
+int parse(info_t *info);
 
-int exec_cmd(info_t *info);
-int _exec_cmd(info_t *info);
-
-char *search_path(info_t *info, list_t *path);
+int execute(info_t *info);
+int _execute(info_t *info);
 
 void expand_aliases(alias_t *aliases, char ***tokptr);
 char *expand_alias(alias_t *aliases, char ***tokptr);
@@ -42,7 +39,9 @@ char *expand_alias(alias_t *aliases, char ***tokptr);
 void expand_vars(info_t *info, char ***tokptr);
 char **_expand_vars(info_t *info, char ***tokptr);
 
-void remove_comments(cmdlist_t *cmd);
+void remove_comments(cmd_list_t *cmd);
+
+char *search_path(info_t *info, list_t *path);
 
 void open_script(info_t *info);
 

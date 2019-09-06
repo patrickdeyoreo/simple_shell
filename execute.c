@@ -1,12 +1,12 @@
 #include "shell.h"
 
 /**
-  * exec_cmd - execute a command
+  * execute - execute a command
   * @info: arguments passed
   *
   * Return: status
   */
-int exec_cmd(info_t *info)
+int execute(info_t *info)
 {
 	builtin_t *builtin;
 
@@ -30,7 +30,7 @@ int exec_cmd(info_t *info)
 	if (info->exe)
 	{
 		if (access(info->exe, X_OK) == 0)
-			return (_exec_cmd(info));
+			return (_execute(info));
 
 		_perror_default(info, "Permission denied", 1, *info->tokens);
 		info->status = 126;
@@ -46,12 +46,12 @@ int exec_cmd(info_t *info)
 
 
 /**
- * _exec_cmd - fork and exec the current command
+ * _execute - fork and exec the current command
  * @info: shell information
  *
  * Return: exit status of the child process
  */
-int _exec_cmd(info_t *info)
+int _execute(info_t *info)
 {
 	char *exe, **argv, **env;
 
@@ -86,5 +86,6 @@ int _exec_cmd(info_t *info)
 	}
 	free(info->exe);
 	info->exe = NULL;
+
 	return (info->status);
 }

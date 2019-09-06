@@ -12,34 +12,37 @@ size_t split_cmd(char *cmd)
 	ssize_t sep_index;
 	quote_state_t state;
 
-	while (*(cmd += _quote_state_none(cmd, &state)))
-	{
-		do {
-			if (state == Q_WORD)
+	do {
+		while (*cmd && (state = quote_state(*cmd)) != Q_NONE)
+		{
+			if (state & Q_WORD)
 			{
 				state_len = _quote_state_word(cmd, NULL);
 				sep_index = _strnchr(cmd, ';', state_len);
-				if (sep_index == -1)
+				if (sep_index != -1)
 				{
-					cmd += state_len;
-				}
-				else
-				{
-					cmd[sep_index] = '\0';
-					cmd += sep_index + 1;
+					state_len = sep_index;
+					*(cmd++ + state_len) = '\0';
 					++count;
 				}
-				state = quote_state(*cmd);
+				cmd += state_len;
+			}
+			else if (state & Q_ESCAPE)
+			{
+				if (*(cmd + 1) == '\n')
+					_strcpy(cmd, cmd + 2);
+				else if (*(++cmd))
+					++cmd;
 			}
 			else
 			{
-				++cmd;
-				cmd += quote_state_fn(state)(cmd, &state);
-				if (*cmd)
+				cmd += quote_state_len(cmd + 1, state) + 1;
+				if (*cmd && (state & (Q_SINGLE | Q_DOUBLE)))
 					++cmd;
 			}
-		} while (*cmd && state != Q_NONE);
-	}
+		}
+	} while (*(cmd += quote_state_len(cmd, Q_NONE)));
+
 	return (count);
 }
 

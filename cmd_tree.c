@@ -7,24 +7,23 @@
  * Return: If memory allocation fails, return NULL. Otherwise, return the
  * address of the root of the new tree
  */
-cmdtree_t *cmd_to_tree(const char *cmd __attribute__((unused)))
+cmd_tree_t *cmd_to_tree(const char *cmd __attribute__((unused)))
 {
 	return (NULL);
 }
 
 /**
- * free_cmdtree - free a binary tree and and set root to NULL
+ * free_cmd_tree - free a binary tree and and set root to NULL
  * @rootptr: pointer
  * Return: NULL
  */
-cmdtree_t *free_cmdtree(cmdtree_t **rootptr)
+void free_cmd_tree(cmd_tree_t **rootptr)
 {
 	if (rootptr && *rootptr)
 	{
-		free_cmdtree(&((*rootptr)->left));
-		free_cmdtree(&((*rootptr)->right));
-		free((*rootptr)->cmd);
+		free_cmd_tree(&((*rootptr)->left));
+		free_cmd_tree(&((*rootptr)->right));
+		free_tokens(&((*rootptr)->tokens));
 		*rootptr = NULL;
 	}
-	return (NULL);
 }

@@ -38,6 +38,8 @@ size_t _quote_state_escape(const char *str, quote_state_t *state);
 
 int _isquote(char c);
 
+int _isspecial_double(char c);
+
 char *dequote(const char *str);
 size_t dequote_len(const char *str);
 

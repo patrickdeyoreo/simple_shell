@@ -18,16 +18,18 @@ int main(int argc, char **argv)
 	if (argc > 1)
 		open_script(&info);
 
-	while (1)
+	while (input(&info))
 	{
-		get_cmd(&info);
-		parse_cmd(&info);
-		while (info.commands)
+		parse(&info);
+		while ((info.tokens = pop_cmd(&(info.commands))))
 		{
-			info.tokens = arrdup(info.commands->tokens);
-			exec_cmd(&info);
-			free_tokens(&info.tokens);
-			remove_cmd(&info.commands, 0);
+			execute(&info);
+			free_tokens(&(info.tokens));
 		}
 	}
+	if (info.interactive)
+		write(STDOUT_FILENO, "\n", 1);
+
+	free_info(&info);
+	exit(info.status);
 }

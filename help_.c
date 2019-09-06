@@ -7,26 +7,26 @@
  */
 int help_(struct info *info)
 {
-	builtin_t *bltn;
+	builtin_t *builtin;
 	char **args = info->tokens + 1;
 
 	if (*args)
 	{
 		info->status = EXIT_FAILURE;
 		do {
-			for (bltn = info->builtins; bltn->fn; ++bltn)
+			for (builtin = info->builtins; builtin->fn; ++builtin)
 			{
-				if (!_strcmp(*args, bltn->name))
+				if (!_strcmp(*args, builtin->name))
 				{
 					info->status = EXIT_SUCCESS;
-					write(STDOUT_FILENO, bltn->name,
-						_strlen(bltn->name));
+					write(STDOUT_FILENO, builtin->name,
+						_strlen(builtin->name));
 					write(STDOUT_FILENO, ": ", 2);
-					write(STDOUT_FILENO, bltn->usage,
-						_strlen(bltn->usage));
+					write(STDOUT_FILENO, builtin->usage,
+						_strlen(builtin->usage));
 					write(STDOUT_FILENO, "\n", 1);
-					write(STDOUT_FILENO, bltn->help,
-						_strlen(bltn->help));
+					write(STDOUT_FILENO, builtin->help,
+						_strlen(builtin->help));
 					write(STDOUT_FILENO, "\n", 1);
 				}
 			}
@@ -39,10 +39,10 @@ int help_(struct info *info)
 	else
 	{
 		info->status = EXIT_SUCCESS;
-		for (bltn = info->builtins; bltn->fn; ++bltn)
+		for (builtin = info->builtins; builtin->fn; ++builtin)
 		{
-			write(STDOUT_FILENO, bltn->usage,
-				_strlen(bltn->usage));
+			write(STDOUT_FILENO, builtin->usage,
+				_strlen(builtin->usage));
 			write(STDOUT_FILENO, "\n", 1);
 		}
 	}

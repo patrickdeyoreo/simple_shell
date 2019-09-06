@@ -85,14 +85,12 @@ size_t _quote_state_single(const char *str, quote_state_t *state)
  */
 size_t _quote_state_escape(const char *str, quote_state_t *state)
 {
-	size_t len = 0;
-
 	if (*str)
 	{
-		++str, ++len;
-		if (state && *str)
+		if (state && *(++str))
 			*state = quote_state(*str);
+		return (1);
 	}
-	return (len);
+	return (0);
 }
 

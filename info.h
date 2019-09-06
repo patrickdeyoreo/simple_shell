@@ -49,7 +49,7 @@ struct info
 	list_t *path;
 	alias_t *aliases;
 	builtin_t *builtins;
-	cmdlist_t *commands;
+	cmd_list_t *commands;
 };
 
 void init_info(info_t *info, int argc, char **argv);
