@@ -34,19 +34,19 @@ char **_expand_vars(info_t *info, char ***tokptr)
 {
 	char *var = NULL, *val = NULL, *tok = **tokptr;
 	size_t pos = 0, var_len, val_len;
-	quote_state_t state = NONE;
+	quote_state_t state = Q_NONE;
 
 	while (var_len = val_len = 1, tok[pos])
 	{
 		if (quote_state_fn(state)(tok + pos, NULL) == 0)
 		{
-			if ((state & (DOUBLE | SINGLE)) && !tok[++pos])
+			if ((state & (Q_DOUBLE | Q_SINGLE)) && !tok[++pos])
 				break;
 			state = quote_state(*(tok + pos));
-			if ((state & (DOUBLE | SINGLE)) && !tok[++pos])
+			if ((state & (Q_DOUBLE | Q_SINGLE)) && !tok[++pos])
 				break;
 		}
-		if (state == SINGLE)
+		if (state == Q_SINGLE)
 		{
 			pos += _quote_state_single(tok + pos, &state);
 			continue;

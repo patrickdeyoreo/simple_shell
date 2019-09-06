@@ -9,14 +9,14 @@
 quote_state_t quote_state(char c)
 {
 	if (_isspace(c))
-		return (NONE);
+		return (Q_NONE);
 	if (c == '"')
-		return (DOUBLE);
+		return (Q_DOUBLE);
 	if (c == '\'')
-		return (SINGLE);
+		return (Q_SINGLE);
 	if (c == '\\')
-		return (ESCAPE);
-	return (WORD);
+		return (Q_ESCAPE);
+	return (Q_WORD);
 }
 
 
@@ -30,15 +30,15 @@ size_t (*quote_state_fn(quote_state_t s))(const char *, quote_state_t *)
 {
 	switch (s)
 	{
-	case NONE:
+	case Q_NONE:
 		return (_quote_state_none);
-	case WORD:
+	case Q_WORD:
 		return (_quote_state_word);
-	case DOUBLE:
+	case Q_DOUBLE:
 		return (_quote_state_double);
-	case SINGLE:
+	case Q_SINGLE:
 		return (_quote_state_single);
-	case ESCAPE:
+	case Q_ESCAPE:
 		return (_quote_state_escape);
 	}
 	return (NULL);
@@ -47,7 +47,8 @@ size_t (*quote_state_fn(quote_state_t s))(const char *, quote_state_t *)
 
 /**
  * quote_state_len - get the length of a given state
- * @s: state
+ * @str: string
+ * @state: state
  *
  * Return: the state associated with c
  */

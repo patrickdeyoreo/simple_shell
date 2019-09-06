@@ -7,18 +7,19 @@
 
 /**
  * enum quote_state - a quote state mnemonic
- * @NONE: In an unquoted sequence of blanks
- * @WORD: In an unquoted sequence of non-blanks
- * @DOUBLE: In double quotes
- * @SINGLE: In single quotes
+ * @Q_NONE: In an unquoted sequence of blanks
+ * @Q_WORD: In an unquoted sequence of non-blanks
+ * @Q_DOUBLE: In double quotes
+ * @Q_SINGLE: In single quotes
+ * @Q_ESCAPE: Following a backslash
  */
 typedef enum quote_state
 {
-	NONE   = 0,
-	WORD   = 1,
-	DOUBLE = 2,
-	SINGLE = 4,
-	ESCAPE = 8
+	Q_NONE   = 0,
+	Q_WORD   = 1,
+	Q_DOUBLE = 2,
+	Q_SINGLE = 4,
+	Q_ESCAPE = 8
 } quote_state_t;
 
 quote_state_t quote_state(char c);

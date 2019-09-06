@@ -24,19 +24,19 @@ char **tokenize(const char *str)
 	{
 		tok = str;
 		do {
-			if (state == WORD)
+			if (state == Q_WORD)
 				str += _quote_state_word(str, &state);
 			else
 			{
 				++str;
-				if (state == DOUBLE)
+				if (state == Q_DOUBLE)
 					str += _quote_state_double(str, &state);
 				else
 					str += _quote_state_single(str, &state);
 				if (*str)
 					++str;
 			}
-		} while (*str && state != NONE);
+		} while (*str && state != Q_NONE);
 
 		tokens[count] = _memdup(tok, str - tok + 1);
 		if (!tokens[count])
@@ -64,19 +64,19 @@ size_t count_tokens(const char *str)
 	for (count = 0; *(str += _quote_state_none(str, &state)); ++count)
 	{
 		do {
-			if (state == WORD)
+			if (state == Q_WORD)
 				str += _quote_state_word(str, &state);
 			else
 			{
 				++str;
-				if (state == DOUBLE)
+				if (state == Q_DOUBLE)
 					str += _quote_state_double(str, &state);
 				else
 					str += _quote_state_single(str, &state);
 				if (*str)
 					++str;
 			}
-		} while (*str && state != NONE);
+		} while (*str && state != Q_NONE);
 	}
 	return (count);
 }

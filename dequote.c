@@ -21,13 +21,13 @@ char *dequote(const char *str)
 
 	for (len = 0, state = quote_state(*str); *str; len += state_len)
 	{
-		if (state == NONE)
+		if (state == Q_NONE)
 		{
 			state_len = _quote_state_none(str, &state);
 			_memcpy(new + len, str, state_len);
 			str += state_len;
 		}
-		else if (state == WORD)
+		else if (state == Q_WORD)
 		{
 			state_len = _quote_state_word(str, &state);
 			_memcpy(new + len, str, state_len);
@@ -36,7 +36,7 @@ char *dequote(const char *str)
 		else
 		{
 			++str;
-			if (state == DOUBLE)
+			if (state == Q_DOUBLE)
 				state_len = _quote_state_double(str, &state);
 			else
 				state_len = _quote_state_single(str, &state);
@@ -63,12 +63,12 @@ size_t dequote_len(const char *str)
 
 	for (len = 0, state = quote_state(*str); *str; len += state_len)
 	{
-		if (state == NONE)
+		if (state == Q_NONE)
 		{
 			state_len = _quote_state_none(str, &state);
 			str += state_len;
 		}
-		else if (state == WORD)
+		else if (state == Q_WORD)
 		{
 			state_len = _quote_state_word(str, &state);
 			str += state_len;
@@ -76,7 +76,7 @@ size_t dequote_len(const char *str)
 		else
 		{
 			++str;
-			if (state == DOUBLE)
+			if (state == Q_DOUBLE)
 				state_len = _quote_state_double(str, &state);
 			else
 				state_len = _quote_state_single(str, &state);

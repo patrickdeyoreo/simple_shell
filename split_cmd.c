@@ -15,7 +15,7 @@ size_t split_cmd(char *cmd)
 	while (*(cmd += _quote_state_none(cmd, &state)))
 	{
 		do {
-			if (state == WORD)
+			if (state == Q_WORD)
 			{
 				state_len = _quote_state_word(cmd, NULL);
 				sep_index = _strnchr(cmd, ';', state_len);
@@ -38,7 +38,7 @@ size_t split_cmd(char *cmd)
 				if (*cmd)
 					++cmd;
 			}
-		} while (*cmd && state != NONE);
+		} while (*cmd && state != Q_NONE);
 	}
 	return (count);
 }

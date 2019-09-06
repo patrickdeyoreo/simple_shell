@@ -14,7 +14,7 @@ int get_cmd(info_t *info)
 	if (info->interactive)
 		write(STDERR_FILENO, "$ ", 2);
 
-	while (++info->lineno, _get_cmd(info, lineptr, nptr) & (DOUBLE | SINGLE))
+	while (++info->lineno, _get_cmd(info, lineptr, nptr) & (Q_DOUBLE | Q_SINGLE))
 	{
 		temp = line;
 		line = strjoin(line, *lineptr, '\0', NULL);
@@ -42,7 +42,7 @@ int get_cmd(info_t *info)
  */
 int _get_cmd(info_t *info, char **lineptr, size_t *nptr)
 {
-	static quote_state_t state = NONE;
+	static quote_state_t state = Q_NONE;
 	size_t index = 0;
 	ssize_t n_read = _getline(lineptr, nptr, STDIN_FILENO);
 
@@ -63,14 +63,14 @@ int _get_cmd(info_t *info, char **lineptr, size_t *nptr)
 
 		if (!(*lineptr)[index] || (*lineptr)[index] == '\n')
 			break;
-		if (state & (DOUBLE | SINGLE))
+		if (state & (Q_DOUBLE | Q_SINGLE))
 			++index;
 
 		state = quote_state((*lineptr)[index]);
 
 		if (!(*lineptr)[index] || (*lineptr)[index] == '\n')
 			break;
-		if (state & (DOUBLE | SINGLE))
+		if (state & (Q_DOUBLE | Q_SINGLE))
 			++index;
 	}
 	return (state);
