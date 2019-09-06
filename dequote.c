@@ -9,7 +9,7 @@
 char *dequote(const char *str)
 {
 	char *new;
-	size_t len, state_len;
+	size_t len = 0, state_len;
 	quote_state_t state;
 
 	if (!str)
@@ -19,32 +19,21 @@ char *dequote(const char *str)
 	if (!new)
 		return (NULL);
 
-	for (len = 0, state = quote_state(*str); *str; len += state_len)
+	while (*str)
 	{
-		if (state == Q_NONE)
-		{
-			state_len = _quote_state_none(str, &state);
-			_memcpy(new + len, str, state_len);
-			str += state_len;
-		}
-		else if (state == Q_WORD)
-		{
-			state_len = _quote_state_word(str, &state);
-			_memcpy(new + len, str, state_len);
-			str += state_len;
-		}
-		else
-		{
+		state = quote_state(*str);
+
+		if (state & (Q_DOUBLE | Q_SINGLE | Q_ESCAPE))
 			++str;
-			if (state == Q_DOUBLE)
-				state_len = _quote_state_double(str, &state);
-			else
-				state_len = _quote_state_single(str, &state);
-			_memcpy(new + len, str, state_len);
-			str += state_len;
-			if (*str)
-				++str;
-		}
+
+		state_len = quote_state_len(str, state);
+		_memcpy(new + len, str, state_len);
+
+		str += state_len;
+		len += state_len;
+
+		if (*str && (state & (Q_DOUBLE | Q_SINGLE)))
+			++str;
 	}
 	new[len] = '\0';
 	return (new);
@@ -58,32 +47,23 @@ char *dequote(const char *str)
  */
 size_t dequote_len(const char *str)
 {
-	size_t len, state_len;
+	size_t len = 0, state_len;
 	quote_state_t state;
 
-	for (len = 0, state = quote_state(*str); *str; len += state_len)
+	while (*str)
 	{
-		if (state == Q_NONE)
-		{
-			state_len = _quote_state_none(str, &state);
-			str += state_len;
-		}
-		else if (state == Q_WORD)
-		{
-			state_len = _quote_state_word(str, &state);
-			str += state_len;
-		}
-		else
-		{
+		state = quote_state(*str);
+
+		if (state & (Q_DOUBLE | Q_SINGLE | Q_ESCAPE))
 			++str;
-			if (state == Q_DOUBLE)
-				state_len = _quote_state_double(str, &state);
-			else
-				state_len = _quote_state_single(str, &state);
-			str += state_len;
-			if (*str)
-				++str;
-		}
+
+		state_len = quote_state_len(str, state);
+
+		str += state_len;
+		len += state_len;
+
+		if (*str && (state & (Q_DOUBLE | Q_SINGLE)))
+			++str;
 	}
 	return (len);
 }

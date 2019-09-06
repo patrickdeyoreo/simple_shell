@@ -22,11 +22,13 @@ typedef enum quote_state
 	Q_ESCAPE = 8
 } quote_state_t;
 
+typedef size_t (*quote_state_func)(const char *, quote_state_t *);
+
 quote_state_t quote_state(char c);
 
-size_t (*quote_state_fn(quote_state_t s))(const char *, quote_state_t *);
+quote_state_func quote_state_fn(quote_state_t s);
 
-size_t quote_state_len(const char *str, quote_state_t *state);
+size_t quote_state_len(const char *str, quote_state_t state);
 
 size_t _quote_state_none(const char *str, quote_state_t *state);
 size_t _quote_state_word(const char *str, quote_state_t *state);

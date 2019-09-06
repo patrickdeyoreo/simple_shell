@@ -91,7 +91,7 @@ size_t _quote_state_escape(const char *str, quote_state_t *state)
 	{
 		++str, ++len;
 		if (state && *str)
-			*state = quote_state(*(str + 1));
+			*state = quote_state(*str);
 	}
 	return (len);
 }

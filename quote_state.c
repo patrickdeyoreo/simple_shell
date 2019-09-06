@@ -26,7 +26,7 @@ quote_state_t quote_state(char c)
  *
  * Return: the state associated with c
  */
-size_t (*quote_state_fn(quote_state_t s))(const char *, quote_state_t *)
+quote_state_func quote_state_fn(quote_state_t s)
 {
 	switch (s)
 	{
@@ -52,10 +52,7 @@ size_t (*quote_state_fn(quote_state_t s))(const char *, quote_state_t *)
  *
  * Return: the state associated with c
  */
-size_t quote_state_len(const char *str, quote_state_t *state)
+size_t quote_state_len(const char *str, quote_state_t state)
 {
-	if (state)
-		return (quote_state_fn(*state)(str, state));
-
-	return (quote_state_fn(quote_state(*str))(str, NULL));
+	return (quote_state_fn(state)(str, NULL));
 }

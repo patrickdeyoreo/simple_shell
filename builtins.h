@@ -16,7 +16,7 @@
 	"Without arguments, a list of aliases is printed.\n"\
 	"With arguments, an alias is defined for each NAME whose VALUE is given.\n"\
 	"For each NAME whose VALUE is omitted, the corresponding alias is printed.\n"\
-	"Upon expansion a trailing space in VALUE causes expansion of the next word."
+	"Upon expansion, a trailing space in VALUE causes expansion of the next word."
 
 #define CD_HELP \
 	"Change the current directory to DIR.\n\n"\

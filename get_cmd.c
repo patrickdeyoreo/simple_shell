@@ -14,7 +14,7 @@ int get_cmd(info_t *info)
 	if (info->interactive)
 		write(STDERR_FILENO, "$ ", 2);
 
-	while (++info->lineno, _get_cmd(info, lineptr, nptr) & (Q_DOUBLE | Q_SINGLE))
+	while (++info->lineno, _get_cmd(info, lineptr, nptr) & (Q_DOUBLE | Q_SINGLE | Q_ESCAPE))
 	{
 		temp = line;
 		line = strjoin(line, *lineptr, '\0', NULL);
@@ -59,18 +59,17 @@ int _get_cmd(info_t *info, char **lineptr, size_t *nptr)
 
 	while ((*lineptr)[index] && (*lineptr)[index] != '\n')
 	{
-		index += quote_state_fn(state)((*lineptr) + index, NULL);
+		index += quote_state_len(*lineptr + index, state);
 
 		if (!(*lineptr)[index] || (*lineptr)[index] == '\n')
 			break;
+
 		if (state & (Q_DOUBLE | Q_SINGLE))
 			++index;
 
 		state = quote_state((*lineptr)[index]);
 
-		if (!(*lineptr)[index] || (*lineptr)[index] == '\n')
-			break;
-		if (state & (Q_DOUBLE | Q_SINGLE))
+		if (state & (Q_DOUBLE | Q_SINGLE | Q_ESCAPE))
 			++index;
 	}
 	return (state);

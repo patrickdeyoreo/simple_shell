@@ -20,23 +20,19 @@ char **tokenize(const char *str)
 	if (!tokens)
 		return (NULL);
 
-	for (count = 0; *(str += _quote_state_none(str, &state)); ++count)
+	for (count = 0; *(str += quote_state_len(str, Q_NONE)); ++count)
 	{
 		tok = str;
-		do {
-			if (state == Q_WORD)
-				str += _quote_state_word(str, &state);
-			else
-			{
+
+		while (*str && (state = quote_state(*str)) != Q_NONE)
+		{
+			if (state & (Q_DOUBLE | Q_SINGLE | Q_ESCAPE))
 				++str;
-				if (state == Q_DOUBLE)
-					str += _quote_state_double(str, &state);
-				else
-					str += _quote_state_single(str, &state);
-				if (*str)
-					++str;
-			}
-		} while (*str && state != Q_NONE);
+			str += quote_state_len(str, state);
+
+			if (*str && (state & (Q_DOUBLE | Q_SINGLE)))
+				++str;
+		}
 
 		tokens[count] = _memdup(tok, str - tok + 1);
 		if (!tokens[count])
@@ -47,6 +43,7 @@ char **tokenize(const char *str)
 		tokens[count][str - tok] = '\0';
 	}
 	tokens[count] = NULL;
+
 	return (tokens);
 }
 
@@ -61,22 +58,17 @@ size_t count_tokens(const char *str)
 	size_t count;
 	quote_state_t state;
 
-	for (count = 0; *(str += _quote_state_none(str, &state)); ++count)
+	for (count = 0; *(str += quote_state_len(str, Q_NONE)); ++count)
 	{
-		do {
-			if (state == Q_WORD)
-				str += _quote_state_word(str, &state);
-			else
-			{
+		while (*str && (state = quote_state(*str)) != Q_NONE)
+		{
+			if (state & (Q_DOUBLE | Q_SINGLE | Q_ESCAPE))
 				++str;
-				if (state == Q_DOUBLE)
-					str += _quote_state_double(str, &state);
-				else
-					str += _quote_state_single(str, &state);
-				if (*str)
-					++str;
-			}
-		} while (*str && state != Q_NONE);
+			str += quote_state_len(str, state);
+
+			if (*str && (state & (Q_DOUBLE | Q_SINGLE)))
+				++str;
+		}
 	}
 	return (count);
 }
@@ -122,6 +114,7 @@ char **tokenize_noquote(const char *str)
 		tokens[count][str - tok] = '\0';
 	}
 	tokens[count] = NULL;
+
 	return (tokens);
 }
 
