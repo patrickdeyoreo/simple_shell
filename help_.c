@@ -7,44 +7,44 @@
  */
 int help_(struct info *info)
 {
-	builtin_t *builtin;
-	char **args = info->tokens + 1;
+	builtin_t *b;
+	char * const *args = info->tokens + 1;
+	const char *help;
+	size_t len;
 
-	if (*args)
-	{
-		info->status = EXIT_FAILURE;
-		do {
-			for (builtin = info->builtins; builtin->fn; ++builtin)
-			{
-				if (!_strcmp(*args, builtin->name))
-				{
-					info->status = EXIT_SUCCESS;
-					write(STDOUT_FILENO, builtin->name,
-						_strlen(builtin->name));
-					write(STDOUT_FILENO, ": ", 2);
-					write(STDOUT_FILENO, builtin->usage,
-						_strlen(builtin->usage));
-					write(STDOUT_FILENO, "\n", 1);
-					write(STDOUT_FILENO, builtin->help,
-						_strlen(builtin->help));
-					write(STDOUT_FILENO, "\n", 1);
-				}
-			}
-		} while (*(++args));
-
-		if (info->status == EXIT_FAILURE)
-			_lperror_default(info, "no help topics match",
-				*info->tokens, *(args - 1), NULL);
-	}
-	else
+	if (!*args)
 	{
 		info->status = EXIT_SUCCESS;
-		for (builtin = info->builtins; builtin->fn; ++builtin)
+		for (b = info->builtins; b->fn; ++b)
 		{
-			write(STDOUT_FILENO, builtin->usage,
-				_strlen(builtin->usage));
+			write(STDOUT_FILENO, b->usage, _strlen(b->usage));
 			write(STDOUT_FILENO, "\n", 1);
 		}
+		return (info->status);
 	}
+	info->status = EXIT_FAILURE;
+	do {
+		for (b = info->builtins; b->fn; ++b)
+		{
+			if (!_strcmp(*args, b->name))
+			{
+				info->status = EXIT_SUCCESS;
+				write(STDOUT_FILENO, b->name, _strlen(b->name));
+				write(STDOUT_FILENO, ": ", 2);
+				write(STDOUT_FILENO, b->usage, _strlen(b->usage));
+				write(STDOUT_FILENO, "\n", 1);
+				help = b->help;
+				while ((len = _strlen(help)))
+				{
+					write(STDOUT_FILENO, "    ", 4);
+					write(STDOUT_FILENO, help, len);
+					write(STDOUT_FILENO, "\n", 1);
+					help += len + 1;
+				}
+			}
+		}
+	} while (*(++args));
+	if (info->status == EXIT_FAILURE)
+		_lperror_default(info, "no topics match", *info->tokens, args[-1], NULL);
 	return (info->status);
 }

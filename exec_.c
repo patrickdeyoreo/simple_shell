@@ -1,21 +1,23 @@
 #include "builtins.h"
 
 /**
-  * exec_ - replace the running shell with a new program
-  * @info: arguments passed
-  * Return: int
-  */
+ * exec_ - replace the running shell with a new program
+ * @info: arguments passed
+ * Return: int
+ */
 int exec_(info_t *info)
 {
-	char *exe, **argv, **env;
+	char *exe, **args = info->tokens + 1, **env = NULL;
 
-	if (!info->tokens[1])
+	if (!*args)
 	{
 		info->status = EXIT_SUCCESS;
 		return (EXIT_SUCCESS);
 	}
-	argv = arrdup(++info->tokens);
-	if (_strchr(*argv, '/') == -1)
+	info->tokens = args;
+	args = arrdup(args);
+
+	if (_strchr(*args, '/') == -1)
 	{
 		free_list(&info->path);
 		info->path = str_to_list(get_dict_val(info->env, "PATH"), ':');
@@ -23,22 +25,26 @@ int exec_(info_t *info)
 	}
 	else
 	{
-		exe = _strdup(*info->tokens);
+		exe = _strdup(*args);
 	}
 	--info->tokens;
 
-	env = dict_to_env(info->env);
+	if (access(exe, X_OK) == 0)
+	{
+		env = dict_to_env(info->env);
 
-	free_info(info);
+		free_info(info);
+		execve(exe, args, env);
 
-	execve(exe, argv, env);
-
-	_lperror_default(info, "not found", "exec", *argv, NULL);
-
+		_perror_default(info, "not found", 2, "exec", *args);
+		free(exe);
+		free_tokens(&args);
+		free_tokens(&env);
+		exit(127);
+	}
+	_perror_default(info, "Permission denied", 2, "exec", *args);
 	free(exe);
-	free_tokens(&argv);
-	free_tokens(&env);
-
-	exit(127);
+	free_tokens(&args);
+	free_info(info);
+	exit(126);
 }
-

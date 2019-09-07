@@ -62,8 +62,8 @@ quote_state_t _input(char **lineptr, size_t *nptr)
 			index += quote_state_len(*lineptr + index, state);
 			if (!(*lineptr)[index])
 				continue;
-			if (state & (Q_DOUBLE | Q_SINGLE))
-				++index;
+			index += (1 && (state & (Q_DOUBLE | Q_SINGLE)));
+			 /* fall through */
 	case 0:
 			state = quote_state((*lineptr)[index]);
 			if (state & (Q_DOUBLE | Q_SINGLE | Q_ESCAPE))

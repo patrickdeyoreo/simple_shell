@@ -14,46 +14,57 @@
 
 #define ALIAS_USAGE "alias [NAME[=VALUE] ...]"
 #define ALIAS_HELP \
-	"  Define or display aliases.\n\n"\
-	"  Without arguments, a list of aliases is printed.\n"\
-	"  With arguments, an alias is defined for each NAME=VALUE pair.\n"\
-	"  For each NAME without a VALUE, the corresponding alias is printed.\n"\
-	"  Upon expansion, a trailing space in VALUE causes expansion of the next word."
+	"Define or display aliases.\n\0"\
+	"Without arguments, a list of aliases is printed.\0"\
+	"With arguments, an alias is defined for each NAME=VALUE pair.\0"\
+	"For each NAME without a VALUE, the corresponding alias is printed.\0"\
+	"When expanded, a trailing space in VALUE causes expansion of the next word."\
+	"\0\0"
 
 #define CD_USAGE "cd [DIR]"
 #define CD_HELP \
-	"  Change the current directory to DIR.\n\n"\
-	"  If DIR is ommitted, the value of the variable HOME is used instead.\n"\
-	"  If DIR is -, the directory is changed to the previous working directory."
+	"Change the current directory to DIR.\n\0"\
+	"If DIR is ommitted, the value of the variable HOME is used instead.\0"\
+	"If DIR is -, the directory is changed to the previous working directory."\
+	"\0\0"
 
 #define ENV_USAGE "env"
 #define ENV_HELP \
-	"  Print the environment."
+	"Print the environment."\
+	"\0\0"
 
 #define EXEC_USAGE "exec COMMAND [ARGUMENTS ...]"
 #define EXEC_HELP \
-	"  Replace the shell with the given command.\n\n"\
-	"  COMMAND is executed, replacing the shell with the specified program.\n"\
-	"  ARGUMENTS become the arguments to COMMAND.\n"\
-	"  If the command cannot be executed, the shell exits."
+	"Replace the shell with the given command.\n\0"\
+	"COMMAND is executed, replacing the shell with the specified program.\0"\
+	"ARGUMENTS become the arguments to COMMAND.\0"\
+	"If the command cannot be executed, the shell exits."\
+	"\0\0"
 
 #define EXIT_USAGE "exit [STATUS]"
 #define EXIT_HELP \
-	"  Exit the shell with a status of STATUS.\n\n"\
-	"  If STATUS is omitted, the exit status is that of the previous command."
+	"Exit the shell with a status of STATUS.\n\0"\
+	"If STATUS is omitted, the exit status is that of the previous command."\
+	"\0\0"
+
 
 #define HELP_USAGE "help [BUILTIN]"
 #define HELP_HELP \
-	"  Display information about builtin commands.\n\n"\
-	"  If BUILTIN is omitted, a list of available builtins is printed."
+	"Display information about builtin commands.\n\0"\
+	"If BUILTIN is omitted, a list of available builtins is printed."\
+	"\0\0"
 
-#define SETENV_USAGE "setenv NAME VALUE"
+#define SETENV_USAGE "setenv NAME [VALUE]"
 #define SETENV_HELP \
-	"  Set the environment variable NAME to VALUE."
+	"Set the environment variable NAME to VALUE.\n\0"\
+	"If NAME is omitted, print the current environment.\0"\
+	"If VALUE is omitted, set the variable NAME to the null string."\
+	"\0\0"
 
 #define UNSETENV_USAGE "unsetenv NAME"
 #define UNSETENV_HELP \
-	"  Remove the variable NAME from the environment."
+	"Remove the variable NAME from the environment."\
+	"\0\0"
 
 /**
  * struct builtin - builtin command
@@ -66,8 +77,8 @@ struct builtin
 {
 	char *name;
 	int (*fn)(info_t *);
-	char *usage;
-	char *help;
+	const char *usage;
+	const char *help;
 };
 
 void init_builtins(info_t *info);
