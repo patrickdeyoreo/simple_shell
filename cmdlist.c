@@ -9,18 +9,21 @@
  * Return: If memory allocation fails, return NULL. Otherwise, return the
  * address of the new node.
  */
-cmd_list_t *add_cmd_end(cmd_list_t **headptr, const char *cmd)
+cmdlist_t *add_cmd_end(cmdlist_t **headptr, const char *cmd)
 {
-	cmd_list_t *new;
+	cmdlist_t *new;
 
 	if (!headptr)
 		return (NULL);
 	if (*headptr)
 		return (add_cmd_end(&((*headptr)->next), cmd));
 
-	new = malloc(sizeof(cmd_list_t));
+	new = malloc(sizeof(cmdlist_t));
 	if (!new)
 		return (NULL);
+
+	new->next = NULL;
+	new->tree = NULL;
 
 	new->tokens = tokenize(cmd);
 	if (!new->tokens)
@@ -28,7 +31,6 @@ cmd_list_t *add_cmd_end(cmd_list_t **headptr, const char *cmd)
 		free(new);
 		return (NULL);
 	}
-	new->next = NULL;
 	*headptr = new;
 
 	return (new);
@@ -41,9 +43,9 @@ cmd_list_t *add_cmd_end(cmd_list_t **headptr, const char *cmd)
  * @index: argument passed
  * Return: address of deleted node
  */
-cmd_list_t *del_cmd(cmd_list_t **headptr, size_t index)
+cmdlist_t *del_cmd(cmdlist_t **headptr, size_t index)
 {
-	cmd_list_t *old;
+	cmdlist_t *old;
 
 	if (!(headptr && *headptr))
 		return (NULL);
@@ -52,7 +54,7 @@ cmd_list_t *del_cmd(cmd_list_t **headptr, size_t index)
 
 	old = *headptr;
 	*headptr = (*headptr)->next;
-
+	free_cmdtree(&(old->tree));
 	free_tokens(&(old->tokens));
 	free(old);
 
@@ -65,9 +67,9 @@ cmd_list_t *del_cmd(cmd_list_t **headptr, size_t index)
  * @headptr: the first node
  * Return: command tokens
  */
-char **pop_cmd(cmd_list_t **headptr)
+char **pop_cmd(cmdlist_t **headptr)
 {
-	cmd_list_t *pop;
+	cmdlist_t *pop;
 	char **tokens;
 
 	if (!(headptr && *headptr))
@@ -77,6 +79,7 @@ char **pop_cmd(cmd_list_t **headptr)
 	tokens = pop->tokens;
 	*headptr = (*headptr)->next;
 
+	free_cmdtree(&(pop->tree));
 	free(pop);
 
 	return (tokens);
@@ -84,14 +87,15 @@ char **pop_cmd(cmd_list_t **headptr)
 
 
 /**
- * free_cmd_list - free a linked list and and set head to NULL
+ * free_cmdlist - free a linked list and and set head to NULL
  * @headptr: the first node
  */
-void free_cmd_list(cmd_list_t **headptr)
+void free_cmdlist(cmdlist_t **headptr)
 {
 	if (headptr && *headptr)
 	{
-		free_cmd_list(&((*headptr)->next));
+		free_cmdlist(&((*headptr)->next));
+		free_cmdtree(&((*headptr)->tree));
 		free_tokens(&((*headptr)->tokens));
 		free(*headptr);
 		*headptr = NULL;

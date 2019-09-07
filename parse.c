@@ -12,7 +12,7 @@ int parse(info_t *info)
 {
 	char **tokens, *tok;
 	size_t n = 0;
-	cmd_list_t *cmd = info->commands = cmd_to_list(info->line);
+	cmdlist_t *cmd = info->commands = cmd_to_list(info->line);
 
 	while (cmd)
 	{

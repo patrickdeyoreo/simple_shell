@@ -30,6 +30,9 @@ int main(int argc, char **argv)
 	if (info.interactive)
 		write(STDOUT_FILENO, "\n", 1);
 
+	if (info.script)
+		close(STDIN_FILENO);
+
 	free_info(&info);
 	exit(info.status);
 }

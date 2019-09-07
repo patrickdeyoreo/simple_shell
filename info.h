@@ -7,6 +7,7 @@
 #include "builtins.h"
 #include "command.h"
 #include "env.h"
+#include "history.h"
 #include "list.h"
 #include "tokens.h"
 #include "types.h"
@@ -22,6 +23,7 @@ extern char **environ;
   * @linesize: arguments passed
   * @lineno: arguments passed
   * @tokens: arguments passed
+  * @script: arguments passed
   * @status: arguments passed
   * @pid: arguments passed
   * @cwd: arguments passed
@@ -31,6 +33,7 @@ extern char **environ;
   * @aliases: arguments passed
   * @builtins: arguments passed
   * @commands: arguments passed
+  * @history: arguments passed
   */
 struct info
 {
@@ -41,6 +44,7 @@ struct info
 	size_t linesize;
 	size_t lineno;
 	char **tokens;
+	const char *script;
 	int status;
 	pid_t pid;
 	char *cwd;
@@ -49,7 +53,8 @@ struct info
 	list_t *path;
 	alias_t *aliases;
 	builtin_t *builtins;
-	cmd_list_t *commands;
+	cmdlist_t *commands;
+	history_t *history;
 };
 
 void init_info(info_t *info, int argc, char **argv);

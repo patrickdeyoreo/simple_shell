@@ -69,6 +69,9 @@ int _execute(info_t *info)
 		execve(exe, argv, env);
 		perror(argv[0]);
 
+		if (info->script)
+			close(STDIN_FILENO);
+
 		free(exe);
 		free_tokens(&argv);
 		free_tokens(&env);

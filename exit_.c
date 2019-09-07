@@ -20,10 +20,13 @@ int exit_(info_t *info)
 			_lperror_default(info, *args, *info->tokens,
 				"Illegal number", NULL);
 			info->status = 2;
+
 			return (info->status);
 		}
 	}
+	if (info->script)
+		close(STDIN_FILENO);
+
 	free_info(info);
 	exit(info->status);
-	return (info->status);
 }

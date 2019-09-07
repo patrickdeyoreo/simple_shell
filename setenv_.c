@@ -9,31 +9,40 @@
 int setenv_(info_t *info)
 {
 	env_t *var;
-	char **args = info->tokens + 1;
+	char **args = info->tokens + 1, *val;
 
-	info->status = EXIT_SUCCESS;
-
-	if (args[0] && args[1])
+	if (args[0])
 	{
-		if (args[2])
+		if (args[1])
 		{
-			_lperror_default(info, "Too many arguments.",
-				*info->tokens, NULL);
-			info->status = EXIT_FAILURE;
+			if (args[2])
+			{
+				_lperror_default(info, "Too many arguments.",
+					*info->tokens, NULL);
+				info->status = EXIT_FAILURE;
+				return (info->status);
+			}
+			val = args[1];
 		}
 		else
 		{
-			var = get_dict_node(info->env, args[0]);
-			if (var)
-			{
-				free(var->val);
-				var->val = _strdup(args[1]);
-			}
-			else
-			{
-				add_dict_node_end(&info->env, args[0], args[1]);
-			}
+			val = "";
 		}
+		var = get_dict_node(info->env, args[0]);
+		if (var)
+		{
+			free(var->val);
+			var->val = _strdup(val);
+		}
+		else
+		{
+			add_dict_node_end(&info->env, args[0], val);
+		}
+		info->status = EXIT_SUCCESS;
+	}
+	else
+	{
+		env_(info);
 	}
 	return (info->status);
 }

@@ -1,10 +1,10 @@
 #include "builtins.h"
 
 /**
- * init_builtins - load a static builtin array
+ * load_builtins - load a static builtin array
  * @info: the info struct to load the builtins into
  */
-void init_builtins(info_t *info)
+void load_builtins(info_t *info)
 {
 	static builtin_t builtins[] = {
 		{"alias", alias_, ALIAS_USAGE, ALIAS_HELP},

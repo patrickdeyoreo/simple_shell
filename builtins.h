@@ -81,7 +81,7 @@ struct builtin
 	const char *help;
 };
 
-void init_builtins(info_t *info);
+void load_builtins(info_t *info);
 
 int alias_(info_t *info);
 int cd_(info_t *info);

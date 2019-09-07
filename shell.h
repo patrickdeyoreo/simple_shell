@@ -40,7 +40,7 @@ char *expand_alias(alias_t *aliases, char ***tokptr);
 void expand_vars(info_t *info, char ***tokptr);
 char **_expand_vars(info_t *info, char ***tokptr);
 
-void remove_comments(cmd_list_t *cmd);
+void remove_comments(cmdlist_t *cmd);
 
 void open_script(info_t *info);
 

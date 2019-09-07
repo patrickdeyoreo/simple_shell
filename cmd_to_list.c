@@ -7,9 +7,9 @@
  * Return: If memory allocation fails, return NULL. Otherwise, return a
  * pointer to the head of the new list.
  */
-cmd_list_t *cmd_to_list(const char *cmd)
+cmdlist_t *cmd_to_list(const char *cmd)
 {
-	cmd_list_t *head = NULL;
+	cmdlist_t *head = NULL;
 	size_t count;
 	char *split = _strdup(cmd);
 
@@ -20,7 +20,7 @@ cmd_list_t *cmd_to_list(const char *cmd)
 
 	if (!_cmd_to_list(&head, split, count))
 	{
-		free_cmd_list(&head);
+		free_cmdlist(&head);
 		return (NULL);
 	}
 	free(split);
@@ -38,9 +38,9 @@ cmd_list_t *cmd_to_list(const char *cmd)
  * Return: If memory allocation fails, return NULL. Otherwise, return a
  * pointer to the tail of the new list.
  */
-cmd_list_t *_cmd_to_list(cmd_list_t **tailptr, char *split, size_t count)
+cmdlist_t *_cmd_to_list(cmdlist_t **tailptr, char *split, size_t count)
 {
-	cmd_list_t *tail;
+	cmdlist_t *tail;
 
 	if (!count)
 		return (*tailptr);

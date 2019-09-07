@@ -15,6 +15,7 @@ void init_info(info_t *info, int argc, char **argv)
 	info->linesize = 0;
 	info->lineno = 0;
 	info->tokens = NULL;
+	info->script = NULL;
 	info->status = EXIT_SUCCESS;
 	info->pid = getpid();
 	info->cwd = getcwd(NULL, 0);
@@ -22,8 +23,10 @@ void init_info(info_t *info, int argc, char **argv)
 	info->env = env_to_dict(environ);
 	info->path = NULL;
 	info->aliases = NULL;
+	info->builtins = NULL;
 	info->commands = NULL;
-	init_builtins(info);
+	info->history = NULL;
+	load_builtins(info);
 }
 
 
@@ -44,6 +47,6 @@ void free_info(info_t *info)
 	free_dict(&info->env);
 	free_list(&info->path);
 	free_dict(&info->aliases);
-	free_cmd_list(&info->commands);
+	free_cmdlist(&info->commands);
 }
 
