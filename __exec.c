@@ -1,11 +1,11 @@
 #include "builtins.h"
 
 /**
- * exec_ - replace the running shell with a new program
+ * __exec - replace the running shell with a new program
  * @info: arguments passed
  * Return: int
  */
-int exec_(info_t *info)
+int __exec(info_t *info)
 {
 	char *exe, **args = info->tokens + 1, **env = NULL;
 

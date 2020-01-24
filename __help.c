@@ -1,11 +1,11 @@
 #include "builtins.h"
 
 /**
- * help_ - show help for builtins commands
+ * __help - show help for builtins commands
  * @info: shell info
  * Return: status
  */
-int help_(struct info *info)
+int __help(struct info *info)
 {
 	builtin_t *b;
 	char * const *args = info->tokens + 1;

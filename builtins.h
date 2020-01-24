@@ -81,25 +81,18 @@ struct builtin
 	const char *help;
 };
 
-void load_builtins(info_t *info);
+struct builtin *load_builtins(void);
 
-int alias_(info_t *info);
-int cd_(info_t *info);
-int env_(info_t *info);
-int exec_(info_t *info);
-int exit_(info_t *info);
-int setenv_(info_t *info);
-int unsetenv_(info_t *info);
-int help_(info_t *info);
-
-void alias_add(alias_t **aliases, const char *name, const char *value);
-void alias_print(alias_t *alias);
-
-void cd_success(info_t *info);
-void cd_error(info_t *info, char *dir);
+int __alias(info_t *info);
+int __cd(info_t *info);
+int __env(info_t *info);
+int __exec(info_t *info);
+int __exit(info_t *info);
+int __setenv(info_t *info);
+int __unsetenv(info_t *info);
+int __help(info_t *info);
 
 int isnumber(char *s);
-
 unsigned int atou(char *s);
 
 #endif /* BUILTINS_H */

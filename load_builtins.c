@@ -1,21 +1,23 @@
 #include "builtins.h"
 
 /**
- * load_builtins - load a static builtin array
- * @info: the info struct to load the builtins into
+ * load_builtins - load an array of builtins
+ *
+ * Return: a NULL terminated, statically allocated array of builtins
  */
-void load_builtins(info_t *info)
+builtin_t *load_builtins(void)
 {
 	static builtin_t builtins[] = {
-		{"alias", alias_, ALIAS_USAGE, ALIAS_HELP},
-		{"cd", cd_, CD_USAGE, CD_HELP},
-		{"env", env_, ENV_USAGE, ENV_HELP},
-		{"exec", exec_, EXEC_USAGE, EXEC_HELP},
-		{"exit", exit_, EXIT_USAGE, EXIT_HELP},
-		{"help", help_, HELP_USAGE, HELP_HELP},
-		{"setenv", setenv_, SETENV_USAGE, SETENV_HELP},
-		{"unsetenv", unsetenv_, UNSETENV_USAGE, UNSETENV_HELP},
+		{"alias", __alias, ALIAS_USAGE, ALIAS_HELP},
+		{"cd", __cd, CD_USAGE, CD_HELP},
+		{"env", __env, ENV_USAGE, ENV_HELP},
+		{"exec", __exec, EXEC_USAGE, EXEC_HELP},
+		{"exit", __exit, EXIT_USAGE, EXIT_HELP},
+		{"help", __help, HELP_USAGE, HELP_HELP},
+		{"setenv", __setenv, SETENV_USAGE, SETENV_HELP},
+		{"unsetenv", __unsetenv, UNSETENV_USAGE, UNSETENV_HELP},
 		{0}
 	};
-	info->builtins = builtins;
+
+	return (builtins);
 }

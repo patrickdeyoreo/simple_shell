@@ -1,32 +1,25 @@
 #include "tokens.h"
 
 /**
- * arrdup - duplicate an array
+ * arrdup - duplicate a (NULL-terminated) array
  * @arr: the array to duplicate
  *
- * Return: a dynamically-allocated duplicate of arr
+ * Return: a duplicate of arr
  */
 char **arrdup(char **arr)
 {
-	char **new;
+	char **dup = NULL;
 	size_t len = 0;
 
-	if (arr)
-	{
-		while (arr[len])
-			++len;
-	}
-	new = malloc(sizeof(char *) * (len + 1));
-	if (!new)
+	if (!arr)
 		return (NULL);
-
-	len = 0;
-	if (arr)
-	{
-		while (*arr)
-			new[len++] = _strdup(*arr++);
-	}
-	new[len] = NULL;
-	return (new);
+	while (arr[len++])
+		;
+	dup = malloc(sizeof(*dup) * len);
+	if (!dup)
+		return (NULL);
+	while (len--)
+		dup[len] = _strdup(arr[len]);
+	return (dup);
 }
 

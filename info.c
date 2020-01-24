@@ -23,10 +23,9 @@ void init_info(info_t *info, int argc, char **argv)
 	info->env = env_to_dict(environ);
 	info->path = NULL;
 	info->aliases = NULL;
-	info->builtins = NULL;
+	info->builtins = load_builtins();
 	info->commands = NULL;
 	info->history = NULL;
-	load_builtins(info);
 }
 
 
