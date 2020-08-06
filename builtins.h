@@ -92,6 +92,14 @@ int __setenv(info_t *info);
 int __unsetenv(info_t *info);
 int __help(info_t *info);
 
+int builtin_alias(int argc, const char * const *argv);
+int builtin_cd(int argc, const char * const *argv);
+int builtin_env(int argc, const char * const *argv);
+int builtin_exit(int argc, const char * const *argv);
+int builtin_help(int argc, const char * const *argv);
+int builtin_setenv(int argc, const char * const *argv);
+int builtin_unsetenv(int argc, const char * const *argv);
+
 int isnumber(char *s);
 unsigned int atou(char *s);
 
