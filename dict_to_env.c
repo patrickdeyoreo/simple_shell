@@ -19,7 +19,7 @@ char **dict_to_env(env_t *head)
 		return (NULL);
 
 	for (len = 0; head; head = head->next)
-		env[len++] = strjoin(head->key, head->val, '=', NULL);
+		env[len++] = strjoin(NULL, "=", head->key, head->val);
 	env[len] = NULL;
 
 	return (env);

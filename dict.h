@@ -1,7 +1,8 @@
-#ifndef DICT_H
-#define DICT_H
+#ifndef _DICT_H_
+#define _DICT_H_
 
 #include <stdlib.h>
+
 #include "string.h"
 #include "types.h"
 
@@ -24,4 +25,4 @@ dict_t *add_dict_node_end(dict_t **headptr, const char *key, const char *val);
 dict_t *del_dict_node(dict_t **headptr, const char *key);
 void free_dict(dict_t **headptr);
 
-#endif /* DICT_H */
+#endif /* _DICT_H_ */

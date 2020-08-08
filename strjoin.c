@@ -1,111 +1,112 @@
 #include "string.h"
 
 /**
- * strjoin - joins two strings with a character
- * @c: character passed
- * @s1: string passed
- * @s2: string passed
- * @sizeptr: address to store the size of the new string
- *
- * Return: new string
+ * strjoin - joins two strings with another string
+ * @n: address at which to store the size of the new string
+ * @sep: joining string
+ * @pre: prefix string
+ * @suf: suffix string
+ * Return: pointer to the new string
  */
-char *strjoin(const char *s1, const char *s2, char c, size_t *sizeptr)
+char *strjoin(size_t *n, const char *sep, const char *pre, const char *suf)
 {
-	char *new;
-	ssize_t s1_len, s2_len;
+	char *dest = NULL;
+	size_t sep_len = _strlen(sep ? sep : "");
+	size_t pre_len = _strlen(pre ? pre : "");
+	size_t suf_len = _strlen(suf ? suf : "");
 
-	if (!s1)
-		s1 = "";
-	if (!s2)
-		s2 = "";
-
-	s1_len = _strlen(s1);
-	s2_len = _strlen(s2);
-
-	new = malloc(sizeof(char) * (s1_len + s2_len + (c != '\0') + 1));
-	if (!new)
-		return (NULL);
-
-	if (sizeptr)
-		*sizeptr = s1_len + s2_len + (c != '\0') + 1;
-
-	_memcpy(new, s1, s1_len);
-	*(new + s1_len) = c;
-	_memcpy(new + s1_len + (c != '\0'), s2, s2_len + 1);
-
-	return (new);
+	dest = malloc(sizeof(char) * (pre_len + sep_len + suf_len + 1));
+	if (dest)
+	{
+		_strcpy(dest, pre ? pre : "");
+		_strcpy(dest + pre_len, sep ? sep : "");
+		_strcpy(dest + pre_len + sep_len, suf ? suf : "");
+		if (n)
+			*n = pre_len + sep_len + suf_len + 1;
+	}
+	return (dest);
 }
 
 
 /**
- * strjoina - join strings from an array with a character
- * @arr: array of strings
- * @c: character
- * @sizeptr: address to store the size of the new string
- *
- * Return: a dynamically-allocated string of the elements in arr joined by c
+ * strjoina - join strings from a NULL-terminated array
+ * @n: address at which to store the length of the new string
+ * @sep: joining string
+ * @array: array of strings
+ * Return: pointer to the new string
  */
-char *strjoina(const char **arr, char c, size_t *sizeptr)
+char *strjoina(size_t *n, const char *sep, const char **array)
 {
-	char *new;
-	size_t n = 0, len = 0;
+	char *dest = NULL;
+	size_t len = 0, idx = 0, sep_len = _strlen(sep ? sep : "");
 
-	while (arr[n])
-		len += _strlen(arr[n++]);
+	while (array[idx])
+		len += _strlen(array[idx++]);
 
-	new = malloc(sizeof(char) * (len + (c ? n : 1)));
-	if (!new)
-		return (NULL);
-
-	if (sizeptr)
-		*sizeptr = len + (c ? n : 1);
-
-	for (len = 0; *arr; ++arr)
+	if (idx--)
 	{
-		_strcpy(new + len, *arr);
-		len += _strlen(*arr);
-		if (c && --n)
-			new[len++] = c;
+		dest = malloc(sizeof(char) * (len + idx * sep_len + 1));
+		if (dest)
+		{
+			len = 0;
+			while (*array)
+			{
+				_strcpy(dest + len, *array);
+				len += _strlen(*array);
+				if (sep_len && idx--)
+				{
+					_strcpy(dest + len, sep);
+					len += sep_len;
+				}
+			}
+			if (n)
+				*n = len + 1;
+		}
 	}
-	return (new);
+	return (dest);
 }
 
 
 /**
  * strjoinl - joins a NULL terminated list of strings with a character
- * @sizeptr: address to store the size of the new string
- * @c: character
+ * @n: address at which to store the length of the new string
+ * @sep: joining string
  * @...: strings
- *
- * Return: new string
+ * Return: pointer to the new string
  */
-char *strjoinl(size_t *sizeptr, char c, ...)
+char *strjoinl(size_t *n, const char *sep, ...)
 {
-	char *new, *tmp;
-	size_t n = 0, len = 0;
-	va_list strings;
+	char *dest = NULL;
+	const char *temp = NULL;
+	size_t idx = 0, len = 0, sep_len = _strlen(sep ? sep : "");
+	va_list ap;
 
-	va_start(strings, c);
-	while ((tmp = va_arg(strings, char *)))
-		++n, len += _strlen(tmp);
-	va_end(strings);
+	for (va_start(ap, sep); (temp = va_arg(ap, char *)); idx += 1)
+		len += _strlen(temp);
+	va_end(ap);
 
-	new = malloc(sizeof(char) * (len + (c ? n : 1)));
-	if (!new)
-		return (NULL);
-
-	if (sizeptr)
-		*sizeptr = len + (c ? n : 1);
-
-	len = 0;
-	va_start(strings, c);
-	while ((tmp = va_arg(strings, char *)))
+	if (idx--)
 	{
-		_strcpy(new + len, tmp);
-		len += _strlen(tmp);
-		if (c && --n)
-			new[len++] = c;
+		dest = malloc(sizeof(char) * (len + idx * sep_len + 1));
+		if (dest)
+		{
+			len = 0;
+			va_start(ap, sep);
+			while ((temp = va_arg(ap, char *)))
+			{
+				_strcpy(dest + len, temp);
+				len += _strlen(temp);
+				if (sep_len && idx--)
+				{
+					_strcpy(dest + len, sep);
+					len += sep_len;
+				}
+			}
+			va_end(ap);
+			if (n)
+				*n = len + 1;
+		}
+
 	}
-	va_end(strings);
-	return (new);
+	return (dest);
 }

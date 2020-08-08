@@ -1,74 +1,73 @@
-#include "shell.h"
+#include "hsh.h"
+#include "getline.h"
 
 /**
- * input - get input
+ * read_input - get input
  * @info: shell information
  *
  * Return: line size
  */
-int input(info_t *info)
+bool read_input(info_t *info)
 {
-	char **lineptr = &info->line, *line = NULL, *tmp;
-	size_t *nptr = &info->linesize;
+	char *line = NULL, *temp = NULL;
 
 	if (info->interactive)
 		write(STDERR_FILENO, "$ ", 2);
 
-	while (++info->lineno,
-		_input(lineptr, nptr) & (Q_DOUBLE | Q_SINGLE | Q_ESCAPE))
+	info->lineno += 1;
+	while (_read_input(&info->line, info->fileno) & (QUOTE_DOUBLE | QUOTE_SINGLE | QUOTE_ESCAPE))
 	{
-		line = strjoin(tmp = line, *lineptr, '\0', NULL);
-		free(tmp);
-
+		temp = line;
+		line = strjoin(NULL, "", temp, info->line);
+		free(temp);
+		free(info->line);
 		if (info->interactive)
 			write(STDERR_FILENO, "> ", 2);
+		info->lineno += 1;
 	}
 	if (line)
 	{
-		*lineptr = strjoin(line, tmp = *lineptr, '\0', nptr);
-		free(tmp);
+		temp = info->line;
+		info->line = strjoin(NULL, "", line, temp);
+		free(temp);
 		free(line);
 	}
-	return (*nptr);
+	return (info->line);
 }
 
 
 /**
- * _input - read a single line
+ * _read_input - read a single line
  * @lineptr: line buffer
- * @nptr: line buffer size
+ * @fd: file descriptor to read from
  *
  * Return: ending quote state
  */
-quote_state_t _input(char **lineptr, size_t *nptr)
+quote_state_t _read_input(char **lineptr, int fd)
 {
-	static quote_state_t state = Q_NONE;
+	char *line = *lineptr = _getline(fd);
+	static quote_state_t state = QUOTE_NONE;
 	size_t index = 0;
-	ssize_t n_read = _getline(lineptr, nptr, STDIN_FILENO);
 
-	if (n_read < 1)
+	if (line)
 	{
-		free(*lineptr);
-		*lineptr = NULL;
-		*nptr = 0;
-		return (Q_NONE);
-	}
-
-	switch (state & (Q_DOUBLE | Q_SINGLE))
-	{
-	case Q_DOUBLE:
-	case Q_SINGLE:
-		do {
-			index += quote_state_len(*lineptr + index, state);
-			if (!(*lineptr)[index])
-				continue;
-			index += (1 && (state & (Q_DOUBLE | Q_SINGLE)));
-			 /* fall through */
-	case 0:
-			state = quote_state((*lineptr)[index]);
-			if (state & (Q_DOUBLE | Q_SINGLE | Q_ESCAPE))
-				++index;
-		} while ((*lineptr)[index]);
+		switch (state & (QUOTE_DOUBLE | QUOTE_SINGLE))
+		{
+		case QUOTE_DOUBLE:
+		case QUOTE_SINGLE:
+			do {
+				index += quote_state_len(line + index, state);
+				if (line[index] == '\0')
+					continue;
+				if (state & (QUOTE_DOUBLE | QUOTE_SINGLE))
+					index += 1;
+				/* fall through */
+		case 0:
+				state = quote_state(line[index]);
+				if (state & (QUOTE_DOUBLE | QUOTE_SINGLE | QUOTE_ESCAPE))
+					index += 1;
+			} while (line[index]);
+		}
 	}
 	return (state);
 }

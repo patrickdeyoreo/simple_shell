@@ -1,6 +1,7 @@
 #ifndef SHELL_H
 #define SHELL_H
 
+#include <stdbool.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/wait.h>
@@ -8,6 +9,7 @@
 #include <signal.h>
 #include <errno.h>
 #include <fcntl.h>
+
 #include "alias.h"
 #include "builtins.h"
 #include "command.h"
@@ -15,7 +17,6 @@
 #include "dict.h"
 #include "env.h"
 #include "error.h"
-#include "getline.h"
 #include "info.h"
 #include "list.h"
 #include "path.h"
@@ -26,8 +27,8 @@
 
 extern char **environ;
 
-int input(info_t *info);
-quote_state_t _input(char **lineptr, size_t *nptr);
+bool read_input(info_t *info);
+quote_state_t _read_input(char **lineptr, int fd);
 
 int parse(info_t *info);
 

@@ -1,5 +1,5 @@
-#ifndef COMMAND_H
-#define COMMAND_H
+#ifndef _COMMAND_H_
+#define _COMMAND_H_
 
 #include <stdlib.h>
 #include "quote.h"
@@ -74,4 +74,4 @@ void free_cmdlist(cmdlist_t **headptr);
 cmdtree_t *cmd_to_tree(const char * const *tokens);
 void free_cmdtree(cmdtree_t **rootptr);
 
-#endif /* COMMAND_H */
+#endif /* _COMMAND_H_ */

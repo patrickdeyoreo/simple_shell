@@ -5,7 +5,7 @@
   * @c: character to check
  * Return: If c is an identifier character, return 1. Otherwise, return 0.
   */
-int _isident(int c)
+bool _isident(int c)
 {
 	return (c == '_' || _isalnum(c));
 }

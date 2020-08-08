@@ -20,18 +20,18 @@ char **tokenize(const char *str)
 	if (!tokens)
 		return (NULL);
 
-	for (count = 0; *(str += quote_state_len(str, Q_NONE)); ++count)
+	for (count = 0; *(str += quote_state_len(str, QUOTE_NONE)); ++count)
 	{
 		tok = str;
 
-		while (*str && (state = quote_state(*str)) != Q_NONE)
+		while (*str && (state = quote_state(*str)) != QUOTE_NONE)
 		{
-			if (state & (Q_DOUBLE | Q_SINGLE | Q_ESCAPE))
+			if (state & (QUOTE_DOUBLE | QUOTE_SINGLE | QUOTE_ESCAPE))
 				str += quote_state_len(str + 1, state) + 1;
 			else
 				str += quote_state_len(str, state);
 
-			if (*str && (state & (Q_DOUBLE | Q_SINGLE)))
+			if (*str && (state & (QUOTE_DOUBLE | QUOTE_SINGLE)))
 				++str;
 		}
 
@@ -59,16 +59,16 @@ size_t count_tokens(const char *str)
 	size_t count;
 	quote_state_t state;
 
-	for (count = 0; *(str += quote_state_len(str, Q_NONE)); ++count)
+	for (count = 0; *(str += quote_state_len(str, QUOTE_NONE)); ++count)
 	{
-		while (*str && (state = quote_state(*str)) != Q_NONE)
+		while (*str && (state = quote_state(*str)) != QUOTE_NONE)
 		{
-			if (state & (Q_DOUBLE | Q_SINGLE | Q_ESCAPE))
+			if (state & (QUOTE_DOUBLE | QUOTE_SINGLE | QUOTE_ESCAPE))
 				str += quote_state_len(str + 1, state) + 1;
 			else
 				str += quote_state_len(str, state);
 
-			if (*str && (state & (Q_DOUBLE | Q_SINGLE)))
+			if (*str && (state & (QUOTE_DOUBLE | QUOTE_SINGLE)))
 				++str;
 		}
 	}
