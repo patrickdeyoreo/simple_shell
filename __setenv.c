@@ -17,8 +17,7 @@ int __setenv(info_t *info)
 		{
 			if (args[2])
 			{
-				perrorl_default(*info->argv, info->lineno, "Too many arguments",
-						*info->tokens, NULL);
+				perrorl("Too many arguments.", *info->tokens, NULL);
 				info->status = EXIT_FAILURE;
 				return (info->status);
 			}

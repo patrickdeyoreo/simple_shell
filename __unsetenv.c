@@ -17,8 +17,7 @@ int __unsetenv(info_t *info)
 	}
 	else
 	{
-		perrorl_default(*info->argv, info->lineno, "Too few arguments",
-				*info->tokens, NULL);
+		perrorl("Too few arguments.", *info->tokens, NULL);
 		info->status = EXIT_FAILURE;
 	}
 	return (info->status);
