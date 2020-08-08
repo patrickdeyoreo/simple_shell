@@ -9,36 +9,36 @@
 quote_state_t quote_state(char c)
 {
 	if (_isspace(c))
-		return (Q_NONE);
+		return (QUOTE_NONE);
 	if (c == '"')
-		return (Q_DOUBLE);
+		return (QUOTE_DOUBLE);
 	if (c == '\'')
-		return (Q_SINGLE);
+		return (QUOTE_SINGLE);
 	if (c == '\\')
-		return (Q_ESCAPE);
-	return (Q_WORD);
+		return (QUOTE_ESCAPE);
+	return (QUOTE_WORD);
 }
 
 
 /**
- * quote_state_fn - get the function associated with a given state
+ * quote_state_f - get the function associated with a given state
  * @s: state
  *
  * Return: the state associated with c
  */
-quote_state_func quote_state_fn(quote_state_t s)
+quote_state_fp quote_state_f(quote_state_t s)
 {
 	switch (s)
 	{
-	case Q_NONE:
+	case QUOTE_NONE:
 		return (_quote_state_none);
-	case Q_WORD:
+	case QUOTE_WORD:
 		return (_quote_state_word);
-	case Q_DOUBLE:
+	case QUOTE_DOUBLE:
 		return (_quote_state_double);
-	case Q_SINGLE:
+	case QUOTE_SINGLE:
 		return (_quote_state_single);
-	case Q_ESCAPE:
+	case QUOTE_ESCAPE:
 		return (_quote_state_escape);
 	}
 	return (NULL);
@@ -54,5 +54,5 @@ quote_state_func quote_state_fn(quote_state_t s)
  */
 size_t quote_state_len(const char *str, quote_state_t state)
 {
-	return (quote_state_fn(state)(str, NULL));
+	return (quote_state_f(state)(str, NULL));
 }

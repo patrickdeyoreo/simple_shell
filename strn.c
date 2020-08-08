@@ -3,11 +3,11 @@
 /**
   * _strnchr - get the index of the first matching character
   * @str: string passed
-  * @c: character passed
+  * @chr: character passed
   * @n: max number of characters to check
-  * Return: Index of the first occurence, or -1 c is not found
+  * Return: Index of the first occurence, or -1 chr is not found
   */
-ssize_t _strnchr(const char *str, char c, size_t n)
+ssize_t _strnchr(const char *str, char chr, size_t n)
 {
 	ssize_t index;
 
@@ -16,7 +16,7 @@ ssize_t _strnchr(const char *str, char c, size_t n)
 
 	for (index = 0; n && str[index]; --n, ++index)
 	{
-		if (str[index] == c)
+		if (str[index] == chr)
 			return (index);
 	}
 

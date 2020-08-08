@@ -3,10 +3,10 @@
 /**
   * _strchr - get the index of the first matching character
   * @str: string passed
-  * @c: character passed
+  * @chr: character passed
   * Return: index
   */
-ssize_t _strchr(const char *str, char c)
+ssize_t _strchr(const char *str, char chr)
 {
 	ssize_t index;
 
@@ -15,7 +15,7 @@ ssize_t _strchr(const char *str, char c)
 
 	for (index = 0; str[index]; ++index)
 	{
-		if (str[index] == c)
+		if (str[index] == chr)
 			return (index);
 	}
 

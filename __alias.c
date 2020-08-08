@@ -61,7 +61,7 @@ int __alias(info_t *info)
 				}
 				else
 				{
-					_lperror("not found", *info->tokens, *args, NULL);
+					perrorl("not found", *info->tokens, *args, NULL);
 					info->status = EXIT_FAILURE;
 				}
 			}

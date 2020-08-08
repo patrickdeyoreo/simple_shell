@@ -11,20 +11,20 @@ int __exit(info_t *info)
 
 	if (*args)
 	{
-		if (isnumber(*args) && atou(*args) <= INT_MAX)
+		if (_isnumber(*args) && atou(*args) <= INT_MAX)
 		{
 			info->status = atou(*args);
 		}
 		else
 		{
-			_lperror_default(info, *args, *info->tokens,
-				"Illegal number", NULL);
+			perrorl_default(*info->argv, info->lineno, "Illegal number",
+					*info->tokens, *args, NULL);
 			info->status = 2;
 
 			return (info->status);
 		}
 	}
-	if (info->script)
+	if (info->file)
 		close(STDIN_FILENO);
 
 	free_info(info);

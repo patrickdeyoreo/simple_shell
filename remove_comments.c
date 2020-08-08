@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "hsh.h"
 
 /**
  * remove_comments - remove comments (#) from a command

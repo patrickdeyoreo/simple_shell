@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "hsh.h"
 
 /**
   * execute - execute a command
@@ -8,14 +8,12 @@
   */
 int execute(info_t *info)
 {
-	builtin_t *builtin;
+	const builtin_t *builtin = get_builtin(*info->tokens);
 
-	for (builtin = info->builtins; builtin->name; ++builtin)
+	if (builtin)
 	{
-		if (!_strcmp(*info->tokens, builtin->name))
-			return (builtin->fn(info));
+		return (builtin->f(info));
 	}
-
 	if (_strchr(*info->tokens, '/') == -1)
 	{
 		free_list(&info->path);
@@ -26,21 +24,22 @@ int execute(info_t *info)
 	{
 		info->exe = _strdup(*info->tokens);
 	}
-
+	if (info->exe && access(info->exe, X_OK) == 0)
+	{
+		return (_execute(info));
+	}
 	if (info->exe)
 	{
-		if (access(info->exe, X_OK) == 0)
-			return (_execute(info));
-
-		_perror_default(info, "Permission denied", 1, *info->tokens);
+		perrorl_default(*info->argv, info->lineno, "Permission denied",
+				*info->tokens, NULL);
 		info->status = 126;
 	}
 	else
 	{
-		_perror_default(info, "not found", 1, *info->tokens);
+		perrorl_default(*info->argv, info->lineno, "Not found",
+				*info->tokens, NULL);
 		info->status = 127;
 	}
-
 	return (info->status);
 }
 
@@ -67,19 +66,18 @@ int _execute(info_t *info)
 		free_info(info);
 
 		execve(exe, argv, env);
-		perror(argv[0]);
+		perror(*argv);
 
-		if (info->script)
-			close(STDIN_FILENO);
+		if (info->file)
+			close(info->fileno);
 
 		free(exe);
 		free_tokens(&argv);
 		free_tokens(&env);
-
 		exit(EXIT_FAILURE);
 		break;
 	case -1:
-		_perror_default(info, "Cannot fork", 0);
+		perrorl_default(*info->argv, info->lineno, "Cannot fork", NULL);
 		info->status = 2;
 		break;
 	default:

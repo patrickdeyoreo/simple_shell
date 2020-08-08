@@ -36,13 +36,15 @@ int __exec(info_t *info)
 		free_info(info);
 		execve(exe, args, env);
 
-		_perror_default(info, "not found", 2, "exec", *args);
+		perrorl_default(*info->argv, info->lineno, "Not found",
+				*info->tokens, *args, NULL);
 		free(exe);
 		free_tokens(&args);
 		free_tokens(&env);
 		exit(127);
 	}
-	_perror_default(info, "Permission denied", 2, "exec", *args);
+	perrorl_default(*info->argv, info->lineno, "Permission denied",
+			*info->tokens, *args, NULL);
 	free(exe);
 	free_tokens(&args);
 	free_info(info);

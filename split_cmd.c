@@ -13,9 +13,9 @@ size_t split_cmd(char *cmd)
 	quote_state_t state;
 
 	do {
-		while (*cmd && (state = quote_state(*cmd)) != Q_NONE)
+		while (*cmd && (state = quote_state(*cmd)) != QUOTE_NONE)
 		{
-			if (state & Q_WORD)
+			if (state & QUOTE_WORD)
 			{
 				state_len = _quote_state_word(cmd, NULL);
 				sep_index = _strnchr(cmd, ';', state_len);
@@ -27,7 +27,7 @@ size_t split_cmd(char *cmd)
 				}
 				cmd += state_len;
 			}
-			else if (state & Q_ESCAPE)
+			else if (state & QUOTE_ESCAPE)
 			{
 				if (*(cmd + 1) == '\n')
 					_strcpy(cmd, cmd + 2);
@@ -37,11 +37,11 @@ size_t split_cmd(char *cmd)
 			else
 			{
 				cmd += quote_state_len(cmd + 1, state) + 1;
-				if (*cmd && (state & (Q_SINGLE | Q_DOUBLE)))
+				if (*cmd && (state & (QUOTE_SINGLE | QUOTE_DOUBLE)))
 					++cmd;
 			}
 		}
-	} while (*(cmd += quote_state_len(cmd, Q_NONE)));
+	} while (*(cmd += quote_state_len(cmd, QUOTE_NONE)));
 
 	return (count);
 }

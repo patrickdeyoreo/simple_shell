@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "hsh.h"
 
 /**
   * _sigint - reprompts

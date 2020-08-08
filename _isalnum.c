@@ -5,7 +5,7 @@
   * @c: character to check
  * Return: If c is alphanumeric, return 1. Otherwise, return 0.
   */
-int _isalnum(int c)
+bool _isalnum(int c)
 {
 	return (_isalpha(c) || _isdigit(c));
 }

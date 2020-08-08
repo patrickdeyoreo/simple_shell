@@ -7,9 +7,9 @@
  */
 void __cd_error(info_t *info, char *dir)
 {
-	char *error = strjoin("can't cd to", dir, ' ', NULL);
+	char *error = strjoin(NULL, " ", "can't cd to", dir);
 
-	_lperror_default(info, error, *info->tokens, NULL);
+	perrorl_default(*info->argv, info->lineno, error, *info->tokens, NULL);
 
 	info->status = 2;
 
@@ -24,7 +24,7 @@ void __cd_error(info_t *info, char *dir)
 void __cd_success(info_t *info)
 {
 	char **tokens = info->tokens;
-	char *setenv_tokens[] = { "setenv", NULL, NULL, NULL };
+	char *setenv_tokens[] = {"setenv", NULL, NULL, NULL};
 
 	info->tokens = setenv_tokens;
 

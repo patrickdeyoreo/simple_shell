@@ -1,9 +1,10 @@
-#ifndef BUILTINS_H
-#define BUILTINS_H
+#ifndef _BUILTINS_H_
+#define _BUILTINS_H_
 
 #include <limits.h>
 #include <stdlib.h>
 #include <unistd.h>
+
 #include "alias.h"
 #include "env.h"
 #include "error.h"
@@ -12,95 +13,87 @@
 #include "string.h"
 #include "types.h"
 
-#define ALIAS_USAGE "alias [NAME[=VALUE] ...]"
-#define ALIAS_HELP \
-	"Define or display aliases.\n\0"\
-	"Without arguments, a list of aliases is printed.\0"\
-	"With arguments, an alias is defined for each NAME=VALUE pair.\0"\
-	"For each NAME without a VALUE, the corresponding alias is printed.\0"\
-	"When expanded, a trailing space in VALUE causes expansion of the next word."\
-	"\0\0"
+#define ALIAS_HELP "alias [KEY[=VALUE] ...]"
+#define ALIAS_DESC								\
+	"Define and display aliases.\n\0"					\
+	"If given no arguments, existing alias definitions are displayed.\0"	\
+	"Otherwise, an alias is defined for each KEY=VALUE pair provided.\0"	\
+	"For each KEY with no VALUE the corresponding alias is displayed.\0"	\
+	"If VALUE ends with a space, the following word will be expanded.\0"	\
+	"\0"
 
-#define CD_USAGE "cd [DIR]"
-#define CD_HELP \
-	"Change the current directory to DIR.\n\0"\
-	"If DIR is ommitted, the value of the variable HOME is used instead.\0"\
-	"If DIR is -, the directory is changed to the previous working directory."\
-	"\0\0"
+#define CD_HELP "cd [DIR]"
+#define CD_DESC									\
+	"Change the current working directory to DIR.\n\0"			\
+	"If DIR is omitted, it defaults to the value of the variable HOME.\0"	\
+	"If DIR is -, the current directory reverts to its previous value.\0"	\
+	"\0"
 
-#define ENV_USAGE "env"
-#define ENV_HELP \
-	"Print the environment."\
-	"\0\0"
+#define ENV_HELP "env"
+#define ENV_DESC								\
+	"Print the environment.\0"						\
+	"\0"
 
-#define EXEC_USAGE "exec COMMAND [ARGUMENTS ...]"
-#define EXEC_HELP \
-	"Replace the shell with the given command.\n\0"\
-	"COMMAND is executed, replacing the shell with the specified program.\0"\
-	"ARGUMENTS become the arguments to COMMAND.\0"\
-	"If the command cannot be executed, the shell exits."\
-	"\0\0"
+#define EXEC_HELP "exec COMMAND [ARGS ...]"
+#define EXEC_DESC								\
+	"Replace the shell with the given command.\n\0"				\
+	"COMMAND is executed, replacing the executing shell.\0"			\
+	"ARGS are passed as positional arguments to COMMAND.\0"			\
+	"If the command cannot be executed, the shell exits.\0"			\
+	"\0"
 
-#define EXIT_USAGE "exit [STATUS]"
-#define EXIT_HELP \
-	"Exit the shell with a status of STATUS.\n\0"\
-	"If STATUS is omitted, the exit status is that of the previous command."\
-	"\0\0"
+#define EXIT_HELP "exit [STATUS]"
+#define EXIT_DESC								\
+	"Exit the shell with a status of STATUS.\n\0"				\
+	"If STATUS is omitted, the exit status is that of the last command.\0"	\
+	"\0"
 
+#define HELP_HELP "help [BUILTIN]"
+#define HELP_DESC								\
+	"Display information about builtin commands.\n\0"			\
+	"If BUILTIN is omitted, the available commands are displayed.\0"	\
+	"\0"
 
-#define HELP_USAGE "help [BUILTIN]"
-#define HELP_HELP \
-	"Display information about builtin commands.\n\0"\
-	"If BUILTIN is omitted, a list of available builtins is printed."\
-	"\0\0"
+#define SETENV_HELP "setenv [NAME [VALUE]]"
+#define SETENV_DESC								\
+	"Set the environment variable NAME to VALUE.\n\0"			\
+	"If NAME is omitted, the shell execution environment is displayed.\0"	\
+	"If VALUE is omitted, the value of NAME is set to an empty string.\0"	\
+	"\0"
 
-#define SETENV_USAGE "setenv NAME [VALUE]"
-#define SETENV_HELP \
-	"Set the environment variable NAME to VALUE.\n\0"\
-	"If NAME is omitted, print the current environment.\0"\
-	"If VALUE is omitted, set the variable NAME to the null string."\
-	"\0\0"
+#define UNSETENV_HELP "unsetenv NAME"
+#define UNSETENV_DESC								\
+	"Remove the variable NAME from the environment.\0"			\
+	"\0"
 
-#define UNSETENV_USAGE "unsetenv NAME"
-#define UNSETENV_HELP \
-	"Remove the variable NAME from the environment."\
-	"\0\0"
+typedef int (*builtin_fp)(info_t *);
 
 /**
  * struct builtin - builtin command
- * @name: name of the builtin
- * @fn: builtin function address
- * @usage: usage information
- * @help: help text
+ * @name: command name
+ * @f: function to call
+ * @help: command usage
+ * @desc: command description
  */
 struct builtin
 {
-	char *name;
-	int (*fn)(info_t *);
-	const char *usage;
+	const char *name;
+	builtin_fp f;
 	const char *help;
+	const char *desc;
 };
 
-struct builtin *load_builtins(void);
+const struct builtin *get_builtin(const char *name);
+const struct builtin *get_builtins(void);
 
 int __alias(info_t *info);
 int __cd(info_t *info);
 int __env(info_t *info);
 int __exec(info_t *info);
 int __exit(info_t *info);
+int __help(info_t *info);
+int __history(info_t *info);
 int __setenv(info_t *info);
 int __unsetenv(info_t *info);
-int __help(info_t *info);
 
-int builtin_alias(int argc, const char * const *argv);
-int builtin_cd(int argc, const char * const *argv);
-int builtin_env(int argc, const char * const *argv);
-int builtin_exit(int argc, const char * const *argv);
-int builtin_help(int argc, const char * const *argv);
-int builtin_setenv(int argc, const char * const *argv);
-int builtin_unsetenv(int argc, const char * const *argv);
-
-int isnumber(char *s);
-unsigned int atou(char *s);
-
-#endif /* BUILTINS_H */
+#endif /* _BUILTINS_H_ */

@@ -1,5 +1,5 @@
-#ifndef HISTORY_H
-#define HISTORY_H
+#ifndef _HISTORY_H_
+#define _HISTORY_H_
 
 #include "list.h"
 #include "types.h"
@@ -17,4 +17,4 @@ struct history
 	size_t n;
 };
 
-#endif /* HISTORY_H */
+#endif /* _HISTORY_H_ */

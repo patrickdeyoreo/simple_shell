@@ -11,15 +11,14 @@ int __unsetenv(info_t *info)
 
 	if (*args)
 	{
-		do {
-			del_dict_node(&info->env, *args);
-		} while (*(++args));
+		while (*args)
+			del_dict_node(&info->env, *args++);
 		info->status = EXIT_SUCCESS;
 	}
 	else
 	{
-		_lperror_default(info, "Too few arguments.",
-			*info->tokens, NULL);
+		perrorl_default(*info->argv, info->lineno, "Too few arguments",
+				*info->tokens, NULL);
 		info->status = EXIT_FAILURE;
 	}
 	return (info->status);

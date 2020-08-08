@@ -14,9 +14,9 @@ char *search_path(info_t *info, list_t *path)
 	while (path)
 	{
 		if (*path->str == '\0')
-			pathname = strjoin(".", command, '/', NULL);
+			pathname = strjoin(NULL, "/", info->cwd, command);
 		else
-			pathname = strjoin(path->str, command, '/', NULL);
+			pathname = strjoin(NULL, "/", path->str, command);
 		if (stat(pathname, &sb) == 0)
 		{
 			if ((sb.st_mode & S_IFMT) != S_IFDIR)

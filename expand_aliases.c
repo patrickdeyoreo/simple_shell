@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "hsh.h"
 
 /**
  * expand_aliases - perform recursive alias expansion on the current command
@@ -9,7 +9,7 @@
  */
 void expand_aliases(alias_t *aliases, char ***tokptr)
 {
-	char **new, **old, *name, *value, *tmp;
+	char **new, **old, *name, *value, *temp;
 
 	if (!*tokptr)
 		return;
@@ -22,11 +22,11 @@ void expand_aliases(alias_t *aliases, char ***tokptr)
 			new = arrdup(old + 1);
 
 			expand_aliases(aliases, &new);
-			tmp = *(old + 1);
+			temp = *(old + 1);
 
 			*(old + 1) = NULL;
 			*tokptr = arrjoin(old, new);
-			*(old + 1) = tmp;
+			*(old + 1) = temp;
 
 			free_tokens(&old);
 			free_tokens(&new);
