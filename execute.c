@@ -36,7 +36,7 @@ int execute(info_t *info)
 	}
 	else
 	{
-		perrorl_default(*info->argv, info->lineno, "Not found",
+		perrorl_default(*info->argv, info->lineno, "not found",
 				*info->tokens, NULL);
 		info->status = 127;
 	}
