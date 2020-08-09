@@ -41,7 +41,7 @@ void perrorl_default(const char *arg0, size_t lineno, const char *msg, ...)
 		write(STDERR_FILENO, arg0, _strlen(arg0));
 	write(STDERR_FILENO, ": ", 2);
 
-	if (lineno)
+	if (linenostr)
 		write(STDERR_FILENO, linenostr, _strlen(linenostr));
 	write(STDERR_FILENO, ": ", 2);
 

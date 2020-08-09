@@ -25,7 +25,7 @@ int __exec(info_t *info)
 	{
 		exe = _strdup(*args);
 	}
-	--info->tokens;
+	info->tokens -= 1;
 
 	if (access(exe, X_OK) == 0)
 	{
@@ -33,7 +33,6 @@ int __exec(info_t *info)
 
 		free_info(info);
 		execve(exe, args, env);
-
 		perrorl_default(*info->argv, info->lineno, "Not found",
 				*info->tokens, *args, NULL);
 		free(exe);

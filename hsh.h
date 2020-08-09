@@ -17,7 +17,6 @@
 #include "dict.h"
 #include "env.h"
 #include "error.h"
-#include "getline.h"
 #include "info.h"
 #include "list.h"
 #include "path.h"

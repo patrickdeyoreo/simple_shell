@@ -30,6 +30,5 @@ int main(int argc, char **argv)
 	if (info->file)
 		close(info->fileno);
 
-	free_info(info);
-	exit(info->status);
+	exit(free_info(info));
 }

@@ -7,9 +7,11 @@
 #include "alias.h"
 #include "command.h"
 #include "env.h"
+#include "error.h"
 #include "getline.h"
 #include "history.h"
 #include "list.h"
+#include "string.h"
 #include "tokens.h"
 #include "types.h"
 
@@ -57,6 +59,6 @@ struct info
 };
 
 info_t *init_info(int argc, char **argv);
-void free_info(info_t *info);
+int free_info(info_t *info);
 
 #endif /* _INFO_H_ */

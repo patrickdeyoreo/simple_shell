@@ -39,10 +39,11 @@ int __help(struct info *info)
 					*info->tokens, *(args - 1), NULL);
 		return (info->status);
 	}
+	info->status = EXIT_SUCCESS;
 	for (bp = get_builtins(); bp->name; bp += 1)
 	{
 		write(STDOUT_FILENO, bp->help, _strlen(bp->help));
 		write(STDOUT_FILENO, "\n", 1);
 	}
-	return ((info->status = EXIT_SUCCESS));
+	return (info->status);
 }
