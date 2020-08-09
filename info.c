@@ -14,11 +14,10 @@ info_t *init_info(int argc, char **argv)
 {
 	static info_t info;
 
-	info.interactive = isatty(STDIN_FILENO);
 	info.argc = argc;
 	info.argv = argv;
-	info.file = argv[1];
-	info.fileno = argv[1] ? open(argv[1], O_RDONLY) : STDIN_FILENO;
+	info.file = NULL;
+	info.fileno = STDIN_FILENO;
 	info.status = EXIT_SUCCESS;
 	info.line = NULL;
 	info.lineno = 0;
@@ -31,6 +30,18 @@ info_t *init_info(int argc, char **argv)
 	info.aliases = NULL;
 	info.history = NULL;
 	info.commands = NULL;
+	if (argc > 1)
+	{
+		info.file = argv[1];
+		info.fileno = open(info.file, O_RDONLY);
+		if (info.fileno == -1)
+		{
+			info.file = NULL;
+			info.fileno = STDIN_FILENO;
+			info.status = EXIT_FAILURE;
+		}
+	}
+	info.interactive = isatty(info.fileno);
 	return (&info);
 }
 
@@ -52,5 +63,6 @@ void free_info(info_t *info)
 	free_list(&info->path);
 	free_dict(&info->aliases);
 	free_cmdlist(&info->commands);
+	_getline(-1);
 }
 

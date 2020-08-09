@@ -8,6 +8,7 @@
 #include "alias.h"
 #include "env.h"
 #include "error.h"
+#include "getline.h"
 #include "info.h"
 #include "path.h"
 #include "string.h"

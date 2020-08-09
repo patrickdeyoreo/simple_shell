@@ -21,6 +21,8 @@ int main(int argc, char **argv)
 			execute(info);
 			free_tokens(&(info->tokens));
 		}
+		free(info->line);
+		info->line = NULL;
 	}
 	if (info->interactive)
 		write(STDOUT_FILENO, "\n", 1);

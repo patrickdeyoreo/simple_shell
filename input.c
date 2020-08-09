@@ -1,5 +1,4 @@
 #include "hsh.h"
-#include "getline.h"
 
 /**
  * read_input - get input
@@ -15,7 +14,8 @@ bool read_input(info_t *info)
 		write(STDERR_FILENO, "$ ", 2);
 
 	info->lineno += 1;
-	while (_read_input(&info->line, info->fileno) & (QUOTE_DOUBLE | QUOTE_SINGLE | QUOTE_ESCAPE))
+	while (_read_input(&info->line, info->fileno)
+		& (QUOTE_DOUBLE | QUOTE_SINGLE | QUOTE_ESCAPE))
 	{
 		temp = line;
 		line = strjoin(NULL, "", temp, info->line);

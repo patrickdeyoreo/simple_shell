@@ -7,6 +7,7 @@
 #include "alias.h"
 #include "command.h"
 #include "env.h"
+#include "getline.h"
 #include "history.h"
 #include "list.h"
 #include "tokens.h"

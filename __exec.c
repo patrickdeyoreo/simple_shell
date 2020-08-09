@@ -10,10 +10,8 @@ int __exec(info_t *info)
 	char *exe, **args = info->tokens + 1, **env = NULL;
 
 	if (!*args)
-	{
-		info->status = EXIT_SUCCESS;
-		return (EXIT_SUCCESS);
-	}
+		return ((info->status = EXIT_SUCCESS));
+
 	info->tokens = args;
 	args = arrdup(args);
 

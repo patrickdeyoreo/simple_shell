@@ -25,7 +25,7 @@ int __exit(info_t *info)
 		}
 	}
 	if (info->file)
-		close(STDIN_FILENO);
+		close(info->fileno);
 
 	free_info(info);
 	exit(info->status);
